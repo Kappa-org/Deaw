@@ -1,0 +1,29 @@
+{
+  "name": "kappa/deaw",
+  "description": "Wrapper for better and more comfortable works with Dibi",
+  "keywords": ["dibi", "wrapper", "better access", "easy access"],
+  "homepage": "https://github.com/Kappa-org/Deaw",
+  "license": "MIT",
+  "type": "library",
+  "authors": [
+    {
+      "name": "Ondřej Záruba",
+      "homepage": "http://zaruba-ondrej.cz"
+    }
+  ],
+  "support": {
+    "email": "zarubaondra@gmail.com",
+    "issues": "https://github.com/Kappa-org/Deaw/issues"
+  },
+  "require": {
+    "dibi/dibi": "~2.3"
+  },
+  "require-dev": {
+    "nette/tester": "~1.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "Kappa\\Deaw\\": "src/"
+    }
+  }
+}
