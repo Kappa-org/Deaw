@@ -105,7 +105,9 @@ class Selector
 				$string .= $original;
 			} else {
 				$string .= "{$original} as ";
-
+				if ($this->prefix !== null) {
+					$string .= "{$this->prefix}_";
+				}
 				$string .= $as;
 			}
 			if (count($selects) != $i) {
