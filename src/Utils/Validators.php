@@ -24,11 +24,11 @@ class Validators
 	 */
 	public static function isSelectValid($select)
 	{
-		if (is_string($select)) {
+		if (is_string($select) && !empty($select)) {
 			return true;
 		} else if (is_array($select)) {
 			$key = array_keys($select)[0];
-			if (count($select) != 1 || !is_string($key) || !is_string($select[$key])) {
+			if (count($select) != 1 || !is_string($key) || empty($key) || !is_string($select[$key]) || empty($select[$key])) {
 				return false;
 			}
 			return true;

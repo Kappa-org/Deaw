@@ -43,7 +43,10 @@ class ValidatorsTest extends TestCase
 			[true, ['foo' => 'bar']],
 			[false, 4],
 			[false, [1 => 'foo']],
-			[false, ['foo' => 1]]
+			[false, ['foo' => 1]],
+			[false, ""],
+			[false, ["" => "foo"]],
+			[false, ["foo" => ""]]
 		];
 	}
 }
