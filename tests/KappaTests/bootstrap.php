@@ -28,6 +28,14 @@ function getDatabaseConnection()
 	return $config;
 }
 
+function getContainer()
+{
+	$configurator = new \Nette\Configurator();
+	$configurator->setTempDirectory(TEMP_DIR);
+	$configurator->addConfig(__DIR__ . '/../config/config.neon');
+	return $configurator->createContainer();
+}
+
 function run(Tester\TestCase $testCase) {
 	$testCase->run(isset($_SERVER['argv'][1]) ? $_SERVER['argv'][1] : NULL);
 }
