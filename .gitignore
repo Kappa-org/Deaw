@@ -2,3 +2,5 @@ vendor/*
 composer.lock
 *.expected
 *.actual
+tests/config/*
+!tests/config/*.sample.ini
