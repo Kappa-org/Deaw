@@ -21,6 +21,13 @@ Tester\Environment::setup();
 define('TEMP_DIR', __DIR__ . '/../temp/' . (isset($_SERVER['argv']) ? md5(serialize($_SERVER['argv'])) : getmypid()));
 Tester\Helpers::purge(TEMP_DIR);
 
+function getDatabaseConnection()
+{
+	$config = parse_ini_file(__DIR__ . '/../config/database.ini', TRUE)['mysql'];
+
+	return $config;
+}
+
 function run(Tester\TestCase $testCase) {
 	$testCase->run(isset($_SERVER['argv'][1]) ? $_SERVER['argv'][1] : NULL);
 }
