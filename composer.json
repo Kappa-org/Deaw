@@ -26,6 +26,9 @@
   "autoload": {
     "psr-4": {
       "Kappa\\Deaw\\": "src/"
-    }
+    },
+    "classmap": [
+      "src/exceptions.php"
+    ]
   }
 }
