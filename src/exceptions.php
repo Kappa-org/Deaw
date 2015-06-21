@@ -25,3 +25,11 @@ class InvalidSelectDefinitionException extends \LogicException {}
  * @author Ondřej Záruba <http://zaruba-ondrej.cz>
  */
 class InvalidArgumentException extends \LogicException {}
+
+/**
+ * Class MissingBuilderReturn
+ *
+ * @package Kappa\Deaw
+ * @author Ondřej Záruba <http://zaruba-ondrej.cz>
+ */
+class MissingBuilderReturnException extends \LogicException {}
