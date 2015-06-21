@@ -100,7 +100,7 @@ class Selector
 			}
 			if (empty($as)) {
 				$string .= $original;
-				if ($this->prefix != null) {
+				if ($this->prefix != null && $original != '*') {
 					$string .= " as {$this->prefix}_{$original}";
 				}
 			} else {
