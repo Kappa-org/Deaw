@@ -1,5 +1,0 @@
-Kappa\Deaw\Queries\Selector::__set_state(array(
-	'selects' => array('foo' => '', 'bar' => 'bar2'),
-	'tableName' => NULL,
-	'prefix' => NULL,
-))
