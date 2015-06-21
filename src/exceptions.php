@@ -24,4 +24,4 @@ class InvalidSelectDefinitionException extends \LogicException {}
  * @package Kappa\Deaw
  * @author Ondřej Záruba <http://zaruba-ondrej.cz>
  */
-class InvalidArgumentsException extends \LogicException {}
+class InvalidArgumentException extends \LogicException {}
