@@ -54,7 +54,7 @@ class SelectorWithPrefixWithTableTest extends TestCase
 
 	public function testToString()
 	{
-		Assert::same("bar.foo_foo,bar.bar as foo_bar2", (string)$this->selector->setSelects(["foo", ["bar" => "bar2"]]));
+		Assert::same("bar.foo as foo_foo,bar.bar as foo_bar2", (string)$this->selector->setSelects(["foo", ["bar" => "bar2"]]));
 	}
 }
 

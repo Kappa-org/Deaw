@@ -95,14 +95,14 @@ class Selector
 		$string = "";
 		$i = 1;
 		foreach ($selects as $original => $as) {
-			if ($this->tableName !== null) {
+			if ($this->tableName != null) {
 				$string .= "{$this->tableName}.";
 			}
 			if (empty($as)) {
-				if ($this->prefix !== null) {
-					$string .= "{$this->prefix}_";
-				}
 				$string .= $original;
+				if ($this->prefix != null) {
+					$string .= " as {$this->prefix}_{$original}";
+				}
 			} else {
 				$string .= "{$original} as ";
 				if ($this->prefix !== null) {
