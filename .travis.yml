@@ -15,3 +15,6 @@ matrix:
 before_script:
     - composer self-update
     - composer install --prefer-source
+    - mysql -e 'create database deaw_test'
+    - cp ./tests/config/config.travis.neon ./tests/config/config.neon
+    - cp ./tests/config/database.travis.ini ./tests/config/database.ini

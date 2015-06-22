@@ -6,7 +6,7 @@ deaw:
 		host: 127.0.0.1
 		username: root
 		password:
-		database: test
+		database: deaw_test
 		driver: mysql
 	tables:
 		- user

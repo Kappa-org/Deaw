@@ -3,4 +3,5 @@ composer.lock
 *.expected
 *.actual
 tests/config/*
-!tests/config/*.sample.ini
+!tests/config/*.sample.*
+!tests/config/*.travis.*
