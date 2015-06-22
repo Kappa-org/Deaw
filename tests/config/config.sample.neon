@@ -1,0 +1,12 @@
+extensions:
+	deaw: Kappa\Deaw\DI\DeawExtension
+
+deaw:
+	connection:
+		host: 127.0.0.1
+		username: root
+		password: 
+		database: test
+		driver: mysql
+	tables:
+		- user
