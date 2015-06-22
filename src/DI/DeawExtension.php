@@ -12,6 +12,7 @@ namespace Kappa\Deaw\DI;
 
 use Nette\DI\CompilerExtension;
 use Nette\DI\Statement;
+use Nette\PhpGenerator\PhpLiteral;
 use Nette\Utils\Random;
 
 /**
@@ -45,5 +46,11 @@ class DeawExtension extends CompilerExtension
 
 		$builder->addDefinition($this->prefix('tableManager'))
 			->setClass('Kappa\Deaw\TableManager', [$tableServices]);
+
+		$builder->addDefinition($this->prefix('table'))
+			->setClass('Kappa\Deaw\Table')
+			->setFactory('@tableManager::getTable', array(new PhpLiteral('$tableName')))
+			->setParameters(array('tableName'))
+			->setInject(FALSE);
 	}
 }
