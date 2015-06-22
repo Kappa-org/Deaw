@@ -94,6 +94,7 @@ class GetUserById implements Queryable
 	public function getBuilder(QueryBuilder $builder)
 	{
 		$query = $builder->select([new UserSelector(null, 'user'), new RoleSelector('roles', 'role')])
+			->leftJoin('roles')
 			->where('id = ?', $this->id);
 
 		return $query;
@@ -178,7 +179,7 @@ class UserManager
 	}
 	
 	
-	//	return data in format user_name, user_age, role_name
+	//	return data in format user_name, user_age, roles_name
 	public function getUser($id)
 	{
 		return $this->usersTable->fetchOne(new GetUserById($id));
