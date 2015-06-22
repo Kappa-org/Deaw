@@ -177,12 +177,12 @@ class UserManager
 		$this->usersTable = $tableManager->getTable('users');
 	}
 	
+	/**
+		return data in format
+		user_name, user_age, role_name
+	*/
 	public function getUser($id)
 	{
-		/**
-			return data in format
-			user_name, user_age, role_name
-		*/
 		return $this->usersTable->fetchOne(new GetUserById($id));
 	}
 	
