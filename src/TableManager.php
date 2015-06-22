@@ -48,7 +48,7 @@ class TableManager
 	/**
 	 * Method alias for getTable() and kdyby/autowire package
 	 * @param string $tableName
-	 * @return Table|null
+	 * @return Table
 	 */
 	public function create($tableName)
 	{
