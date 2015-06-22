@@ -1,6 +1,6 @@
 {
   "name": "kappa/deaw",
-  "description": "Wrapper for better and more comfortable works with Dibi",
+  "description": "Tiny wrapper for better and more comfortable works with Dibi",
   "keywords": ["dibi", "wrapper", "better access", "easy access"],
   "homepage": "https://github.com/Kappa-org/Deaw",
   "license": "MIT",

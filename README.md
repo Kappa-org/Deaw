@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/Kappa-org/Deaw.svg)](https://travis-ci.org/Kappa-org/Deaw)
 
-Simple library for more easy and comfortable works with [dibi](http://dibiphp.com)
+Tiny wrapper for better and more comfortable works with [dibi](http://dibiphp.com)
  
 ## Requirements
 
