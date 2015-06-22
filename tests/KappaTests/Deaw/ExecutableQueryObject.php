@@ -25,7 +25,7 @@ class ExecutableQueryObject implements Queryable
 	 * @param QueryBuilder $builder
 	 * @return \DibiFluent
 	 */
-	public function getBuilder(QueryBuilder $builder)
+	public function getQuery(QueryBuilder $builder)
 	{
 		$query = $builder->insert(['name' => 'bar']);
 

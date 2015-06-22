@@ -99,7 +99,7 @@ class Table
 	private function processQuery(Queryable $query)
 	{
 		$builder = $this->createQueryBuilder();
-		$query = $query->getBuilder($builder);
+		$query = $query->getQuery($builder);
 		if (!$query instanceof \DibiFluent) {
 			throw new MissingBuilderReturnException("Missing return builder from " . get_class($query));
 		}
