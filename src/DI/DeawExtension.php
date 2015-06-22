@@ -49,7 +49,7 @@ class DeawExtension extends CompilerExtension
 
 		$builder->addDefinition($this->prefix('table'))
 			->setClass('Kappa\Deaw\Table')
-			->setFactory('@tableManager::getTable', array(new PhpLiteral('$tableName')))
+			->setFactory('@Kappa\Deaw\TableManager::getTable', array(new PhpLiteral('$tableName')))
 			->setParameters(array('tableName'))
 			->setInject(FALSE);
 	}
