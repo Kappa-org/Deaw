@@ -41,6 +41,17 @@ class Selector
 	}
 
 	/**
+	 * @param string $tableName
+	 * @return $this
+	 */
+	public function setTableName($tableName)
+	{
+		$this->tableName = $tableName;
+
+		return $this;
+	}
+
+	/**
 	 * @return void
 	 */
 	public function configure() {}

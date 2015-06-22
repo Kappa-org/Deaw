@@ -22,6 +22,6 @@ class NameSelector extends Selector
 {
 	public function configure()
 	{
-		$this->setSelects(["[name]"]);
+		$this->setSelects(["name"]);
 	}
 }

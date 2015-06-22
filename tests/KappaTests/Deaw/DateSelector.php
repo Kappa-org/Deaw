@@ -22,6 +22,6 @@ class DateSelector extends Selector
 {
 	public function configure()
 	{
-		$this->setSelects(["[date]"]);
+		$this->setSelects(["date"]);
 	}
 }

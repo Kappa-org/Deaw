@@ -44,7 +44,7 @@ class QueryBuilder
 	public function select($selects)
 	{
 		if ($selects instanceof Selector) {
-			$selects->configure();
+			$selects->setTableName($this->tableName)->configure();
 			$dibiFluent = $this->connection->select((string)$selects);
 		} else {
 			if (is_array($selects)) {
@@ -54,7 +54,7 @@ class QueryBuilder
 					if (!$select instanceof Selector) {
 						throw new InvalidArgumentException("Argument 'select()' method must be Selector");
 					}
-					$select->configure();
+					$select->setTableName($this->tableName)->configure();
 					$result .= (string)$select;
 					if (count($selects) != $i) {
 						$result .= ',';
