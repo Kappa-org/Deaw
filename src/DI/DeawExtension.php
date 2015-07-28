@@ -25,6 +25,7 @@ class DeawExtension extends CompilerExtension
 {
 	private $defaultConfig = [
 		'connection' => [],
+		'autowiredDibiConnection' => false
 	];
 
 	public function loadConfiguration()
@@ -33,7 +34,8 @@ class DeawExtension extends CompilerExtension
 		$builder = $this->getContainerBuilder();
 
 		$builder->addDefinition($this->prefix('dibiConnection'))
-			->setClass('\DibiConnection', [$config['connection']]);
+			->setClass('\DibiConnection', [$config['connection']])
+			->setAutowired($config['autowiredDibiConnection']);
 
 		$builder->addDefinition($this->prefix('tableManager'))
 			->setClass('Kappa\Deaw\TableFactory', [
