@@ -12,7 +12,7 @@
 
 namespace Kappa\Deaw\Tests;
 
-use Kappa\Deaw\TableManager;
+use Kappa\Deaw\TableFactory;
 use Nette\DI\Container;
 use Tester\TestCase;
 use Tester\Assert;
@@ -40,11 +40,10 @@ class DeawExtensionTest extends TestCase
 
 	public function testTableManager()
 	{
-		$type = 'Kappa\Deaw\TableManager';
-		/** @var TableManager $service */
+		$type = 'Kappa\Deaw\TableFactory';
+		/** @var TableFactory $service */
 		$service = $this->container->getByType($type);
 		Assert::type($type, $service);
-		Assert::type('Kappa\Deaw\Table', $service->getTable("user"));
 		Assert::type('Kappa\Deaw\Table', $service->create("user"));
 	}
 }

@@ -25,7 +25,6 @@ class DeawExtension extends CompilerExtension
 {
 	private $defaultConfig = [
 		'connection' => [],
-		'tables' => []
 	];
 
 	public function loadConfiguration()
@@ -36,20 +35,14 @@ class DeawExtension extends CompilerExtension
 		$builder->addDefinition($this->prefix('dibiConnection'))
 			->setClass('\DibiConnection', [$config['connection']]);
 
-		$tableServices = [];
-		foreach ($config['tables'] as $tableName) {
-			$tableServices[] = new Statement('Kappa\Deaw\Table', [
-				$this->prefix("@dibiConnection"),
-				$tableName
-			]);
-		}
-
 		$builder->addDefinition($this->prefix('tableManager'))
-			->setClass('Kappa\Deaw\TableManager', [$tableServices]);
+			->setClass('Kappa\Deaw\TableFactory', [
+				$this->prefix('@dibiConnection')
+			]);
 
 		$builder->addDefinition($this->prefix('table'))
 			->setClass('Kappa\Deaw\Table')
-			->setFactory('@Kappa\Deaw\TableManager::getTable', array(new PhpLiteral('$tableName')))
+			->setFactory('@Kappa\Deaw\TableFactory::create', array(new PhpLiteral('$tableName')))
 			->setParameters(array('tableName'))
 			->setInject(FALSE);
 	}

@@ -8,5 +8,3 @@ deaw:
 		password:
 		database: deaw_test
 		driver: mysql
-	tables:
-		- user
