@@ -46,13 +46,11 @@ deaw:
 		password: 
 		database: test
 		driver: mysql
-	tables:
-		- user
-		- account
+	autowiredDibiConnection: false
 ```
 
 * `connection` - database connection
-* `tables` - register tables, put its names
+* `autowiredDibiConnection` - set autowire flag for \DibiConnection. Default is false
 
 ## Example
 
@@ -173,9 +171,9 @@ class UserManager
 {
 	private $usersTable;
 	
-	public function __construct(TableManager $tableManager)
+	public function __construct(TableFactory $tableFactory)
 	{
-		$this->usersTable = $tableManager->getTable('users');
+		$this->usersTable = $tableFactory->create('users');
 	}
 	
 	
