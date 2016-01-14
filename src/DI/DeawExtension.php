@@ -34,7 +34,7 @@ class DeawExtension extends CompilerExtension
 		$builder = $this->getContainerBuilder();
 
 		$builder->addDefinition($this->prefix('dibiConnection'))
-			->setClass('\DibiConnection', [$config['connection']])
+			->setClass('Dibi\Connection', [$config['connection']])
 			->setAutowired($config['autowiredDibiConnection']);
 
 		$builder->addDefinition($this->prefix('tableManager'))
