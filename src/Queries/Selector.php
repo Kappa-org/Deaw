@@ -107,7 +107,7 @@ class Selector
 		$i = 1;
 		foreach ($selects as $original => $as) {
 			if ($this->tableName != null) {
-				$string .= "{$this->tableName}.";
+				$string .= "`{$this->tableName}`.";
 			}
 			if (empty($as)) {
 				$string .= $original;

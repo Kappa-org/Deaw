@@ -69,14 +69,14 @@ class QueryBuilderTest extends TestCase
 	{
 		$result = $this->queryBuilder->select(new NameSelector());
 		Assert::type("DibiFluent", $result);
-		Assert::same("SELECT `foo`.`name` FROM `foo`", (string)$result);
+		Assert::same("SELECT `name` FROM `foo`", (string)$result);
 	}
 
 	public function testMultipleSelectors()
 	{
 		$result = $this->queryBuilder->select([new NameSelector(), new DateSelector()]);
 		Assert::type("DibiFluent", $result);
-		Assert::same("SELECT foo.name,foo.date FROM `foo`", (string)$result);
+		Assert::same("SELECT name,date FROM `foo`", (string)$result);
 	}
 
 	public function testStringSelector()

@@ -31,7 +31,7 @@ class StarSelectorTest extends TestCase
 	{
 		$selector = new AllSelector("foo");
 		$selector->configure();
-		Assert::same('foo.*', (string)$selector);
+		Assert::same('`foo`.*', (string)$selector);
 	}
 
 	public function testWithPrefix()
@@ -45,7 +45,7 @@ class StarSelectorTest extends TestCase
 	{
 		$selector = new AllSelector("foo", "bar");
 		$selector->configure();
-		Assert::same('foo.*', (string)$selector);
+		Assert::same('`foo`.*', (string)$selector);
 	}
 
 	public function testWithoutAll()
