@@ -79,10 +79,17 @@ class QueryBuilderTest extends TestCase
 		Assert::same("SELECT foo.name,foo.date FROM `foo`", (string)$result);
 	}
 
+	public function testStringSelector()
+	{
+		$result = $this->queryBuilder->select("foo.name");
+		Assert::type("DibiFluent", $result);
+		Assert::same("SELECT `foo`.`name` FROM `foo`", (string)$result);
+	}
+
 	public function testInvalidSelector()
 	{
 		Assert::exception(function () {
-			$this->queryBuilder->select("dd");
+			$this->queryBuilder->select(["dd"]);
 		}, 'Kappa\Deaw\InvalidArgumentException');
 	}
 }

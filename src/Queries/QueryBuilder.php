@@ -46,25 +46,25 @@ class QueryBuilder
 		if ($selects instanceof Selector) {
 			$selects->setTableName($this->tableName)->configure();
 			$dibiFluent = $this->connection->select((string)$selects);
-		} else {
-			if (is_array($selects)) {
-				$result = "";
-				$i = 1;
-				foreach ($selects as $select) {
-					if (!$select instanceof Selector) {
-						throw new InvalidArgumentException("Argument 'select()' method must be Selector");
-					}
-					$select->setTableName($this->tableName)->configure();
-					$result .= (string)$select;
-					if (count($selects) != $i) {
-						$result .= ',';
-					}
-					$i++;
+		} else if (is_array($selects)) {
+			$result = "";
+			$i = 1;
+			foreach ($selects as $select) {
+				if (!$select instanceof Selector) {
+					throw new InvalidArgumentException("Argument 'select()' method must be Selector");
 				}
-				$dibiFluent = $this->connection->select($result);
-			} else {
-				throw new InvalidArgumentException("Invalid argument for 'select()' method in query object");
+				$select->setTableName($this->tableName)->configure();
+				$result .= (string)$select;
+				if (count($selects) != $i) {
+					$result .= ',';
+				}
+				$i++;
 			}
+			$dibiFluent = $this->connection->select($result);
+		} else if (is_string($selects)) {
+			$dibiFluent = $this->connection->select($selects);
+		} else {
+			throw new InvalidArgumentException("Invalid argument for 'select()' method in query object");
 		}
 		$dibiFluent->from($this->tableName);
 
