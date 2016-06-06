@@ -205,3 +205,13 @@ class UserManager
 }
 ```
 
+## Development
+
+### Tests
+
+When you can run test you must crate own config files. Please copy file
+`tests/config/config.sample.neon`, rename to `config.neon` (remove `sample`
+word) and update credentials in this file. Same do with
+`tests/config/database.sample.ini`
+
+And now you can run test `./vendor/bin/tests -c ./tests/php-unix.ini ./tests`
