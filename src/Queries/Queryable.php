@@ -10,11 +10,13 @@
 
 namespace Kappa\Deaw\Queries;
 
+use Dibi\Fluent;
+
 interface Queryable
 {
 	/**
 	 * @param QueryBuilder $builder
-	 * @return \DibiFluent
+	 * @return Fluent
 	 */
 	public function getQuery(QueryBuilder $builder);
 }

@@ -10,6 +10,8 @@
 
 namespace Kappa\Deaw;
 
+use Dibi\Connection;
+
 /**
  * Class TableFactory
  *
@@ -18,12 +20,14 @@ namespace Kappa\Deaw;
  */
 class TableFactory
 {
+	/** @var Connection */
 	private $dibiConnection;
 
 	/**
-	 * @param \DibiConnection $dibiConnection
+	 * TableFactory constructor.
+	 * @param Connection $dibiConnection
 	 */
-	public function __construct(\DibiConnection $dibiConnection)
+	public function __construct(Connection $dibiConnection)
 	{
 		$this->dibiConnection = $dibiConnection;
 	}

@@ -10,6 +10,8 @@
 
 namespace Kappa\Deaw;
 
+use Dibi\Connection;
+use Dibi\Fluent;
 use Kappa\Deaw\Queries\Queryable;
 use Kappa\Deaw\Queries\QueryBuilder;
 
@@ -21,17 +23,18 @@ use Kappa\Deaw\Queries\QueryBuilder;
  */
 class Table
 {
-	/** @var \DibiConnection */
+	/** @var Connection */
 	private $connection;
 
 	/** @var string */
 	private $tableName;
 
 	/**
-	 * @param \DibiConnection $connection
+	 * Table constructor.
+	 * @param Connection $connection
 	 * @param string $tableName
 	 */
-	public function __construct(\DibiConnection $connection, $tableName)
+	public function __construct(Connection $connection, $tableName)
 	{
 		$this->connection = $connection;
 		$this->tableName = $tableName;
@@ -39,7 +42,7 @@ class Table
 
 	/**
 	 * @param Queryable $query
-	 * @return \DibiRow|FALSE
+	 * @return \Dibi\Row|FALSE
 	 */
 	public function fetchOne(Queryable $query)
 	{
@@ -50,7 +53,7 @@ class Table
 	 * @param Queryable $query
 	 * @param int|null $offset
 	 * @param int|null $limit
-	 * @return DibiRow[]
+	 * @return array
 	 */
 	public function fetch(Queryable $query, $offset = null, $limit = null)
 	{
@@ -69,7 +72,7 @@ class Table
 	/**
 	 * @param Queryable $query
 	 * @param null $return
-	 * @return \DibiResult|int
+	 * @return \Dibi\Result|int
 	 */
 	public function execute(Queryable $query, $return = null)
 	{
@@ -94,13 +97,13 @@ class Table
 
 	/**
 	 * @param Queryable $query
-	 * @return \DibiFluent
+	 * @return Fluent
 	 */
 	private function processQuery(Queryable $query)
 	{
 		$builder = $this->createQueryBuilder();
 		$query = $query->getQuery($builder);
-		if (!$query instanceof \DibiFluent) {
+		if (!$query instanceof Fluent) {
 			throw new MissingBuilderReturnException("Missing return builder from " . get_class($query));
 		}
 
