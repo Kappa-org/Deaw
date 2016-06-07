@@ -12,6 +12,7 @@
 
 namespace KappaTests\Deaw;
 
+use Dibi\Connection;
 use Kappa\Deaw\TableFactory;
 use Tester\TestCase;
 use Tester\Assert;
@@ -43,7 +44,7 @@ class TableFactoryTest extends TestCase
 
 	protected function setUp()
 	{
-		$this->tableFactory = new TableFactory(new \DibiConnection($this->config));
+		$this->tableFactory = new TableFactory(new Connection($this->config));
 	}
 
 	public function testCreate()

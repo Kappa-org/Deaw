@@ -12,7 +12,10 @@
 
 namespace KappaTests\Deaw;
 
+use Dibi\Connection;
+use Dibi\Row;
 use Kappa\Deaw\Table;
+use Tester\Environment;
 use Tester\TestCase;
 use Tester\Assert;
 
@@ -29,7 +32,7 @@ class TableTest extends TestCase
 	/** @var Table */
 	private $table;
 
-	/** @var \DibiConnection */
+	/** @var Connection */
 	private $connection;
 
 	/** @var array */
@@ -45,7 +48,7 @@ class TableTest extends TestCase
 
 	protected function setUp()
 	{
-		$this->connection = new \DibiConnection($this->config);
+		$this->connection = new Connection($this->config);
 		$this->connection->query("DROP TABLE IF EXISTS `user`;");
 		$this->connection->query("
 			CREATE TABLE `user` (
@@ -61,12 +64,12 @@ class TableTest extends TestCase
 
 	public function testFetch()
 	{
-		Assert::equal([new \DibiRow(['name' => 'foo'])], $this->table->fetch(new SelectQueryObject()));
+		Assert::equal([new Row(['name' => 'foo'])], $this->table->fetch(new SelectQueryObject()));
 	}
 
 	public function testFetchOne()
 	{
-		Assert::equal(new \DibiRow(['name' => 'foo']), $this->table->fetchOne(new SelectQueryObject()));
+		Assert::equal(new Row(['name' => 'foo']), $this->table->fetchOne(new SelectQueryObject()));
 	}
 
 	public function testFetchSingle()
@@ -102,6 +105,6 @@ class TableTest extends TestCase
 	}
 }
 
-\Tester\Environment::lock("database", dirname(TEMP_DIR));
+Environment::lock("database", dirname(TEMP_DIR));
 
 \run(new TableTest(getDatabaseConnection()));

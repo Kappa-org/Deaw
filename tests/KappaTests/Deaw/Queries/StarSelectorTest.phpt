@@ -12,7 +12,6 @@
 
 namespace KappaTests\Deaw\Queries;
 
-use Kappa\Deaw\Queries\Selector;
 use KappaTests\Deaw\AllSelector;
 use Tester\TestCase;
 use Tester\Assert;

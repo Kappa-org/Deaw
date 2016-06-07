@@ -12,6 +12,7 @@
 
 namespace KappaTests\Deaw\Queries;
 
+use Dibi\Connection;
 use Kappa\Deaw\Queries\QueryBuilder;
 use KappaTests\Deaw\DateSelector;
 use KappaTests\Deaw\NameSelector;
@@ -40,49 +41,49 @@ class QueryBuilderTest extends TestCase
 
 	protected function setUp()
 	{
-		$connection = new \DibiConnection($this->config);
+		$connection = new Connection($this->config);
 		$this->queryBuilder = new QueryBuilder($connection, 'foo');
 	}
 
 	public function testInsert()
 	{
 		$result = $this->queryBuilder->insert(['name' => 'bar']);
-		Assert::type("DibiFluent", $result);
+		Assert::type('\Dibi\Fluent', $result);
 		Assert::same("INSERT INTO `foo` (`name`) VALUES ('bar')", (string)$result);
 	}
 
 	public function testUpdate()
 	{
 		$result = $this->queryBuilder->update(['name' => 'bar']);
-		Assert::type("DibiFluent", $result);
+		Assert::type('\Dibi\Fluent', $result);
 		Assert::same("UPDATE `foo` SET `name`='bar'", (string)$result);
 	}
 
 	public function testDelete()
 	{
 		$result = $this->queryBuilder->delete();
-		Assert::type("DibiFluent", $result);
+		Assert::type('\Dibi\Fluent', $result);
 		Assert::same("DELETE FROM `foo`", (string)$result);
 	}
 
 	public function testSingleSelect()
 	{
 		$result = $this->queryBuilder->select(new NameSelector());
-		Assert::type("DibiFluent", $result);
+		Assert::type('\Dibi\Fluent', $result);
 		Assert::same("SELECT `name` FROM `foo`", (string)$result);
 	}
 
 	public function testMultipleSelectors()
 	{
 		$result = $this->queryBuilder->select([new NameSelector(), new DateSelector()]);
-		Assert::type("DibiFluent", $result);
+		Assert::type('\Dibi\Fluent', $result);
 		Assert::same("SELECT name,date FROM `foo`", (string)$result);
 	}
 
 	public function testStringSelector()
 	{
 		$result = $this->queryBuilder->select("foo.name");
-		Assert::type("DibiFluent", $result);
+		Assert::type('\Dibi\Fluent', $result);
 		Assert::same("SELECT `foo`.`name` FROM `foo`", (string)$result);
 	}
 
