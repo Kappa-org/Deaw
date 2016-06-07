@@ -39,30 +39,12 @@ class QueryBuilder
 	}
 
 	/**
-	 * @param Selector|Selector[]|string $selects
+	 * @param string $selects
 	 * @return \Dibi\Fluent
 	 */
 	public function select($selects)
 	{
-		if ($selects instanceof Selector) {
-			$selects->configure();
-			$dibiFluent = $this->connection->select((string)$selects);
-		} else if (is_array($selects)) {
-			$result = "";
-			$i = 1;
-			foreach ($selects as $select) {
-				if (!$select instanceof Selector) {
-					throw new InvalidArgumentException("Argument 'select()' method must be Selector");
-				}
-				$select->configure();
-				$result .= (string)$select;
-				if (count($selects) != $i) {
-					$result .= ',';
-				}
-				$i++;
-			}
-			$dibiFluent = $this->connection->select($result);
-		} else if (is_string($selects)) {
+		if (is_string($selects)) {
 			$dibiFluent = $this->connection->select($selects);
 		} else {
 			throw new InvalidArgumentException("Invalid argument for 'select()' method in query object");

@@ -27,7 +27,7 @@ class SelectQueryObject implements Queryable
 	 */
 	public function getQuery(QueryBuilder $builder)
 	{
-		$query = $builder->select(new NameSelector());
+		$query = $builder->select('name');
 
 		return $query;
 	}
