@@ -12,6 +12,7 @@ namespace Kappa\Deaw;
 
 use Dibi\Connection;
 use Dibi\Fluent;
+use Kappa\Deaw\BasicQueryObjects\FindBy;
 use Kappa\Deaw\Queries\Queryable;
 use Kappa\Deaw\Queries\QueryBuilder;
 
@@ -41,6 +42,38 @@ class Table
 	}
 
 	/**
+	 * @param array $where
+	 * @return \Dibi\Row|FALSE
+	 */
+	public function findOneBy(array $where)
+	{
+		return $this->fetchOne(new FindBy($where));
+	}
+
+	/**
+	 * @param array $where
+	 * @param array $order
+	 * @param int|null $limit
+	 * @param int|null $offset
+	 * @return array
+	 */
+	public function findBy(array $where, array $order = null, $limit = null, $offset = null)
+	{
+		return $this->fetch(new FindBy($where, $order), $limit, $offset);
+	}
+
+	/**
+	 * @param array $order
+	 * @param int|null $limit
+	 * @param int|null $offset
+	 * @return array
+	 */
+	public function findAll(array $order = null, $limit = null, $offset = null)
+	{
+		return $this->fetch(new FindBy([], $order), $limit, $offset);
+	}
+
+	/**
 	 * @param Queryable $query
 	 * @return \Dibi\Row|FALSE
 	 */
@@ -51,11 +84,11 @@ class Table
 
 	/**
 	 * @param Queryable $query
-	 * @param int|null $offset
 	 * @param int|null $limit
+	 * @param int|null $offset
 	 * @return array
 	 */
-	public function fetch(Queryable $query, $offset = null, $limit = null)
+	public function fetch(Queryable $query, $limit = null, $offset = null)
 	{
 		return $this->processQuery($query)->fetchAll($offset, $limit);
 	}

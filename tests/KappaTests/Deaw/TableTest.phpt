@@ -53,18 +53,46 @@ class TableTest extends TestCase
 		$this->connection->query("
 			CREATE TABLE `user` (
 				`id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-				`name` varchar(255) NOT NULL
+				`name` varchar(255) NOT NULL,
+				`string` varchar(255) NOT NULL
 			) ENGINE='MyISAM' COLLATE 'utf8_czech_ci';"
 		);
-		$this->connection->query("
-			INSERT INTO `user` (`name`) VALUES ('foo');"
-		);
+		$this->connection->query("INSERT INTO `user` (`name`, `string`) VALUES ('foo', 'text')");
+		$this->connection->query("INSERT INTO `user` (`name`, `string`) VALUES ('bar', 'text')");
 		$this->table = new Table($this->connection, 'user');
+	}
+
+	public function testFindBy()
+	{
+		Assert::equal([
+			new Row(['id' => 1, 'name' => 'foo', 'string' => 'text']),
+			new Row(['id' => 2, 'name' => 'bar', 'string' => 'text'])
+		], $this->table->findBy(['string' => 'text']));
+	}
+
+	public function testFindByWithOrder()
+	{
+		Assert::equal([
+			new Row(['id' => 2, 'name' => 'bar', 'string' => 'text']),
+			new Row(['id' => 1, 'name' => 'foo', 'string' => 'text'])
+		], $this->table->findBy(['string' => 'text'], ['name' => 'ASC']));
+	}
+
+	public function testFindByLimit()
+	{
+		Assert::equal([
+			new Row(['id' => 1, 'name' => 'foo', 'string' => 'text'])
+		], $this->table->findBy(['string' => 'text'], null, 1, 0));
+	}
+
+	public function testFindOneBy()
+	{
+		Assert::equal(new Row(['id' => 1, 'name' => 'foo', 'string' => 'text']), $this->table->findOneBy(['id' => 1]));
 	}
 
 	public function testFetch()
 	{
-		Assert::equal([new Row(['name' => 'foo'])], $this->table->fetch(new SelectQueryObject()));
+		Assert::equal([new Row(['name' => 'foo']), new Row(['name' => 'bar'])], $this->table->fetch(new SelectQueryObject()));
 	}
 
 	public function testFetchOne()
@@ -79,7 +107,7 @@ class TableTest extends TestCase
 
 	public function testExecute()
 	{
-		Assert::same(2, $this->table->execute(new ExecutableQueryObject(), \dibi::IDENTIFIER));
+		Assert::same(3, $this->table->execute(new ExecutableQueryObject(), \dibi::IDENTIFIER));
 	}
 
 	public function testInvalidQueryObject()
