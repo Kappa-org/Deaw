@@ -113,6 +113,15 @@ class Table
 	}
 
 	/**
+	 * @param Queryable $query
+	 * @return bool
+	 */
+	public function test(Queryable $query)
+	{
+		return $this->processQuery($query)->test();
+	}
+
+	/**
 	 * @return QueryBuilder
 	 */
 	public function createQueryBuilder()
