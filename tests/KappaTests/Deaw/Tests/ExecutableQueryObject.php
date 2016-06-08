@@ -8,18 +8,16 @@
  * file that was distributed with this source code.
  */
 
-namespace KappaTests\Deaw;
+namespace KappaTests\Deaw\Tests;
 
 use Kappa\Deaw\Queries\QueryBuilder;
 use Kappa\Deaw\Queries\QueryObject;
 
 /**
- * Class SelectQueryObject
- *
- * @package KappaTests\Deaw
- * @author Ondřej Záruba <http://zaruba-ondrej.cz>
+ * Class ExecutableQueryObject
+ * @package KappaTests\Deaw\Tests
  */
-class SelectQueryObject extends QueryObject
+class ExecutableQueryObject extends QueryObject
 {
 	/**
 	 * @param QueryBuilder $builder
@@ -27,7 +25,7 @@ class SelectQueryObject extends QueryObject
 	 */
 	public function getQuery(QueryBuilder $builder)
 	{
-		$query = $builder->createQuery()->select('name');
+		$query = $builder->createQuery()->insert(['name' => 'bar']);
 
 		return $query;
 	}
