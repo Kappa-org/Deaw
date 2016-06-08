@@ -10,6 +10,7 @@
 
 namespace Kappa\Deaw\DI;
 
+use Dibi\Event;
 use Nette\DI\CompilerExtension;
 use Nette\DI\Statement;
 use Nette\PhpGenerator\PhpLiteral;
@@ -33,7 +34,11 @@ class DeawExtension extends CompilerExtension
 		$config = $this->getConfig($this->defaultConfig);
 		$builder = $this->getContainerBuilder();
 
-		$builder->addDefinition($this->prefix('dibiConnection'))
+		$useProfiler = isset($config['profiler'])
+			? $config['profiler']
+			: class_exists('Tracy\Debugger') && $builder->parameters['debugMode'];
+
+		$connection = $builder->addDefinition($this->prefix('dibiConnection'))
 			->setClass('Dibi\Connection', [$config['connection']])
 			->setAutowired($config['autowiredDibiConnection']);
 
@@ -47,5 +52,21 @@ class DeawExtension extends CompilerExtension
 			->setFactory('@Kappa\Deaw\TableFactory::create', array(new PhpLiteral('$tableName')))
 			->setParameters(array('tableName'))
 			->setInject(FALSE);
+
+		if (class_exists('Tracy\Debugger')) {
+			$connection->addSetup(
+				[new Statement('Tracy\Debugger::getBlueScreen'), 'addPanel'],
+				[['Dibi\Bridges\Tracy\Panel', 'renderException']]
+			);
+		}
+
+		if ($useProfiler) {
+			$panel = $builder->addDefinition($this->prefix('panel'))
+				->setClass('Dibi\Bridges\Tracy\Panel', [
+					isset($config['explain']) ? $config['explain'] : TRUE,
+					isset($config['filter']) && $config['filter'] === FALSE ? Event::ALL : Event::QUERY,
+				]);
+			$connection->addSetup([$panel, 'register'], [$connection]);
+		}
 	}
 }
