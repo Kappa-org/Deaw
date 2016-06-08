@@ -80,17 +80,24 @@ class QueryBuilderTest extends TestCase
 		Assert::same("SELECT name, date FROM `foo`", (string)$result);
 	}
 
-	public function testStringSelector()
+	public function testStringsSelector()
 	{
-		$result = $this->queryBuilder->select('foo.name');
+		$result = $this->queryBuilder->select(['name', 'email']);
 		Assert::type('\Dibi\Fluent', $result);
-		Assert::same("SELECT `foo`.`name` FROM `foo`", (string)$result);
+		Assert::same("SELECT name, email FROM `foo`", (string)$result);
 	}
 
-	public function testInvalidSelector()
+	public function testInvalidArraySelector()
 	{
 		Assert::exception(function () {
-			$this->queryBuilder->select(["dd"]);
+			$this->queryBuilder->select([1]);
+		}, 'Kappa\Deaw\InvalidArgumentException');
+	}
+
+	public function testInvalidSingleSelector()
+	{
+		Assert::exception(function () {
+			$this->queryBuilder->select(1);
 		}, 'Kappa\Deaw\InvalidArgumentException');
 	}
 }

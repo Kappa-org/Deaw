@@ -44,10 +44,17 @@ class QueryBuilder
 	 */
 	public function select($selects)
 	{
-		if (is_string($selects)) {
+		if (is_array($selects)) {
+			foreach ($selects as $select) {
+				if (!is_string($select)) {
+					throw new InvalidArgumentException("Invalid argument for 'select()' method in query object. Select requires only strings or array of strings");
+				}
+			}
+			$dibiFluent = $this->connection->select(implode(', ', $selects));
+		} else if (is_string($selects)) {
 			$dibiFluent = $this->connection->select($selects);
 		} else {
-			throw new InvalidArgumentException("Invalid argument for 'select()' method in query object");
+			throw new InvalidArgumentException("Invalid argument for 'select()' method in query object. Select requires only strings or array of strings");
 		}
 		$dibiFluent->from($this->tableName);
 
