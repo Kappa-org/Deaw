@@ -44,7 +44,7 @@ class QueryBuilderTest extends TestCase
 
     public function testCreateQuery()
     {
-        Assert::type(Query::class, $this->queryBuilder->createQuery());
+        Assert::type('\Kappa\Deaw\Queries\Query', $this->queryBuilder->createQuery());
     }
 }
 
