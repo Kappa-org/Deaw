@@ -11,14 +11,14 @@
 namespace Kappa\Deaw\BasicQueryObjects;
 
 use Dibi\Fluent;
-use Kappa\Deaw\Queries\Queryable;
 use Kappa\Deaw\Queries\QueryBuilder;
+use Kappa\Deaw\Queries\QueryObject;
 
 /**
  * Class FindOneBy
  * @package Kappa\Deaw\BasicQueryObjects
  */
-class FindBy implements Queryable
+class FindBy extends QueryObject
 {
     /** @var array */
     private $where;

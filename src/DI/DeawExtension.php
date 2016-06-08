@@ -14,7 +14,6 @@ use Dibi\Event;
 use Nette\DI\CompilerExtension;
 use Nette\DI\Statement;
 use Nette\PhpGenerator\PhpLiteral;
-use Nette\Utils\Random;
 
 /**
  * Class DeawExtension

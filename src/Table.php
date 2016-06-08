@@ -79,7 +79,9 @@ class Table
 	 */
 	public function fetchOne(Queryable $query)
 	{
-		return $this->processQuery($query)->fetch();
+		$data = $this->processQuery($query)->fetch();
+
+		return $query->postFetch($data);
 	}
 
 	/**
@@ -90,7 +92,9 @@ class Table
 	 */
 	public function fetch(Queryable $query, $limit = null, $offset = null)
 	{
-		return $this->processQuery($query)->fetchAll($offset, $limit);
+		$data = $this->processQuery($query)->fetchAll($offset, $limit);
+
+		return $query->postFetch($data);
 	}
 
 	/**
@@ -99,7 +103,9 @@ class Table
 	 */
 	public function fetchSingle(Queryable $query)
 	{
-		return $this->processQuery($query)->fetchSingle();
+		$data = $this->processQuery($query)->fetchSingle();
+
+		return $query->postFetch($data);
 	}
 
 	/**

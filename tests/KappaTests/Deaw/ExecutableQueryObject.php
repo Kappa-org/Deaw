@@ -10,8 +10,8 @@
 
 namespace KappaTests\Deaw;
 
-use Kappa\Deaw\Queries\Queryable;
 use Kappa\Deaw\Queries\QueryBuilder;
+use Kappa\Deaw\Queries\QueryObject;
 
 /**
  * Class SelectQueryObject
@@ -19,7 +19,7 @@ use Kappa\Deaw\Queries\QueryBuilder;
  * @package KappaTests\Deaw
  * @author Ondřej Záruba <http://zaruba-ondrej.cz>
  */
-class ExecutableQueryObject implements Queryable
+class ExecutableQueryObject extends QueryObject
 {
 	/**
 	 * @param QueryBuilder $builder

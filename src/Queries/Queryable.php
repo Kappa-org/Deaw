@@ -12,6 +12,10 @@ namespace Kappa\Deaw\Queries;
 
 use Dibi\Fluent;
 
+/**
+ * Interface Queryable
+ * @package Kappa\Deaw\Queries
+ */
 interface Queryable
 {
 	/**
@@ -19,4 +23,10 @@ interface Queryable
 	 * @return Fluent
 	 */
 	public function getQuery(QueryBuilder $builder);
+
+	/**
+	 * @param mixed $data
+	 * @return mixed
+	 */
+	public function postFetch($data);
 }
