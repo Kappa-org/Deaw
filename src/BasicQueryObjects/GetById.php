@@ -39,7 +39,7 @@ class GetById implements Queryable
 	 */
 	public function getQuery(QueryBuilder $builder)
 	{
-		$query = $builder->select(new SelectAll())
+		$query = $builder->createQuery()->select(new SelectAll())
 			->where('id = ?', $this->id);
 
 		return $query;

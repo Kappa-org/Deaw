@@ -23,11 +23,11 @@ class SelectQueryObject implements Queryable
 {
 	/**
 	 * @param QueryBuilder $builder
-	 * @return \DibiFluent
+	 * @return \Dibi\Fluent
 	 */
 	public function getQuery(QueryBuilder $builder)
 	{
-		$query = $builder->select('name');
+		$query = $builder->createQuery()->select('name');
 
 		return $query;
 	}

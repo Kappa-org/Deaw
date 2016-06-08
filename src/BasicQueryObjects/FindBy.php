@@ -43,7 +43,7 @@ class FindBy implements Queryable
      */
     public function getQuery(QueryBuilder $builder)
     {
-        $query = $builder->select('*');
+        $query = $builder->createQuery()->select('*');
 
         // Apply where conditions
         foreach ($this->where as $column => $rule) {

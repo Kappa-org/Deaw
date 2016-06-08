@@ -39,51 +39,10 @@ class QueryBuilder
 	}
 
 	/**
-	 * @param string $selects
-	 * @return \Dibi\Fluent
+	 * @return Query
 	 */
-	public function select($selects)
+	public function createQuery()
 	{
-		if (is_array($selects)) {
-			foreach ($selects as $select) {
-				if (!is_string($select)) {
-					throw new InvalidArgumentException("Invalid argument for 'select()' method in query object. Select requires only strings or array of strings");
-				}
-			}
-			$dibiFluent = $this->connection->select(implode(', ', $selects));
-		} else if (is_string($selects)) {
-			$dibiFluent = $this->connection->select($selects);
-		} else {
-			throw new InvalidArgumentException("Invalid argument for 'select()' method in query object. Select requires only strings or array of strings");
-		}
-		$dibiFluent->from($this->tableName);
-
-		return $dibiFluent;
-	}
-
-	/**
-	 * @param array $data
-	 * @return \Dibi\Fluent
-	 */
-	public function update(array $data)
-	{
-		return $this->connection->update($this->tableName, $data);
-	}
-
-	/**
-	 * @param array $data
-	 * @return \Dibi\Fluent
-	 */
-	public function insert(array $data)
-	{
-		return $this->connection->insert($this->tableName, $data);
-	}
-
-	/**
-	 * @return \Dibi\Fluent
-	 */
-	public function delete()
-	{
-		return $this->connection->delete($this->tableName);
+		return new Query($this->connection, $this->tableName);
 	}
 }

@@ -23,10 +23,10 @@ class InvalidQueryObject implements Queryable
 {
 	/**
 	 * @param QueryBuilder $builder
-	 * @return \DibiFluent
+	 * @return \Dibi\Fluent|void
 	 */
 	public function getQuery(QueryBuilder $builder)
 	{
-		$query = $builder->insert(['name' => 'bar']);
+		$query = $builder->createQuery()->insert(['name' => 'bar']);
 	}
 }
