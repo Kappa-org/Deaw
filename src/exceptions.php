@@ -11,14 +11,6 @@
 namespace Kappa\Deaw;
 
 /**
- * Class InvalidSelectDefinitionException
- *
- * @package Kappa\Deaw
- * @author Ondřej Záruba <http://zaruba-ondrej.cz>
- */
-class InvalidSelectDefinitionException extends \LogicException {}
-
-/**
  * Class InvalidArgumentsException
  *
  * @package Kappa\Deaw
