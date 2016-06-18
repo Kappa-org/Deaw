@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Kappa\Deaw\BasicQueryObjects;
+namespace Kappa\Deaw\Query\QueryObjects;
 
 use Dibi\Fluent;
 use Kappa\Deaw\Query\QueryBuilder;

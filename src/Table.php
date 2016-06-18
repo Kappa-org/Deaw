@@ -11,7 +11,7 @@
 namespace Kappa\Deaw;
 
 use Dibi\Fluent;
-use Kappa\Deaw\BasicQueryObjects\FindBy;
+use Kappa\Deaw\Query\QueryObjects\FindBy;
 use Kappa\Deaw\Query\Queryable;
 use Kappa\Deaw\Query\QueryBuilder;
 
