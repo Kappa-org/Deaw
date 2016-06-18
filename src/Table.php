@@ -27,50 +27,48 @@ class Table
 	/** @var Connection */
 	private $connection;
 
-	/** @var string */
-	private $tableName;
-
 	/**
 	 * Table constructor.
 	 * @param Connection $connection
-	 * @param string $tableName
 	 */
-	public function __construct(Connection $connection, $tableName)
+	public function __construct(Connection $connection)
 	{
 		$this->connection = $connection;
-		$this->tableName = $tableName;
 	}
 
 	/**
+	 * @param string $tableName
 	 * @param array $where
 	 * @return \Dibi\Row|FALSE
 	 */
-	public function findOneBy(array $where)
+	public function findOneBy($tableName, array $where)
 	{
-		return $this->fetchOne(new FindBy($where));
+		return $this->fetchOne(new FindBy($tableName, $where));
 	}
 
 	/**
+	 * @param string $tableName
 	 * @param array $where
-	 * @param array $order
-	 * @param int|null $limit
-	 * @param int|null $offset
+	 * @param array|null $order
+	 * @param null $limit
+	 * @param null $offset
 	 * @return array
 	 */
-	public function findBy(array $where, array $order = null, $limit = null, $offset = null)
+	public function findBy($tableName, array $where, array $order = null, $limit = null, $offset = null)
 	{
-		return $this->fetch(new FindBy($where, $order), $limit, $offset);
+		return $this->fetch(new FindBy($tableName, $where, $order), $limit, $offset);
 	}
 
 	/**
-	 * @param array $order
-	 * @param int|null $limit
-	 * @param int|null $offset
+	 * @param string $tableName
+	 * @param array|null $order
+	 * @param null $limit
+	 * @param null $offset
 	 * @return array
 	 */
-	public function findAll(array $order = null, $limit = null, $offset = null)
+	public function findAll($tableName, array $order = null, $limit = null, $offset = null)
 	{
-		return $this->fetch(new FindBy([], $order), $limit, $offset);
+		return $this->fetch(new FindBy($tableName, [], $order), $limit, $offset);
 	}
 
 	/**
@@ -132,15 +130,7 @@ class Table
 	 */
 	public function createQueryBuilder()
 	{
-		return new QueryBuilder($this->connection, $this->tableName);
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getTableName()
-	{
-		return $this->tableName;
+		return new QueryBuilder($this->connection);
 	}
 
 	/**

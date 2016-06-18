@@ -22,18 +22,13 @@ class Query
     /** @var Connection */
     private $connection;
     
-    /** @var string */
-    private $tableName;
-
     /**
      * Query constructor.
      * @param Connection $connection
-     * @param string $tableName
      */
-    public function __construct(Connection $connection, $tableName)
+    public function __construct(Connection $connection)
     {
         $this->connection = $connection;
-        $this->tableName = $tableName;
     }
     
     /**
@@ -54,34 +49,36 @@ class Query
         } else {
             throw new InvalidArgumentException("Invalid argument for 'select()' method in query object. Select requires only strings or array of strings");
         }
-        $dibiFluent->from($this->tableName);
 
         return $dibiFluent;
     }
 
     /**
+     * @param string $tableName
      * @param array $data
      * @return \Dibi\Fluent
      */
-    public function update(array $data)
+    public function update($tableName, array $data)
     {
-        return $this->connection->update($this->tableName, $data);
+        return $this->connection->update($tableName, $data);
     }
 
     /**
+     * @param string $tableName
      * @param array $data
      * @return \Dibi\Fluent
      */
-    public function insert(array $data)
+    public function insert($tableName, array $data)
     {
-        return $this->connection->insert($this->tableName, $data);
+        return $this->connection->insert($tableName, $data);
     }
 
     /**
+     * @param string $tableName
      * @return \Dibi\Fluent
      */
-    public function delete()
+    public function delete($tableName)
     {
-        return $this->connection->delete($this->tableName);
+        return $this->connection->delete($tableName);
     }
 }

@@ -25,7 +25,7 @@ class SelectQueryObject extends QueryObject
 	 */
 	public function getQuery(QueryBuilder $builder)
 	{
-		$query = $builder->createQuery()->select('name');
+		$query = $builder->createQuery()->select('name')->from('user');
 
 		return $query;
 	}

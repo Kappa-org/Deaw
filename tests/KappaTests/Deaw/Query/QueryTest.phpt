@@ -27,6 +27,8 @@ require_once __DIR__ . '/../../bootstrap.php';
  */
 class QueryTest extends TestCase
 {
+	const TABLE = 'foo';
+
 	/** @var Query */
 	private $query;
 
@@ -45,42 +47,42 @@ class QueryTest extends TestCase
 
 	public function testInsert()
 	{
-		$result = $this->query->insert(['name' => 'bar']);
+		$result = $this->query->insert(self::TABLE, ['name' => 'bar']);
 		Assert::type('\Dibi\Fluent', $result);
 		Assert::same("INSERT INTO `foo` (`name`) VALUES ('bar')", (string)$result);
 	}
 
 	public function testUpdate()
 	{
-		$result = $this->query->update(['name' => 'bar']);
+		$result = $this->query->update(self::TABLE, ['name' => 'bar']);
 		Assert::type('\Dibi\Fluent', $result);
 		Assert::same("UPDATE `foo` SET `name`='bar'", (string)$result);
 	}
 
 	public function testDelete()
 	{
-		$result = $this->query->delete();
+		$result = $this->query->delete(self::TABLE);
 		Assert::type('\Dibi\Fluent', $result);
 		Assert::same("DELETE FROM `foo`", (string)$result);
 	}
 
 	public function testSingleSelect()
 	{
-		$result = $this->query->select('name');
+		$result = $this->query->select('name')->from(self::TABLE);
 		Assert::type('\Dibi\Fluent', $result);
 		Assert::same("SELECT `name` FROM `foo`", (string)$result);
 	}
 
 	public function testMultipleSelectors()
 	{
-		$result = $this->query->select('name, date');
+		$result = $this->query->select('name, date')->from(self::TABLE);
 		Assert::type('\Dibi\Fluent', $result);
 		Assert::same("SELECT name, date FROM `foo`", (string)$result);
 	}
 
 	public function testStringsSelector()
 	{
-		$result = $this->query->select(['name', 'email']);
+		$result = $this->query->select(['name', 'email'])->from(self::TABLE);
 		Assert::type('\Dibi\Fluent', $result);
 		Assert::same("SELECT name, email FROM `foo`", (string)$result);
 	}

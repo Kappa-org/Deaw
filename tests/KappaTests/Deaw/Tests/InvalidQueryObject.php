@@ -25,6 +25,6 @@ class InvalidQueryObject extends QueryObject
 	 */
 	public function getQuery(QueryBuilder $builder)
 	{
-		$builder->createQuery()->insert(['name' => 'bar']);
+		$builder->createQuery()->insert('foo', ['name' => 'bar']);
 	}
 }

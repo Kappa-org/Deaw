@@ -32,6 +32,8 @@ require_once __DIR__ . '/../bootstrap.php';
  */
 class TableTest extends TestCase
 {
+	const TABLE = 'user';
+
 	/** @var Table */
 	private $table;
 
@@ -70,7 +72,7 @@ class TableTest extends TestCase
 		Assert::equal([
 			new Row(['id' => 1, 'name' => 'foo', 'string' => 'text']),
 			new Row(['id' => 2, 'name' => 'bar', 'string' => 'text'])
-		], $this->table->findBy(['string' => 'text']));
+		], $this->table->findBy(self::TABLE, ['string' => 'text']));
 	}
 
 	public function testFindByWithOrder()
@@ -78,19 +80,19 @@ class TableTest extends TestCase
 		Assert::equal([
 			new Row(['id' => 2, 'name' => 'bar', 'string' => 'text']),
 			new Row(['id' => 1, 'name' => 'foo', 'string' => 'text'])
-		], $this->table->findBy(['string' => 'text'], ['name' => 'ASC']));
+		], $this->table->findBy(self::TABLE, ['string' => 'text'], ['name' => 'ASC']));
 	}
 
 	public function testFindByLimit()
 	{
 		Assert::equal([
 			new Row(['id' => 1, 'name' => 'foo', 'string' => 'text'])
-		], $this->table->findBy(['string' => 'text'], null, 1, 0));
+		], $this->table->findBy(self::TABLE, ['string' => 'text'], null, 1, 0));
 	}
 
 	public function testFindOneBy()
 	{
-		Assert::equal(new Row(['id' => 1, 'name' => 'foo', 'string' => 'text']), $this->table->findOneBy(['id' => 1]));
+		Assert::equal(new Row(['id' => 1, 'name' => 'foo', 'string' => 'text']), $this->table->findOneBy(self::TABLE, ['id' => 1]));
 	}
 
 	public function testFetch()
@@ -123,11 +125,6 @@ class TableTest extends TestCase
 	public function testCreateQueryBuilder()
 	{
 		Assert::type('Kappa\Deaw\Query\QueryBuilder', $this->table->createQueryBuilder());
-	}
-
-	public function testGetTableName()
-	{
-		Assert::same('user', $this->table->getTableName());
 	}
 
 	protected function tearDown()

@@ -25,7 +25,7 @@ class ExecutableQueryObject extends QueryObject
 	 */
 	public function getQuery(QueryBuilder $builder)
 	{
-		$query = $builder->createQuery()->insert(['name' => 'bar']);
+		$query = $builder->createQuery()->insert('user', ['name' => 'bar']);
 
 		return $query;
 	}

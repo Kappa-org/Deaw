@@ -23,18 +23,13 @@ class QueryBuilder
 	/** @var Connection */
 	private $connection;
 
-	/** @var string */
-	private $tableName;
-
 	/**
 	 * QueryBuilder constructor.
 	 * @param Connection $connection
-	 * @param $tableName
 	 */
-	public function __construct(Connection $connection, $tableName)
+	public function __construct(Connection $connection)
 	{
 		$this->connection = $connection;
-		$this->tableName = $tableName;
 	}
 
 	/**
@@ -42,6 +37,6 @@ class QueryBuilder
 	 */
 	public function createQuery()
 	{
-		return new Query($this->connection, $this->tableName);
+		return new Query($this->connection);
 	}
 }

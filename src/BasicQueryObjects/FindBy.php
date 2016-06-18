@@ -20,6 +20,9 @@ use Kappa\Deaw\Query\QueryObject;
  */
 class FindBy extends QueryObject
 {
+    /** @var string */
+    private $tableName;
+
     /** @var array */
     private $where;
 
@@ -27,12 +30,14 @@ class FindBy extends QueryObject
     private $order;
 
     /**
-     * FindOneBy constructor.
+     * FindBy constructor.
+     * @param string $tableName
      * @param array $where
      * @param array|null $order
      */
-    public function __construct(array $where, array $order = null)
+    public function __construct($tableName, array $where, array $order = null)
     {
+        $this->tableName = $tableName;
         $this->where = $where;
         $this->order = $order;
     }
@@ -43,7 +48,8 @@ class FindBy extends QueryObject
      */
     public function getQuery(QueryBuilder $builder)
     {
-        $query = $builder->createQuery()->select('*');
+        $query = $builder->createQuery()->select('*')
+            ->from($this->tableName);
 
         // Apply where conditions
         foreach ($this->where as $column => $rule) {
