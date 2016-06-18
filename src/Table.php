@@ -116,6 +116,35 @@ class Table
 	}
 
 	/**
+	 * @param string $tableName
+	 * @param array $data
+	 * @return Fluent
+	 */
+	public function insert($tableName, array $data)
+	{
+		return $this->queryBuilder->createQuery()->insert($tableName, $data);
+	}
+
+	/**
+	 * @param string $tableName
+	 * @param array $data
+	 * @return Fluent
+	 */
+	public function update($tableName, array $data)
+	{
+		return $this->queryBuilder->createQuery()->update($tableName, $data);
+	}
+
+	/**
+	 * @param string $tableName
+	 * @return Fluent
+	 */
+	public function delete($tableName)
+	{
+		return $this->queryBuilder->createQuery()->delete($tableName);
+	}
+
+	/**
 	 * @param Queryable $query
 	 * @return bool
 	 */

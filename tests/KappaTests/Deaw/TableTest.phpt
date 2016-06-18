@@ -153,6 +153,27 @@ class TableTest extends TestCase
 		Assert::same(3, $this->table->execute(new ExecutableQueryObject(), \dibi::IDENTIFIER));
 	}
 
+	public function testInsert()
+	{
+		Assert::same(2, $this->connection->select('COUNT(*)')->from(self::TABLE)->fetchSingle());
+		$this->table->insert(self::TABLE, ['name' => 'foo foo', 'string' => 'text'])->execute();
+		Assert::same(3, $this->connection->select('COUNT(*)')->from(self::TABLE)->fetchSingle());
+	}
+
+	public function testUpdate()
+	{
+		Assert::same('foo', $this->connection->select('name')->from(self::TABLE)->where('id = ?', 1)->fetchSingle());
+		$this->table->update(self::TABLE, ['name' => 'foo foo'])->where('id = ?', 1)->execute();
+		Assert::same('foo foo', $this->connection->select('name')->from(self::TABLE)->where('id = ?', 1)->fetchSingle());
+	}
+
+	public function testDelete()
+	{
+		Assert::same(2, $this->connection->select('COUNT(*)')->from(self::TABLE)->fetchSingle());
+		$this->table->delete(self::TABLE)->where('id = ?', 2)->execute();
+		Assert::same(1, $this->connection->select('COUNT(*)')->from(self::TABLE)->fetchSingle());
+	}
+
 	public function testInvalidQueryObject()
 	{
 		Assert::exception(function () {
