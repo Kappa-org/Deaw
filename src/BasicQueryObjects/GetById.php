@@ -11,8 +11,8 @@
 namespace Kappa\Deaw\BasicQueryObjects;
 
 use Kappa\Deaw\BasicSelectors\SelectAll;
-use Kappa\Deaw\Queries\Queryable;
-use Kappa\Deaw\Queries\QueryBuilder;
+use Kappa\Deaw\Query\Queryable;
+use Kappa\Deaw\Query\QueryBuilder;
 
 /**
  * Class GetById

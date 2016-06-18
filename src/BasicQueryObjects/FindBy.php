@@ -11,8 +11,8 @@
 namespace Kappa\Deaw\BasicQueryObjects;
 
 use Dibi\Fluent;
-use Kappa\Deaw\Queries\QueryBuilder;
-use Kappa\Deaw\Queries\QueryObject;
+use Kappa\Deaw\Query\QueryBuilder;
+use Kappa\Deaw\Query\QueryObject;
 
 /**
  * Class FindOneBy

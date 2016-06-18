@@ -122,7 +122,7 @@ class TableTest extends TestCase
 
 	public function testCreateQueryBuilder()
 	{
-		Assert::type('Kappa\Deaw\Queries\QueryBuilder', $this->table->createQueryBuilder());
+		Assert::type('Kappa\Deaw\Query\QueryBuilder', $this->table->createQueryBuilder());
 	}
 
 	public function testGetTableName()

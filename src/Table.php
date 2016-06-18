@@ -13,8 +13,8 @@ namespace Kappa\Deaw;
 use Dibi\Connection;
 use Dibi\Fluent;
 use Kappa\Deaw\BasicQueryObjects\FindBy;
-use Kappa\Deaw\Queries\Queryable;
-use Kappa\Deaw\Queries\QueryBuilder;
+use Kappa\Deaw\Query\Queryable;
+use Kappa\Deaw\Query\QueryBuilder;
 
 /**
  * Class Table

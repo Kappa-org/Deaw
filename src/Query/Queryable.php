@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Kappa\Deaw\Queries;
+namespace Kappa\Deaw\Query;
 
 use Dibi\Fluent;
 

@@ -10,8 +10,8 @@
 
 namespace KappaTests\Deaw\Tests;
 
-use Kappa\Deaw\Queries\QueryBuilder;
-use Kappa\Deaw\Queries\QueryObject;
+use Kappa\Deaw\Query\QueryBuilder;
+use Kappa\Deaw\Query\QueryObject;
 
 /**
  * Class SelectQueryObject

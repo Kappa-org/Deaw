@@ -10,9 +10,8 @@
 
 namespace KappaTests\Deaw\Tests;
 
-
-use Kappa\Deaw\Queries\QueryBuilder;
-use Kappa\Deaw\Queries\QueryObject;
+use Kappa\Deaw\Query\QueryBuilder;
+use Kappa\Deaw\Query\QueryObject;
 
 /**
  * Class QueryObjectDefaultPostFetch
@@ -22,7 +21,7 @@ class QueryObjectDefaultPostFetch extends QueryObject
 {
     /**
      * @param QueryBuilder $builder
-     * @return \Kappa\Deaw\Queries\Query
+     * @return \Kappa\Deaw\Query\Query
      */
     public function getQuery(QueryBuilder $builder)
     {

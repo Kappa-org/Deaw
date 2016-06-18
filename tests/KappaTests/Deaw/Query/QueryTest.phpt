@@ -10,10 +10,10 @@
  * @testCase
  */
 
-namespace KappaTests\Deaw\Queries;
+namespace KappaTests\Deaw\Query;
 
 use Dibi\Connection;
-use Kappa\Deaw\Queries\Query;
+use Kappa\Deaw\Query\Query;
 use Tester\TestCase;
 use Tester\Assert;
 

@@ -10,11 +10,11 @@
  * @testCase
  */
 
-namespace KappaTests\Deaw\Queries;
+namespace KappaTests\Deaw\Query;
 
 use Dibi\Connection;
-use Kappa\Deaw\Queries\Query;
-use Kappa\Deaw\Queries\QueryBuilder;
+use Kappa\Deaw\Query\Query;
+use Kappa\Deaw\Query\QueryBuilder;
 use Tester\Assert;
 use Tester\TestCase;
 
@@ -44,7 +44,7 @@ class QueryBuilderTest extends TestCase
 
     public function testCreateQuery()
     {
-        Assert::type('\Kappa\Deaw\Queries\Query', $this->queryBuilder->createQuery());
+        Assert::type('\Kappa\Deaw\Query\Query', $this->queryBuilder->createQuery());
     }
 }
 

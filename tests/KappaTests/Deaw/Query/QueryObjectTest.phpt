@@ -10,7 +10,7 @@
  * @testCase
  */
 
-namespace KappaTests\Deaw\Queries;
+namespace KappaTests\Deaw\Query;
 
 use KappaTests\Deaw\Tests\QueryObjectCustomPostFetch;
 use KappaTests\Deaw\Tests\QueryObjectDefaultPostFetch;
