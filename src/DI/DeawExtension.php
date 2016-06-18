@@ -46,16 +46,8 @@ class DeawExtension extends CompilerExtension
 				$this->prefix('@dibiConnection')
 			]);
 		
-		$builder->addDefinition($this->prefix('tableManager'))
-			->setClass('Kappa\Deaw\TableFactory', [
-				$this->prefix('@dibiConnection')
-			]);
-
 		$builder->addDefinition($this->prefix('table'))
-			->setClass('Kappa\Deaw\Table')
-			->setFactory('@Kappa\Deaw\TableFactory::create', array(new PhpLiteral('$tableName')))
-			->setParameters(array('tableName'))
-			->setInject(FALSE);
+			->setClass('Kappa\Deaw\Table');
 
 		if (class_exists('Tracy\Debugger')) {
 			$connection->addSetup(

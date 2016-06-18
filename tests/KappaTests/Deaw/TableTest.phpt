@@ -14,6 +14,7 @@ namespace KappaTests\Deaw;
 
 use Dibi\Connection;
 use Dibi\Row;
+use Kappa\Deaw\Query\QueryBuilder;
 use Kappa\Deaw\Table;
 use KappaTests\Deaw\Tests\ExecutableQueryObject;
 use KappaTests\Deaw\Tests\InvalidQueryObject;
@@ -64,7 +65,7 @@ class TableTest extends TestCase
 		);
 		$this->connection->query("INSERT INTO `user` (`name`, `string`) VALUES ('foo', 'text')");
 		$this->connection->query("INSERT INTO `user` (`name`, `string`) VALUES ('bar', 'text')");
-		$this->table = new Table($this->connection, 'user');
+		$this->table = new Table(new QueryBuilder($this->connection, 'user'));
 	}
 
 	public function testFindBy()
@@ -120,11 +121,6 @@ class TableTest extends TestCase
 		Assert::exception(function () {
 			$this->table->execute(new InvalidQueryObject());
 		}, 'Kappa\Deaw\MissingBuilderReturnException');
-	}
-
-	public function testCreateQueryBuilder()
-	{
-		Assert::type('Kappa\Deaw\Query\QueryBuilder', $this->table->createQueryBuilder());
 	}
 
 	protected function tearDown()

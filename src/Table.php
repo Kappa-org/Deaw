@@ -10,7 +10,6 @@
 
 namespace Kappa\Deaw;
 
-use Dibi\Connection;
 use Dibi\Fluent;
 use Kappa\Deaw\BasicQueryObjects\FindBy;
 use Kappa\Deaw\Query\Queryable;
@@ -24,16 +23,16 @@ use Kappa\Deaw\Query\QueryBuilder;
  */
 class Table
 {
-	/** @var Connection */
-	private $connection;
+	/** @var QueryBuilder */
+	private $queryBuilder;
 
 	/**
 	 * Table constructor.
-	 * @param Connection $connection
+	 * @param QueryBuilder $queryBuilder
 	 */
-	public function __construct(Connection $connection)
+	public function __construct(QueryBuilder $queryBuilder)
 	{
-		$this->connection = $connection;
+		$this->queryBuilder = $queryBuilder;
 	}
 
 	/**
@@ -126,21 +125,12 @@ class Table
 	}
 
 	/**
-	 * @return QueryBuilder
-	 */
-	public function createQueryBuilder()
-	{
-		return new QueryBuilder($this->connection);
-	}
-
-	/**
 	 * @param Queryable $query
 	 * @return Fluent
 	 */
 	private function processQuery(Queryable $query)
 	{
-		$builder = $this->createQueryBuilder();
-		$query = $query->doQuery($builder);
+		$query = $query->doQuery($this->queryBuilder);
 		if (!$query instanceof Fluent) {
 			throw new MissingBuilderReturnException("Missing return builder from " . get_class($query));
 		}
