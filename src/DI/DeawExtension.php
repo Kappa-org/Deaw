@@ -41,6 +41,11 @@ class DeawExtension extends CompilerExtension
 			->setClass('Dibi\Connection', [$config['connection']])
 			->setAutowired($config['autowiredDibiConnection']);
 
+		$builder->addDefinition($this->prefix('queryBuilder'))
+			->setClass('Kappa\Deaw\Query\QueryBuilder', [
+				$this->prefix('@dibiConnection')
+			]);
+		
 		$builder->addDefinition($this->prefix('tableManager'))
 			->setClass('Kappa\Deaw\TableFactory', [
 				$this->prefix('@dibiConnection')

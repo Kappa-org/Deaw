@@ -12,6 +12,7 @@
 
 namespace Kappa\Deaw\Tests;
 
+use Kappa\Deaw\Query\QueryBuilder;
 use Kappa\Deaw\TableFactory;
 use Nette\DI\Container;
 use Tester\TestCase;
@@ -45,6 +46,14 @@ class DeawExtensionTest extends TestCase
 		$service = $this->container->getByType($type);
 		Assert::type($type, $service);
 		Assert::type('Kappa\Deaw\Table', $service->create("user"));
+	}
+
+	public function testQueryBuilder()
+	{
+		$type = 'Kappa\Deaw\Query\QueryBuilder';
+		/** @var QueryBuilder $service */
+		$service = $this->container->getByType($type);
+		Assert::type($type, $service);
 	}
 }
 
