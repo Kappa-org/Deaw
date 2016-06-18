@@ -140,7 +140,7 @@ class Table
 	private function processQuery(Queryable $query)
 	{
 		$builder = $this->createQueryBuilder();
-		$query = $query->getQuery($builder);
+		$query = $query->doQuery($builder);
 		if (!$query instanceof Fluent) {
 			throw new MissingBuilderReturnException("Missing return builder from " . get_class($query));
 		}

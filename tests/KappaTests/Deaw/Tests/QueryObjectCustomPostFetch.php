@@ -26,7 +26,7 @@ class QueryObjectCustomPostFetch extends QueryObject
      * @param QueryBuilder $builder
      * @return \Kappa\Deaw\Query\Query
      */
-    public function getQuery(QueryBuilder $builder)
+    public function doQuery(QueryBuilder $builder)
     {
         return $builder->createQuery();
     }

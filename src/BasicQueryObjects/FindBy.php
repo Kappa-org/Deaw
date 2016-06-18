@@ -46,7 +46,7 @@ class FindBy extends QueryObject
      * @param QueryBuilder $builder
      * @return Fluent
      */
-    public function getQuery(QueryBuilder $builder)
+    public function doQuery(QueryBuilder $builder)
     {
         $query = $builder->createQuery()->select('*')
             ->from($this->tableName);

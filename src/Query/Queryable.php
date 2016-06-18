@@ -22,7 +22,7 @@ interface Queryable
 	 * @param QueryBuilder $builder
 	 * @return Fluent
 	 */
-	public function getQuery(QueryBuilder $builder);
+	public function doQuery(QueryBuilder $builder);
 
 	/**
 	 * @param mixed $data

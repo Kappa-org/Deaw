@@ -23,7 +23,7 @@ class SelectQueryObject extends QueryObject
 	 * @param QueryBuilder $builder
 	 * @return \Dibi\Fluent
 	 */
-	public function getQuery(QueryBuilder $builder)
+	public function doQuery(QueryBuilder $builder)
 	{
 		$query = $builder->createQuery()->select('name')->from('user');
 

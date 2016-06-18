@@ -23,7 +23,7 @@ class InvalidQueryObject extends QueryObject
 	 * @param QueryBuilder $builder
 	 * @return \Dibi\Fluent|void
 	 */
-	public function getQuery(QueryBuilder $builder)
+	public function doQuery(QueryBuilder $builder)
 	{
 		$builder->createQuery()->insert('foo', ['name' => 'bar']);
 	}
