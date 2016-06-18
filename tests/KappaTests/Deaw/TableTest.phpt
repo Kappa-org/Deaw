@@ -17,8 +17,10 @@ use Dibi\Row;
 use Kappa\Deaw\Query\QueryBuilder;
 use Kappa\Deaw\Table;
 use KappaTests\Deaw\Tests\ExecutableQueryObject;
+use KappaTests\Deaw\Tests\FetchOneQueryObject;
+use KappaTests\Deaw\Tests\FetchQueryObject;
+use KappaTests\Deaw\Tests\FetchSingleQueryObject;
 use KappaTests\Deaw\Tests\InvalidQueryObject;
-use KappaTests\Deaw\Tests\SelectQueryObject;
 use Tester\Environment;
 use Tester\TestCase;
 use Tester\Assert;
@@ -68,27 +70,59 @@ class TableTest extends TestCase
 		$this->table = new Table(new QueryBuilder($this->connection, 'user'));
 	}
 
+	public function testFindAll()
+	{
+		// Default
+		Assert::equal([
+			new Row(['id' => 1, 'name' => 'foo', 'string' => 'text']),
+			new Row(['id' => 2, 'name' => 'bar', 'string' => 'text'])
+		], $this->table->findAll(self::TABLE));
+
+		// With order
+		Assert::equal([
+			new Row(['id' => 2, 'name' => 'bar', 'string' => 'text']),
+			new Row(['id' => 1, 'name' => 'foo', 'string' => 'text'])
+		], $this->table->findAll(self::TABLE, ['id' => 'DESC']));
+
+		// With limit
+		Assert::equal([
+			new Row(['id' => 1, 'name' => 'foo', 'string' => 'text'])
+		], $this->table->findAll(self::TABLE, null, 1));
+
+		// With offset
+		Assert::equal([
+			new Row(['id' => 2, 'name' => 'bar', 'string' => 'text'])
+		], $this->table->findAll(self::TABLE, null, 1, 1));
+	}
+
 	public function testFindBy()
 	{
+		// Default
 		Assert::equal([
 			new Row(['id' => 1, 'name' => 'foo', 'string' => 'text']),
 			new Row(['id' => 2, 'name' => 'bar', 'string' => 'text'])
 		], $this->table->findBy(self::TABLE, ['string' => 'text']));
-	}
 
-	public function testFindByWithOrder()
-	{
+		// With order
 		Assert::equal([
 			new Row(['id' => 2, 'name' => 'bar', 'string' => 'text']),
 			new Row(['id' => 1, 'name' => 'foo', 'string' => 'text'])
-		], $this->table->findBy(self::TABLE, ['string' => 'text'], ['name' => 'ASC']));
-	}
+		], $this->table->findBy(self::TABLE, ['string' => 'text'], ['id' => 'DESC']));
 
-	public function testFindByLimit()
-	{
+		// With limit
 		Assert::equal([
 			new Row(['id' => 1, 'name' => 'foo', 'string' => 'text'])
-		], $this->table->findBy(self::TABLE, ['string' => 'text'], null, 1, 0));
+		], $this->table->findBy(self::TABLE, ['string' => 'text'], null, 1));
+
+		// With offset
+		Assert::equal([
+			new Row(['id' => 2, 'name' => 'bar', 'string' => 'text'])
+		], $this->table->findBy(self::TABLE, ['string' => 'text'], null, 1, 1));
+
+		// Where
+		Assert::equal([
+			new Row(['id' => 2, 'name' => 'bar', 'string' => 'text'])
+		], $this->table->findBy(self::TABLE, ['id' => 2]));
 	}
 
 	public function testFindOneBy()
@@ -98,17 +132,20 @@ class TableTest extends TestCase
 
 	public function testFetch()
 	{
-		Assert::equal([new Row(['name' => 'foo']), new Row(['name' => 'bar'])], $this->table->fetch(new SelectQueryObject()));
+		Assert::equal([
+			new Row(['id' => 1, 'name' => 'foo', 'string' => 'text']),
+			new Row(['id' => 2, 'name' => 'bar', 'string' => 'text'])
+		], $this->table->fetch(new FetchQueryObject()));
 	}
 
 	public function testFetchOne()
 	{
-		Assert::equal(new Row(['name' => 'foo']), $this->table->fetchOne(new SelectQueryObject()));
+		Assert::equal(new Row(['id' => 1, 'name' => 'foo', 'string' => 'text']), $this->table->fetchOne(new FetchOneQueryObject()));
 	}
 
 	public function testFetchSingle()
 	{
-		Assert::same('foo', $this->table->fetchSingle(new SelectQueryObject()));
+		Assert::same(FetchSingleQueryObject::ID, $this->table->fetchSingle(new FetchSingleQueryObject()));
 	}
 
 	public function testExecute()
