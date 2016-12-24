@@ -45,6 +45,9 @@ class DeawExtension extends CompilerExtension
 			->setClass('Kappa\Deaw\Query\QueryBuilder', [
 				$this->prefix('@dibiConnection')
 			]);
+
+        $builder->addDefinition($this->prefix('dibiWrapper'))
+            ->setClass('Kappa\Deaw\Utils\DibiWrapper');
 		
 		$builder->addDefinition($this->prefix('table'))
 			->setClass('Kappa\Deaw\Table');

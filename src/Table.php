@@ -10,10 +10,8 @@
 
 namespace Kappa\Deaw;
 
-use Dibi\Fluent;
-use Kappa\Deaw\Query\QueryObjects\FindBy;
 use Kappa\Deaw\Query\Queryable;
-use Kappa\Deaw\Query\QueryBuilder;
+use Kappa\Deaw\Utils\DibiWrapper;
 
 /**
  * Class Table
@@ -23,147 +21,69 @@ use Kappa\Deaw\Query\QueryBuilder;
  */
 class Table
 {
-	/** @var QueryBuilder */
-	private $queryBuilder;
+    /** @var DibiWrapper */
+    private $dibiWrapper;
 
-	/**
-	 * Table constructor.
-	 * @param QueryBuilder $queryBuilder
-	 */
-	public function __construct(QueryBuilder $queryBuilder)
-	{
-		$this->queryBuilder = $queryBuilder;
-	}
+    /**
+     * Table constructor.
+     * @param DibiWrapper $dibiWrapper
+     */
+    public function __construct(DibiWrapper $dibiWrapper)
+    {
+        $this->dibiWrapper = $dibiWrapper;
+    }
 
-	/**
-	 * @param string $tableName
-	 * @param array $where
-	 * @return \Dibi\Row|FALSE
-	 */
-	public function findOneBy($tableName, array $where)
-	{
-		return $this->fetchOne(new FindBy($tableName, $where));
-	}
+    /**
+     * @param Queryable $query
+     * @return \Dibi\Row|FALSE
+     */
+    public function fetchOne(Queryable $query)
+    {
+        $data = $this->dibiWrapper->processQuery($query)->fetch();
 
-	/**
-	 * @param string $tableName
-	 * @param array $where
-	 * @param array|null $order
-	 * @param null $limit
-	 * @param null $offset
-	 * @return array
-	 */
-	public function findBy($tableName, array $where, array $order = null, $limit = null, $offset = null)
-	{
-		return $this->fetch(new FindBy($tableName, $where, $order), $limit, $offset);
-	}
+        return $query->postFetch($data);
+    }
 
-	/**
-	 * @param string $tableName
-	 * @param array|null $order
-	 * @param null $limit
-	 * @param null $offset
-	 * @return array
-	 */
-	public function findAll($tableName, array $order = null, $limit = null, $offset = null)
-	{
-		return $this->fetch(new FindBy($tableName, [], $order), $limit, $offset);
-	}
+    /**
+     * @param Queryable $query
+     * @param int|null $limit
+     * @param int|null $offset
+     * @return array
+     */
+    public function fetch(Queryable $query, $limit = null, $offset = null)
+    {
+        $data = $this->dibiWrapper->processQuery($query)->fetchAll($offset, $limit);
 
-	/**
-	 * @param Queryable $query
-	 * @return \Dibi\Row|FALSE
-	 */
-	public function fetchOne(Queryable $query)
-	{
-		$data = $this->processQuery($query)->fetch();
+        return $query->postFetch($data);
+    }
 
-		return $query->postFetch($data);
-	}
+    /**
+     * @param Queryable $query
+     * @return mixed
+     */
+    public function fetchSingle(Queryable $query)
+    {
+        $data = $this->dibiWrapper->processQuery($query)->fetchSingle();
 
-	/**
-	 * @param Queryable $query
-	 * @param int|null $limit
-	 * @param int|null $offset
-	 * @return array
-	 */
-	public function fetch(Queryable $query, $limit = null, $offset = null)
-	{
-		$data = $this->processQuery($query)->fetchAll($offset, $limit);
+        return $query->postFetch($data);
+    }
 
-		return $query->postFetch($data);
-	}
+    /**
+     * @param Queryable $query
+     * @param null $return
+     * @return \Dibi\Result|int
+     */
+    public function execute(Queryable $query, $return = null)
+    {
+        return $this->dibiWrapper->processQuery($query)->execute($return);
+    }
 
-	/**
-	 * @param Queryable $query
-	 * @return mixed
-	 */
-	public function fetchSingle(Queryable $query)
-	{
-		$data = $this->processQuery($query)->fetchSingle();
-
-		return $query->postFetch($data);
-	}
-
-	/**
-	 * @param Queryable $query
-	 * @param null $return
-	 * @return \Dibi\Result|int
-	 */
-	public function execute(Queryable $query, $return = null)
-	{
-		return $this->processQuery($query)->execute($return);
-	}
-
-	/**
-	 * @param string $tableName
-	 * @param array $data
-	 * @return Fluent
-	 */
-	public function insert($tableName, array $data)
-	{
-		return $this->queryBuilder->createQuery()->insert($tableName, $data);
-	}
-
-	/**
-	 * @param string $tableName
-	 * @param array $data
-	 * @return Fluent
-	 */
-	public function update($tableName, array $data)
-	{
-		return $this->queryBuilder->createQuery()->update($tableName, $data);
-	}
-
-	/**
-	 * @param string $tableName
-	 * @return Fluent
-	 */
-	public function delete($tableName)
-	{
-		return $this->queryBuilder->createQuery()->delete($tableName);
-	}
-
-	/**
-	 * @param Queryable $query
-	 * @return bool
-	 */
-	public function test(Queryable $query)
-	{
-		return $this->processQuery($query)->test();
-	}
-
-	/**
-	 * @param Queryable $query
-	 * @return Fluent
-	 */
-	private function processQuery(Queryable $query)
-	{
-		$query = $query->doQuery($this->queryBuilder);
-		if (!$query instanceof Fluent) {
-			throw new MissingBuilderReturnException("Missing return builder from " . get_class($query));
-		}
-
-		return $query;
-	}
+    /**
+     * @param Queryable $query
+     * @return bool
+     */
+    public function test(Queryable $query)
+    {
+        return $this->dibiWrapper->processQuery($query)->test();
+    }
 }

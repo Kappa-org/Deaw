@@ -16,6 +16,7 @@ use Dibi\Connection;
 use Dibi\Row;
 use Kappa\Deaw\Query\QueryBuilder;
 use Kappa\Deaw\Table;
+use Kappa\Deaw\Utils\DibiWrapper;
 use KappaTests\Deaw\Tests\ExecutableQueryObject;
 use KappaTests\Deaw\Tests\FetchOneQueryObject;
 use KappaTests\Deaw\Tests\FetchQueryObject;
@@ -67,67 +68,7 @@ class TableTest extends TestCase
 		);
 		$this->connection->query("INSERT INTO `user` (`name`, `string`) VALUES ('foo', 'text')");
 		$this->connection->query("INSERT INTO `user` (`name`, `string`) VALUES ('bar', 'text')");
-		$this->table = new Table(new QueryBuilder($this->connection, 'user'));
-	}
-
-	public function testFindAll()
-	{
-		// Default
-		Assert::equal([
-			new Row(['id' => 1, 'name' => 'foo', 'string' => 'text']),
-			new Row(['id' => 2, 'name' => 'bar', 'string' => 'text'])
-		], $this->table->findAll(self::TABLE));
-
-		// With order
-		Assert::equal([
-			new Row(['id' => 2, 'name' => 'bar', 'string' => 'text']),
-			new Row(['id' => 1, 'name' => 'foo', 'string' => 'text'])
-		], $this->table->findAll(self::TABLE, ['id' => 'DESC']));
-
-		// With limit
-		Assert::equal([
-			new Row(['id' => 1, 'name' => 'foo', 'string' => 'text'])
-		], $this->table->findAll(self::TABLE, null, 1));
-
-		// With offset
-		Assert::equal([
-			new Row(['id' => 2, 'name' => 'bar', 'string' => 'text'])
-		], $this->table->findAll(self::TABLE, null, 1, 1));
-	}
-
-	public function testFindBy()
-	{
-		// Default
-		Assert::equal([
-			new Row(['id' => 1, 'name' => 'foo', 'string' => 'text']),
-			new Row(['id' => 2, 'name' => 'bar', 'string' => 'text'])
-		], $this->table->findBy(self::TABLE, ['string' => 'text']));
-
-		// With order
-		Assert::equal([
-			new Row(['id' => 2, 'name' => 'bar', 'string' => 'text']),
-			new Row(['id' => 1, 'name' => 'foo', 'string' => 'text'])
-		], $this->table->findBy(self::TABLE, ['string' => 'text'], ['id' => 'DESC']));
-
-		// With limit
-		Assert::equal([
-			new Row(['id' => 1, 'name' => 'foo', 'string' => 'text'])
-		], $this->table->findBy(self::TABLE, ['string' => 'text'], null, 1));
-
-		// With offset
-		Assert::equal([
-			new Row(['id' => 2, 'name' => 'bar', 'string' => 'text'])
-		], $this->table->findBy(self::TABLE, ['string' => 'text'], null, 1, 1));
-
-		// Where
-		Assert::equal([
-			new Row(['id' => 2, 'name' => 'bar', 'string' => 'text'])
-		], $this->table->findBy(self::TABLE, ['id' => 2]));
-	}
-
-	public function testFindOneBy()
-	{
-		Assert::equal(new Row(['id' => 1, 'name' => 'foo', 'string' => 'text']), $this->table->findOneBy(self::TABLE, ['id' => 1]));
+		$this->table = new Table(new DibiWrapper(new QueryBuilder($this->connection, 'user')));
 	}
 
 	public function testFetch()
@@ -153,32 +94,23 @@ class TableTest extends TestCase
 		Assert::same(3, $this->table->execute(new ExecutableQueryObject(), \dibi::IDENTIFIER));
 	}
 
-	public function testInsert()
-	{
-		Assert::same(2, $this->connection->select('COUNT(*)')->from(self::TABLE)->fetchSingle());
-		$this->table->insert(self::TABLE, ['name' => 'foo foo', 'string' => 'text'])->execute();
-		Assert::same(3, $this->connection->select('COUNT(*)')->from(self::TABLE)->fetchSingle());
-	}
-
-	public function testUpdate()
-	{
-		Assert::same('foo', $this->connection->select('name')->from(self::TABLE)->where('id = ?', 1)->fetchSingle());
-		$this->table->update(self::TABLE, ['name' => 'foo foo'])->where('id = ?', 1)->execute();
-		Assert::same('foo foo', $this->connection->select('name')->from(self::TABLE)->where('id = ?', 1)->fetchSingle());
-	}
-
-	public function testDelete()
-	{
-		Assert::same(2, $this->connection->select('COUNT(*)')->from(self::TABLE)->fetchSingle());
-		$this->table->delete(self::TABLE)->where('id = ?', 2)->execute();
-		Assert::same(1, $this->connection->select('COUNT(*)')->from(self::TABLE)->fetchSingle());
-	}
-
 	public function testInvalidQueryObject()
 	{
 		Assert::exception(function () {
 			$this->table->execute(new InvalidQueryObject());
 		}, 'Kappa\Deaw\MissingBuilderReturnException');
+
+        Assert::exception(function () {
+            $this->table->fetch(new InvalidQueryObject());
+        }, 'Kappa\Deaw\MissingBuilderReturnException');
+
+        Assert::exception(function () {
+            $this->table->fetchOne(new InvalidQueryObject());
+        }, 'Kappa\Deaw\MissingBuilderReturnException');
+
+        Assert::exception(function () {
+            $this->table->fetchSingle(new InvalidQueryObject());
+        }, 'Kappa\Deaw\MissingBuilderReturnException');
 	}
 
 	protected function tearDown()
