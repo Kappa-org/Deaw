@@ -14,9 +14,7 @@ use Dibi\Connection;
 
 /**
  * Class QueryBuilder
- *
- * @package Kappa\Deaw\Queries
- * @author Ondřej Záruba <http://zaruba-ondrej.cz>
+ * @package Kappa\Deaw\Query
  */
 class QueryBuilder
 {

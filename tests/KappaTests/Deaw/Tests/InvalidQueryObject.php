@@ -19,12 +19,12 @@ use Kappa\Deaw\Query\QueryObject;
  */
 class InvalidQueryObject extends QueryObject
 {
-	/**
-	 * @param QueryBuilder $builder
-	 * @return \Dibi\Fluent|void
-	 */
-	public function doQuery(QueryBuilder $builder)
-	{
-		$builder->createQuery()->insert('foo', ['name' => 'bar']);
-	}
+    /**
+     * @param QueryBuilder $builder
+     * @return \Dibi\Fluent|void
+     */
+    public function doQuery(QueryBuilder $builder)
+    {
+        $builder->createQuery()->insert('foo', ['name' => 'bar']);
+    }
 }

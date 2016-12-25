@@ -20,86 +20,84 @@ use Tester\Assert;
 require_once __DIR__ . '/../../bootstrap.php';
 
 /**
- * Class QueryBuilderTest
- *
- * @package KappaTests\Deaw\Queries
- * @author Ondřej Záruba <http://zaruba-ondrej.cz>
+ * Class QueryTest
+ * @package KappaTests\Deaw\Query
  */
 class QueryTest extends TestCase
 {
-	const TABLE = 'foo';
+    const TABLE = 'foo';
 
-	/** @var Query */
-	private $query;
+    /** @var Query */
+    private $query;
 
-	private $config;
+    private $config;
 
-	public function __construct($config)
-	{
-		$this->config = $config;
-	}
+    public function __construct($config)
+    {
+        $this->config = $config;
+    }
 
-	protected function setUp()
-	{
-		$connection = new Connection($this->config);
-		$this->query = new Query($connection, 'foo');
-	}
+    protected function setUp()
+    {
+        $connection = new Connection($this->config);
+        $this->query = new Query($connection, 'foo');
+    }
 
-	public function testInsert()
-	{
-		$result = $this->query->insert(self::TABLE, ['name' => 'bar']);
-		Assert::type('\Dibi\Fluent', $result);
-		Assert::same("INSERT INTO `foo` (`name`) VALUES ('bar')", (string)$result);
-	}
+    public function testInsert()
+    {
+        $result = $this->query->insert(self::TABLE, ['name' => 'bar']);
+        Assert::type('\Dibi\Fluent', $result);
+        Assert::same("INSERT INTO `foo` (`name`) VALUES ('bar')", (string)$result);
+    }
 
-	public function testUpdate()
-	{
-		$result = $this->query->update(self::TABLE, ['name' => 'bar']);
-		Assert::type('\Dibi\Fluent', $result);
-		Assert::same("UPDATE `foo` SET `name`='bar'", (string)$result);
-	}
+    public function testUpdate()
+    {
+        $result = $this->query->update(self::TABLE, ['name' => 'bar']);
+        Assert::type('\Dibi\Fluent', $result);
+        Assert::same("UPDATE `foo` SET `name`='bar'", (string)$result);
+    }
 
-	public function testDelete()
-	{
-		$result = $this->query->delete(self::TABLE);
-		Assert::type('\Dibi\Fluent', $result);
-		Assert::same("DELETE FROM `foo`", (string)$result);
-	}
+    public function testDelete()
+    {
+        $result = $this->query->delete(self::TABLE);
+        Assert::type('\Dibi\Fluent', $result);
+        Assert::same("DELETE FROM `foo`", (string)$result);
+    }
 
-	public function testSingleSelect()
-	{
-		$result = $this->query->select('name')->from(self::TABLE);
-		Assert::type('\Dibi\Fluent', $result);
-		Assert::same("SELECT `name` FROM `foo`", (string)$result);
-	}
+    public function testSingleSelect()
+    {
+        $result = $this->query->select('name')->from(self::TABLE);
+        Assert::type('\Dibi\Fluent', $result);
+        Assert::same("SELECT `name` FROM `foo`", (string)$result);
+    }
 
-	public function testMultipleSelectors()
-	{
-		$result = $this->query->select('name, date')->from(self::TABLE);
-		Assert::type('\Dibi\Fluent', $result);
-		Assert::same("SELECT name, date FROM `foo`", (string)$result);
-	}
+    public function testMultipleSelectors()
+    {
+        $result = $this->query->select('name, date')->from(self::TABLE);
+        Assert::type('\Dibi\Fluent', $result);
+        Assert::same("SELECT name, date FROM `foo`", (string)$result);
+    }
 
-	public function testStringsSelector()
-	{
-		$result = $this->query->select(['name', 'email'])->from(self::TABLE);
-		Assert::type('\Dibi\Fluent', $result);
-		Assert::same("SELECT name, email FROM `foo`", (string)$result);
-	}
+    public function testStringsSelector()
+    {
+        $result = $this->query->select(['name', 'email'])->from(self::TABLE);
+        Assert::type('\Dibi\Fluent', $result);
+        Assert::same("SELECT name, email FROM `foo`", (string)$result);
+    }
 
-	public function testInvalidArraySelector()
-	{
-		Assert::exception(function () {
-			$this->query->select([1]);
-		}, 'Kappa\Deaw\InvalidArgumentException');
-	}
+    public function testInvalidArraySelector()
+    {
+        Assert::exception(function () {
+            $this->query->select([1]);
+        }, 'Kappa\Deaw\InvalidArgumentException');
+    }
 
-	public function testInvalidSingleSelector()
-	{
-		Assert::exception(function () {
-			$this->query->select(1);
-		}, 'Kappa\Deaw\InvalidArgumentException');
-	}
+    public function testInvalidSingleSelector()
+    {
+        Assert::exception(function () {
+            $this->query->select(1);
+        }, 'Kappa\Deaw\InvalidArgumentException');
+    }
 }
 
 \run(new QueryTest(getDatabaseConnection()));

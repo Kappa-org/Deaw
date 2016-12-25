@@ -1,6 +1,6 @@
 <?php
 /**
- * This file is part of the Deaw package.
+ * This file is part of the Kappa\Deaw package.
  *
  * (c) Ondřej Záruba <zarubaondra@gmail.com>
  *

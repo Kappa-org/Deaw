@@ -11,17 +11,13 @@
 namespace Kappa\Deaw;
 
 /**
- * Class InvalidArgumentsException
- *
+ * Class InvalidArgumentException
  * @package Kappa\Deaw
- * @author Ondřej Záruba <http://zaruba-ondrej.cz>
  */
 class InvalidArgumentException extends \LogicException {}
 
 /**
- * Class MissingBuilderReturn
- *
+ * Class MissingBuilderReturnException
  * @package Kappa\Deaw
- * @author Ondřej Záruba <http://zaruba-ondrej.cz>
  */
 class MissingBuilderReturnException extends \LogicException {}

@@ -19,14 +19,14 @@ use Kappa\Deaw\Query\QueryObject;
  */
 class ExecutableQueryObject extends QueryObject
 {
-	/**
-	 * @param QueryBuilder $builder
-	 * @return \Dibi\Fluent
-	 */
-	public function doQuery(QueryBuilder $builder)
-	{
-		$query = $builder->createQuery()->insert('user', ['name' => 'bar']);
+    /**
+     * @param QueryBuilder $builder
+     * @return \Dibi\Fluent
+     */
+    public function doQuery(QueryBuilder $builder)
+    {
+        $query = $builder->createQuery()->insert('user', ['name' => 'bar']);
 
-		return $query;
-	}
+        return $query;
+    }
 }
