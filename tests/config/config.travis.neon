@@ -1,10 +1,10 @@
 extensions:
-	deaw: Kappa\Deaw\DI\DeawExtension
+    deaw: Kappa\Deaw\DI\DeawExtension
+    dibi: Dibi\Bridges\Nette\DibiExtension22
 
-deaw:
-	connection:
-		host: 127.0.0.1
-		username: root
-		password:
-		database: deaw_test
-		driver: mysql
+dibi:
+    host: 127.0.0.1
+    username: root
+    password:
+    database: deaw_test
+    driver: mysql
