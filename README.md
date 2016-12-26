@@ -1,10 +1,15 @@
 # Kappa\Deaw
 
+Tiny wrapper for better and more comfortable works with Dibi
+
 ## Content
 * [Requirements](#requirements)
 * [Installation](#installation)
-* [Configuration](#configuration)
-* [Example](#example)
+* [How to use](#how-to-use)
+    * [Fetches](#fetches)
+    * [Execute](#execute)
+    * [Transactions](#transactions)
+    * [Query objects](#query-objects)
 * [Development](#development)
     * [Tests](#tests)
 
@@ -24,193 +29,276 @@ The best way to install Kappa\Deaw is using [Composer](https://getcomposer.org)
 $ composer require kappa/deaw:@dev
 ```
 
-and register extension
+Before your first usage you must have registered `dibi` with required settings. 
+
 
 ```yaml
 extensions:
-    deaw: Kappa\Deaw\DI\DeawExtension
-```
-
-You must not register [dibi](http://dibiphp.com) this package takes care about everything. Only one thins which you must
- do is added required database connection
+  dibi: Dibi\Bridges\Nette\DibiExtension22
   
-```yaml
-deaw:
-	connection:
-		host: 127.0.0.1
-		username: root
-		password: 
-		database: test
-		driver: mysql
+dibi:
+  host: 127.0.0.1
+  username: root
+  password: 
+  database: test
+  driver: mysql
 ```
 
-## Configuration
+When you have `dibi` registered you can add `Kappa\Deaw` extension without any extra configuration (all configuration will be used from `dibi` package).
 
 ```yaml
-deaw:
-	connection:
-		host: 127.0.0.1
-		username: root
-		password: 
-		database: test
-		driver: mysql
-	autowiredDibiConnection: false
+extensions:
+   dibi: Dibi\Bridges\Nette\DibiExtension22
+   - \Kappa\Deaw\DI\DeawExtension
+   
+ dibi:
+   host: 127.0.0.1
+   username: root
+   password: 
+   database: test
+   driver: mysql
 ```
 
-* `connection` - database connection
-* `autowiredDibiConnection` - set autowire flag for \DibiConnection. Default is false
+## How to use
 
-## Example
+The basic principe of this package is combine [_domain queries_(cz)](https://www.rarous.net/weblog/377-domenove-dotazy.aspx) 
+ and _`dibi` way_. This package provides a query objects which can be used for fetching or 
+ executing queries and which is distributed into custom classes. 
 
-Define basic selectors
+Usage this package is very easy. `Kappa\Deaw` provides one base class `Kappa\Deaw\Table` for make works 
+with `dibi` more comfortable. With this class you can make all fetches, executes and 
+you can work with transactions.
+
+Firstly, you can inject this class into your model
 
 ```php
-class UserSelector extends Selector
-{
-	public function configure()
-	{
-		$this->setSelects([
-			'name',
-			'age',
-		]);
-	}
-}
-
-class RoleSelector extends Selector
-{
-	public function configure()
-	{
-		$this->setSelects(['name']);
-	}
+class Users {
+    
+    private $table;
+    
+    public function __construct(\Kappa\Deaw\Table $table) {
+        $this->table = $table;
+    }
 }
 ```
 
-Now you can define query objects
+prepare the basic fetch query object which must implements 
+ `\Kappa\Deaw\Query\Queryable` interface or for easy query objects you can use abstract
+ class `\Kappa\Deaw\Query\QueryObject`
 
 ```php
-class GetUserById implements Queryable
-{
-	private $id;
-	
-	public function __construct($id)
-	{
-		$this->id = $id;
-	}
-	
-	public function getBuilder(QueryBuilder $builder)
-	{
-		$query = $builder->select([new UserSelector(null, 'user'), new RoleSelector('roles', 'role')])
-			->leftJoin('roles')
-			->where('id = ?', $this->id);
-
-		return $query;
-	}
-}
-
-class GetAllUsers implements Queryable
-{
-	public function getBuilder(QueryBuilder $builder)
-	{
-		$query = $builder->select(new SelectAll());
-
-		return $query;
-	}
-}
-
-class DeleteUser implements Queryable
-{
-	private $id;
-	
-	public function __construct($id)
-	{
-		$this->id = $id;
-	}
-	
-	public function getBuilder(QueryBuilder $builder)
-	{
-		$query = $builder->delete()
-			->where('id = ?', $this->id);
-
-		return $query;
-	}
-}
-
-class UpdateUser implements Queryable
-{
-	private $id;
-	
-	private $data;
-	
-	public function __construct($id, array $data)
-	{
-		$this->id = $id;
-		$this->data = $data;
-	}
-	
-	public function getBuilder(QueryBuilder $builder)
-	{
-		$query = $builder->update($this->data)
-			->where('id = ?', $this->id);
-
-		return $query;
-	}
-}
-
-class CreateUser implements Queryable
-{
-	private $data;
-	
-	public function __construct(array $data)
-	{
-		$this->data = $data;
-	}
-	
-	public function getBuilder(QueryBuilder $builder)
-	{
-		$query = $builder->insert($this->data);
-
-		return $query;
-	}
+class FetchAdminUsers extends QueryObject { // or implments Queryable 
+    public function doQuery(QueryBuilder $builder) {
+        return $builder->createQuery()->select('*')
+            ->from('user')
+            ->where('role = ?', 'admin');
+    }
 }
 ```
 
+and now we can combine into model
+
 ```php
-class UserManager
-{
-	private $usersTable;
-	
-	public function __construct(TableFactory $tableFactory)
-	{
-		$this->usersTable = $tableFactory->create('users');
-	}
-	
-	
-	//	return data in format user_name, user_age, roles_name
-	public function getUser($id)
-	{
-		return $this->usersTable->fetchOne(new GetUserById($id));
-	}
-	
-	public function getUsers()
-	{
-		return $this->usersTable->fetchAll(new GetAllUsers());
-	}
-	
-	public function deleteUser($id)
-	{
-		$this->usersTable->execute(new DeleteUser($id));
-	}
-	
-	public function updateUser($id, array $data)
-	{
-		$this->usersTable->execute(new UpdateUser($id, $data));
-	}
-	
-	public function createUser(array $data)
-	{ 
-		$this->usersTable->execute(new CreateUser($data));
-	}
+class Users {
+    
+    private $table;
+    
+    public function __construct(\Kappa\Deaw\Table $table) {
+        $this->table = $table;
+    }
+    
+    public function getAdmins() {
+        return $this->table->fetch(new FetchAdminUsers());
+    }
 }
+```
+
+and it's all!
+
+### Fetches
+
+The basic fetch principe is explained above. You can use three methods for fetching data.
+
+* `fetch` - for fetch all records (alternative to `fetchAll` from `dibi`)
+* `fetchOne` - for fetch only one record (alternative to `fetch` from `dibi`)
+* `fetchSingle` - for fetch single value (alternative to `fetchSingle` from `dibi`)
+
+### Execute
+
+You can also run executable query object for insert, update or remove data. For example:
+
+```php
+class AddNewAdminUser extends QueryObject
+{
+    private $name;
+    
+    public function __construct($name) {
+        $this->name = $name;
+    }
+    
+    public function doQuery(QueryBuilder $builder) {
+        $builder->createQuery()->insert('users', [
+            'name' => $this->name,
+            'role' => 'admin'
+        ]);
+    }
+}
+```
+
+and model
+
+```php
+class Users {
+    
+    private $table;
+    
+    public function __construct(\Kappa\Deaw\Table $table) {
+        $this->table = $table;
+    }
+    
+    public function addAdmin($name) {
+        return $this->table->execute(new AddNewAdminUser($name));
+    }
+}
+```
+
+### Transactions
+
+Also, you can use very easy transactions wrapper for typical `dibi` transactions.
+
+We use `AddNewAdminUser` query object from previous example for example:
+
+```php
+class Users {
+    
+    private $table;
+    
+    public function __construct(\Kappa\Deaw\Table $table) {
+        $this->table = $table;
+    }
+    
+    public function addAdmins() {
+        $this->table->transactional(function (Transaction $transaction) {
+            try {
+                $this->table->execute(new AddNewAdminUser('foo'));
+                $this->table->execute(new AddNewAdminUser('bar'));
+                $transaction->commit();
+            } catch (\Exception $e) {
+                $transaction->rollback();
+            }
+        });
+    }
+}
+```
+
+And of course you use savepoints (when is supported) 
+
+```php
+class Users {
+    
+    private $table;
+    
+    public function __construct(\Kappa\Deaw\Table $table) {
+        $this->table = $table;
+    }
+    
+    public function addAdmins() {
+        $this->table->transactional(function (Transaction $transaction) {
+            try {
+                $this->table->execute(new AddNewAdminUser('foo'));                
+                $this->table->execute(new AddNewAdminUser('bar'));
+                $savepoint = $transaction->savepoint();
+                try {
+                    $this->table->execute(new AddNewAdminUser('foo_bar'));
+                } catch (\Exception $e) {
+                    $savepoint->rollback();
+                }
+                $transaction->commit();
+            } catch (\Exception $e) {
+                $transaction->rollback();
+            }
+        });
+    }
+}
+```
+
+### Query objects
+
+The basic query object provide `postFetch` method which is called after each fetch.
+This method can be used for parsing data before return or for somethings else...
+
+**TIP:** This method can be used for parsing to-many relations from string representation
+into array, for example:
+
+SQL:
+
+```sql
+CREATE TABLE `articles` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `title` varchar(255) COLLATE utf8_czech_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `articles_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
+
+INSERT INTO `articles` (`id`, `user_id`, `title`) VALUES
+(1,	1,	'Foo_article_1'),
+(2,	1,	'Foo_article_2'),
+(3,	2,	'Bar_article_1'),
+(4,	2,	'Bar_article_2');
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8_czech_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
+
+INSERT INTO `users` (`id`, `name`) VALUES
+(1,	'Foo'),
+(2,	'Bar');
+
+```
+
+```php
+class FetchToMany implements Queryable {
+    public function doQuery(QueryBuilder $builder) {
+        return $builder->createQuery()
+            ->select('users.id, users.name, GROUP_CONCAT(articles.title SEPARATOR ',') as articles')
+            ->from('users');
+    }
+    
+    public function postFetch($data) {
+        foreach ($data as $key => $row) {
+            $data[$key]['articles'] = explode(',', $data[$key]['articles'];
+        }
+        
+        return $data;
+    }
+}
+```
+
+and results will be 
+
+```php
+    [
+        [
+            'id' => '1',
+            'name' => 'Foo',
+            'articles' => [
+                'Foo_article_1',
+                'Foo_article_2'
+            ]
+        ],
+        [
+            'id' => '2',
+            'name' => 'Bar',
+            'articles' => [
+                'Bar_article_1',
+                'Bar_article_2'
+            ]
+        ]
+    ]
 ```
 
 ## Development
