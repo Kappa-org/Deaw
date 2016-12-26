@@ -1,7 +1,5 @@
 # Kappa\Deaw
 
-Tiny wrapper for better and more comfortable works with Dibi
-
 ## Content
 * [Requirements](#requirements)
 * [Installation](#installation)
