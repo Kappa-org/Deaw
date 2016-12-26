@@ -13,9 +13,12 @@
 namespace KappaTests\Deaw;
 
 use Dibi\Connection;
+use Dibi\Event;
 use Dibi\Row;
 use Kappa\Deaw\Query\QueryBuilder;
 use Kappa\Deaw\Table;
+use Kappa\Deaw\Transactions\Transaction;
+use Kappa\Deaw\Transactions\TransactionFactory;
 use Kappa\Deaw\Utils\DibiWrapper;
 use KappaTests\Deaw\Tests\ExecutableQueryObject;
 use KappaTests\Deaw\Tests\FetchOneQueryObject;
@@ -64,11 +67,11 @@ class TableTest extends TestCase
 				`id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
 				`name` varchar(255) NOT NULL,
 				`string` varchar(255) NOT NULL
-			) ENGINE='MyISAM' COLLATE 'utf8_czech_ci';"
+			) ENGINE='InnoDB' COLLATE 'utf8_czech_ci';"
         );
         $this->connection->query("INSERT INTO `user` (`name`, `string`) VALUES ('foo', 'text')");
         $this->connection->query("INSERT INTO `user` (`name`, `string`) VALUES ('bar', 'text')");
-        $this->table = new Table(new DibiWrapper(new QueryBuilder($this->connection, 'user')));
+        $this->table = new Table(new DibiWrapper(new QueryBuilder($this->connection, 'user')), new TransactionFactory($this->connection));
     }
 
     public function testFetch()
@@ -111,6 +114,39 @@ class TableTest extends TestCase
         Assert::exception(function () {
             $this->table->fetchSingle(new InvalidQueryObject());
         }, 'Kappa\Deaw\MissingBuilderReturnException');
+    }
+
+    public function testTransactionalRollback()
+    {
+        Assert::same(2, $this->connection->select('COUNT(*)')->from('user')->fetchSingle());
+        $this->table->transactional(function (Transaction $transaction) {
+            $this->table->execute(new ExecutableQueryObject());
+            $transaction->rollback();
+        });
+        Assert::same(2, $this->connection->select('COUNT(*)')->from('user')->fetchSingle());
+    }
+
+    public function testTransactionalCommit()
+    {
+        Assert::same(2, $this->connection->select('COUNT(*)')->from('user')->fetchSingle());
+        $this->table->transactional(function (Transaction $transaction) {
+            $this->table->execute(new ExecutableQueryObject());
+            $transaction->commit();
+        });
+        Assert::same(3, $this->connection->select('COUNT(*)')->from('user')->fetchSingle());
+    }
+
+    public function testTransactionalSavepoint()
+    {
+        Assert::same(2, $this->connection->select('COUNT(*)')->from('user')->fetchSingle());
+        $this->table->transactional(function (Transaction $transaction) {
+            $this->table->execute(new ExecutableQueryObject());
+            $savepoint = $transaction->savepoint();
+            $this->table->execute(new ExecutableQueryObject());
+            $savepoint->rollback();
+            $transaction->commit();
+        });
+        Assert::same(3, $this->connection->select('COUNT(*)')->from('user')->fetchSingle());
     }
 
     protected function tearDown()

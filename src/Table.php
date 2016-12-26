@@ -11,26 +11,31 @@
 namespace Kappa\Deaw;
 
 use Kappa\Deaw\Query\Queryable;
+use Kappa\Deaw\Transactions\TransactionFactory;
 use Kappa\Deaw\Utils\DibiWrapper;
+use Nette\Utils\Callback;
 
 /**
  * Class Table
- *
  * @package Kappa\Deaw
- * @author Ondřej Záruba <http://zaruba-ondrej.cz>
  */
 class Table
 {
     /** @var DibiWrapper */
     private $dibiWrapper;
 
+    /** @var TransactionFactory */
+    private $transactionFactory;
+
     /**
      * Table constructor.
      * @param DibiWrapper $dibiWrapper
+     * @param TransactionFactory $transactionFactory
      */
-    public function __construct(DibiWrapper $dibiWrapper)
+    public function __construct(DibiWrapper $dibiWrapper, TransactionFactory $transactionFactory)
     {
         $this->dibiWrapper = $dibiWrapper;
+        $this->transactionFactory = $transactionFactory;
     }
 
     /**
@@ -85,5 +90,14 @@ class Table
     public function test(Queryable $query)
     {
         return $this->dibiWrapper->processQuery($query)->test();
+    }
+
+    /**
+     * @param callable $callback
+     */
+    public function transactional(callable $callback)
+    {
+        $transaction = $this->transactionFactory->create();
+        Callback::invokeArgs($callback, [$transaction]);
     }
 }

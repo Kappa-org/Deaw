@@ -14,6 +14,7 @@ namespace Kappa\Deaw\Tests;
 
 use Kappa\Deaw\Query\QueryBuilder;
 use Kappa\Deaw\Table;
+use Kappa\Deaw\Transactions\TransactionFactory;
 use Kappa\Deaw\Utils\DibiWrapper;
 use Nette\DI\Container;
 use Tester\TestCase;
@@ -58,6 +59,14 @@ class DeawExtensionTest extends TestCase
     {
         $type = 'Kappa\Deaw\Query\QueryBuilder';
         /** @var QueryBuilder $service */
+        $service = $this->container->getByType($type);
+        Assert::type($type, $service);
+    }
+
+    public function testTransactionFactory()
+    {
+        $type = 'Kappa\Deaw\Transactions\TransactionFactory';
+        /** @var TransactionFactory $service */
         $service = $this->container->getByType($type);
         Assert::type($type, $service);
     }
