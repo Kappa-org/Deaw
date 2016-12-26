@@ -263,6 +263,7 @@ class FetchToMany implements Queryable {
     public function doQuery(QueryBuilder $builder) {
         return $builder->createQuery()
             ->select('users.id, users.name, GROUP_CONCAT(articles.title SEPARATOR ',') as articles')
+            ->leftJoin('articles')->on('articles.user_id = users.id')
             ->from('users');
     }
     
