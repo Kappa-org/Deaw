@@ -42,7 +42,7 @@ class QueryProcessorTest extends TestCase
 
     public function testValidQuery()
     {
-        Assert::type('\Dibi\Fluent', $this->queryProcessor->process(new FetchQueryObject()));
+        Assert::type('\DibiFluent', $this->queryProcessor->process(new FetchQueryObject()));
     }
 
     public function testInvalidQuery()
