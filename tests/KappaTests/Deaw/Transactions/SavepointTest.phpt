@@ -28,7 +28,7 @@ class SavepointTest extends TestCase
 {
     public function testNewSavepoint()
     {
-        $connectionMock = \Mockery::mock('\DibiConnection');
+        $connectionMock = \Mockery::mock('\Dibi\Connection');
         $connectionMock->shouldReceive('begin')->once()->andReturnNull();
         $savepoint1 = new Savepoint(new DibiWrapper($connectionMock));
         $savepoint2 = new Savepoint(new DibiWrapper($connectionMock));

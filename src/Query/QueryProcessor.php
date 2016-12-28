@@ -10,6 +10,7 @@
 
 namespace Kappa\Deaw\Query;
 
+use Dibi\Fluent;
 use Kappa\Deaw\MissingBuilderReturnException;
 
 /**
@@ -32,12 +33,12 @@ class QueryProcessor
 
     /**
      * @param Queryable $query
-     * @return \DibiFluent
+     * @return Fluent
      */
     public function process(Queryable $query)
     {
         $query = $query->doQuery($this->queryBuilder);
-        if (!$query instanceof \DibiFluent) {
+        if (!$query instanceof Fluent) {
             throw new MissingBuilderReturnException("Missing return builder from " . get_class($query));
         }
 

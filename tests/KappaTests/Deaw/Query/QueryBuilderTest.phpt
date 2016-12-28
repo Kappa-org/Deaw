@@ -12,6 +12,7 @@
 
 namespace KappaTests\Deaw\Query;
 
+use Dibi\Connection;
 use Kappa\Deaw\Dibi\DibiWrapper;
 use Kappa\Deaw\Query\QueryBuilder;
 use Tester\Assert;
@@ -37,7 +38,7 @@ class QueryBuilderTest extends TestCase
 
     protected function setUp()
     {
-        $connection = new \DibiConnection($this->config);
+        $connection = new Connection($this->config);
         $this->queryBuilder = new QueryBuilder(new DibiWrapper($connection));
     }
 

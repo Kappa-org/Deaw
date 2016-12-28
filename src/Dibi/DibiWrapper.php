@@ -10,26 +10,28 @@
 
 namespace Kappa\Deaw\Dibi;
 
+use Dibi\Connection;
+
 /**
  * Class DibiWrapper
  * @package Kappa\Dibi
  */
 class DibiWrapper
 {
-    /** @var \DibiConnection */
+    /** @var Connection */
     private $connection;
 
     /**
      * DibiWrapper constructor.
-     * @param \DibiConnection $dibiConnection
+     * @param Connection $dibiConnection
      */
-    public function __construct(\DibiConnection $dibiConnection)
+    public function __construct(Connection $dibiConnection)
     {
         $this->connection = $dibiConnection;
     }
 
     /**
-     * @return \DibiConnection
+     * @return Connection
      */
     public function getConnection()
     {

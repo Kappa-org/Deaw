@@ -12,6 +12,7 @@
 
 namespace KappaTests\Deaw\Utils;
 
+use Dibi\Fluent;
 use Kappa\Deaw\Query\QueryProcessor;
 use KappaTests\Deaw\Tests\FetchQueryObject;
 use KappaTests\Deaw\Tests\InvalidQueryObject;
@@ -31,8 +32,8 @@ class QueryProcessorTest extends TestCase
 
     protected function setUp()
     {
-        $connectionMock = \Mockery::mock('\DibiConnection');
-        $dibiFluent = new \DibiFluent($connectionMock);
+        $connectionMock = \Mockery::mock('\Dibi\Connection');
+        $dibiFluent = new Fluent($connectionMock);
         $queryBuilderMock = \Mockery::mock('\Kappa\Deaw\Query\QueryBuilder');
         $queryBuilderMock->shouldReceive('createQuery')->once()->andReturn($dibiFluent);
 
@@ -41,7 +42,7 @@ class QueryProcessorTest extends TestCase
 
     public function testValidQuery()
     {
-        Assert::type('\DibiFluent', $this->dibiWrapper->process(new FetchQueryObject()));
+        Assert::type('\Dibi\Fluent', $this->dibiWrapper->process(new FetchQueryObject()));
     }
 
     public function testInvalidQuery()

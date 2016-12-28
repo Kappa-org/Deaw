@@ -40,21 +40,21 @@ class QueryTest extends TestCase
 
     protected function setUp()
     {
-        $connection = new \DibiConnection($this->config);
+        $connection = new Connection($this->config);
         $this->query = new Query(new DibiWrapper($connection));
     }
 
     public function testInsert()
     {
         $result = $this->query->insert(self::TABLE, ['name' => 'bar']);
-        Assert::type('\DibiFluent', $result);
+        Assert::type('\Dibi\Fluent', $result);
         Assert::same("INSERT INTO `foo` (`name`) VALUES ('bar')", (string)$result);
     }
 
     public function testUpdate()
     {
         $result = $this->query->update(self::TABLE, ['name' => 'bar']);
-        Assert::type('\DibiFluent', $result);
+        Assert::type('\Dibi\Fluent', $result);
         Assert::same("UPDATE `foo` SET `name`='bar'", (string)$result);
     }
 
@@ -68,21 +68,21 @@ class QueryTest extends TestCase
     public function testSingleSelect()
     {
         $result = $this->query->select('name')->from(self::TABLE);
-        Assert::type('\DibiFluent', $result);
+        Assert::type('\Dibi\Fluent', $result);
         Assert::same("SELECT `name` FROM `foo`", (string)$result);
     }
 
     public function testMultipleSelectors()
     {
         $result = $this->query->select('name, date')->from(self::TABLE);
-        Assert::type('\DibiFluent', $result);
+        Assert::type('\Dibi\Fluent', $result);
         Assert::same("SELECT name, date FROM `foo`", (string)$result);
     }
 
     public function testStringsSelector()
     {
         $result = $this->query->select(['name', 'email'])->from(self::TABLE);
-        Assert::type('\DibiFluent', $result);
+        Assert::type('\Dibi\Fluent', $result);
         Assert::same("SELECT name, email FROM `foo`", (string)$result);
     }
 
