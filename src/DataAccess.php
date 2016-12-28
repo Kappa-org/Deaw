@@ -11,8 +11,8 @@
 namespace Kappa\Deaw;
 
 use Kappa\Deaw\Query\Queryable;
+use Kappa\Deaw\Query\QueryProcessor;
 use Kappa\Deaw\Transactions\TransactionFactory;
-use Kappa\Deaw\Utils\DibiWrapper;
 use Nette\Utils\Callback;
 
 /**
@@ -21,30 +21,30 @@ use Nette\Utils\Callback;
  */
 class DataAccess
 {
-    /** @var DibiWrapper */
-    private $dibiWrapper;
+    /** @var QueryProcessor */
+    private $queryProcessor;
 
     /** @var TransactionFactory */
     private $transactionFactory;
 
     /**
-     * Table constructor.
-     * @param DibiWrapper $dibiWrapper
+     * DataAccess constructor.
+     * @param QueryProcessor $queryProcessor
      * @param TransactionFactory $transactionFactory
      */
-    public function __construct(DibiWrapper $dibiWrapper, TransactionFactory $transactionFactory)
+    public function __construct(QueryProcessor $queryProcessor, TransactionFactory $transactionFactory)
     {
-        $this->dibiWrapper = $dibiWrapper;
+        $this->queryProcessor = $queryProcessor;
         $this->transactionFactory = $transactionFactory;
     }
 
     /**
      * @param Queryable $query
-     * @return \Dibi\Row|FALSE
+     * @return \DibiRow|FALSE
      */
     public function fetchOne(Queryable $query)
     {
-        $data = $this->dibiWrapper->processQuery($query)->fetch();
+        $data = $this->queryProcessor->process($query)->fetch();
 
         return $query->postFetch($data);
     }
@@ -57,7 +57,7 @@ class DataAccess
      */
     public function fetch(Queryable $query, $limit = null, $offset = null)
     {
-        $data = $this->dibiWrapper->processQuery($query)->fetchAll($offset, $limit);
+        $data = $this->queryProcessor->process($query)->fetchAll($offset, $limit);
 
         return $query->postFetch($data);
     }
@@ -68,7 +68,7 @@ class DataAccess
      */
     public function fetchSingle(Queryable $query)
     {
-        $data = $this->dibiWrapper->processQuery($query)->fetchSingle();
+        $data = $this->queryProcessor->process($query)->fetchSingle();
 
         return $query->postFetch($data);
     }
@@ -76,11 +76,11 @@ class DataAccess
     /**
      * @param Queryable $query
      * @param null $return
-     * @return \Dibi\Result|int
+     * @return \DibiResult|int
      */
     public function execute(Queryable $query, $return = null)
     {
-        return $this->dibiWrapper->processQuery($query)->execute($return);
+        return $this->queryProcessor->process($query)->execute($return);
     }
 
     /**
@@ -89,7 +89,7 @@ class DataAccess
      */
     public function test(Queryable $query)
     {
-        return $this->dibiWrapper->processQuery($query)->test();
+        return $this->queryProcessor->process($query)->test();
     }
 
     /**

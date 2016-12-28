@@ -12,12 +12,12 @@
 
 namespace KappaTests\Deaw;
 
-use Dibi\Row;
 use Kappa\Deaw\DataAccess;
+use Kappa\Deaw\Dibi\DibiWrapper;
 use Kappa\Deaw\Query\QueryBuilder;
+use Kappa\Deaw\Query\QueryProcessor;
 use Kappa\Deaw\Transactions\Transaction;
 use Kappa\Deaw\Transactions\TransactionFactory;
-use Kappa\Deaw\Utils\DibiWrapper;
 use KappaTests\Deaw\Tests\ExecutableQueryObject;
 use KappaTests\Deaw\Tests\FetchOneQueryObject;
 use KappaTests\Deaw\Tests\FetchQueryObject;
@@ -67,7 +67,8 @@ class DataAccessTest extends TestCase
         );
         $this->connection->query("INSERT INTO `user` (`name`, `string`) VALUES ('foo', 'text')");
         $this->connection->query("INSERT INTO `user` (`name`, `string`) VALUES ('bar', 'text')");
-        $this->table = new DataAccess(new DibiWrapper(new QueryBuilder($this->connection, 'user')), new TransactionFactory($this->connection));
+        $dibiWrapper = new DibiWrapper($this->connection);
+        $this->table = new DataAccess(new QueryProcessor(new QueryBuilder($dibiWrapper, 'user')), new TransactionFactory($dibiWrapper));
     }
 
     public function testFetch()

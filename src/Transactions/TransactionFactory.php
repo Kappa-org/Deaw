@@ -10,22 +10,24 @@
 
 namespace Kappa\Deaw\Transactions;
 
+use Kappa\Deaw\Dibi\DibiWrapper;
+
 /**
  * Class TransactionFactory
  * @package Kappa\Deaw
  */
 class TransactionFactory
 {
-    /** @var \DibiConnection */
-    private $connection;
+    /** @var DibiWrapper */
+    private $wrapper;
 
     /**
      * TransactionFactory constructor.
-     * @param \DibiConnection $connection
+     * @param DibiWrapper $dibiWrapper
      */
-    public function __construct(\DibiConnection $connection)
+    public function __construct(DibiWrapper $dibiWrapper)
     {
-        $this->connection = $connection;
+        $this->wrapper = $dibiWrapper;
     }
 
     /**
@@ -34,6 +36,6 @@ class TransactionFactory
      */
     public function create()
     {
-        return new Transaction($this->connection);
+        return new Transaction($this->wrapper);
     }
 }

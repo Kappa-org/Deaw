@@ -10,23 +10,25 @@
 
 namespace Kappa\Deaw\Transactions;
 
+use Kappa\Deaw\Dibi\DibiWrapper;
+
 /**
  * Class Transaction
  * @package Kappa\Deaw
  */
 class Transaction
 {
-    /** @var \DibiConnection */
-    private $connection;
+    /** @var DibiWrapper */
+    private $wrapper;
 
     /**
      * Transaction constructor.
-     * @param \DibiConnection $connection
+     * @param DibiWrapper $dibiWrapper
      */
-    public function __construct(\DibiConnection $connection)
+    public function __construct(DibiWrapper $dibiWrapper)
     {
-        $this->connection = $connection;
-        $this->connection->begin();
+        $this->wrapper = $dibiWrapper;
+        $this->wrapper->getConnection()->begin();
     }
 
     /**
@@ -34,7 +36,7 @@ class Transaction
      */
     public function commit()
     {
-        $this->connection->commit();
+        $this->wrapper->getConnection()->commit();
     }
 
     /**
@@ -42,7 +44,7 @@ class Transaction
      */
     public function rollback()
     {
-        $this->connection->rollback();
+        $this->wrapper->getConnection()->rollback();
     }
 
     /**
@@ -51,6 +53,6 @@ class Transaction
      */
     public function savepoint()
     {
-        return new Savepoint($this->connection);
+        return new Savepoint($this->wrapper);
     }
 }

@@ -10,29 +10,31 @@
 
 namespace Kappa\Deaw\Query;
 
+use Kappa\Deaw\Dibi\DibiWrapper;
+
 /**
  * Class QueryBuilder
  * @package Kappa\Deaw\Query
  */
 class QueryBuilder
 {
-	/** @var \DibiConnection */
-	private $connection;
+    /** @var DibiWrapper */
+    private $wrapper;
 
     /**
      * QueryBuilder constructor.
-     * @param \DibiConnection $connection
+     * @param DibiWrapper $dibiWrapper
      */
-	public function __construct(\DibiConnection $connection)
-	{
-		$this->connection = $connection;
-	}
+    public function __construct(DibiWrapper $dibiWrapper)
+    {
+        $this->wrapper = $dibiWrapper;
+    }
 
-	/**
-	 * @return Query
-	 */
-	public function createQuery()
-	{
-		return new Query($this->connection);
-	}
+    /**
+     * @return Query
+     */
+    public function createQuery()
+    {
+        return new Query($this->wrapper);
+    }
 }

@@ -10,7 +10,7 @@
 
 namespace Kappa\Deaw\Transactions;
 
-use Dibi\Connection;
+use Kappa\Deaw\Dibi\DibiWrapper;
 use Nette\Utils\Random;
 
 /**
@@ -22,18 +22,18 @@ class Savepoint
     /** @var string */
     private $name;
 
-    /** @var \DibiConnection */
-    private $connection;
+    /** @var DibiWrapper */
+    private $wrapper;
 
     /**
      * Savepoint constructor.
-     * @param \DibiConnection $connection
+     * @param DibiWrapper $dibiWrapper
      */
-    public function __construct(\DibiConnection $connection)
+    public function __construct(DibiWrapper $dibiWrapper)
     {
         $this->name = Random::generate() . time();
-        $this->connection = $connection;
-        $this->connection->begin($this->name);
+        $this->wrapper = $dibiWrapper;
+        $this->wrapper->getConnection()->begin($this->name);
     }
 
     /**
@@ -41,7 +41,7 @@ class Savepoint
      */
     public function rollback()
     {
-        $this->connection->rollback($this->name);
+        $this->wrapper->getConnection()->rollback($this->name);
     }
 
     /**
@@ -49,7 +49,7 @@ class Savepoint
      */
     public function release()
     {
-        $this->connection->commit($this->name);
+        $this->wrapper->getConnection()->commit($this->name);
     }
 
     /**

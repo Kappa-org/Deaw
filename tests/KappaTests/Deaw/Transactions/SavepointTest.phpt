@@ -13,6 +13,7 @@
 namespace KappaTests\Deaw\Transactions;
 
 use Dibi\Connection;
+use Kappa\Deaw\Dibi\DibiWrapper;
 use Kappa\Deaw\Transactions\Savepoint;
 use Tester\Assert;
 use Tester\TestCase;
@@ -27,10 +28,10 @@ class SavepointTest extends TestCase
 {
     public function testNewSavepoint()
     {
-        $connectionMock = \Mockery::mock('DibiConnection');
+        $connectionMock = \Mockery::mock('\DibiConnection');
         $connectionMock->shouldReceive('begin')->once()->andReturnNull();
-        $savepoint1 = new Savepoint($connectionMock);
-        $savepoint2 = new Savepoint($connectionMock);
+        $savepoint1 = new Savepoint(new DibiWrapper($connectionMock));
+        $savepoint2 = new Savepoint(new DibiWrapper($connectionMock));
         Assert::notSame($savepoint1->getName(), $savepoint2->getName());
     }
 }

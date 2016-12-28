@@ -25,8 +25,11 @@ class DeawExtension extends CompilerExtension
         $builder->addDefinition($this->prefix('queryBuilder'))
             ->setClass('Kappa\Deaw\Query\QueryBuilder');
 
+        $builder->addDefinition($this->prefix('queryProcessor'))
+            ->setClass('Kappa\Deaw\Query\QueryProcessor');
+
         $builder->addDefinition($this->prefix('dibiWrapper'))
-            ->setClass('Kappa\Deaw\Utils\DibiWrapper');
+            ->setClass('Kappa\Deaw\Dibi\DibiWrapper');
 
         $builder->addDefinition($this->prefix('transactionFactory'))
             ->setClass('Kappa\Deaw\Transactions\TransactionFactory');

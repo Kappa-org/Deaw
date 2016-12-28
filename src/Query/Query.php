@@ -10,6 +10,7 @@
 
 namespace Kappa\Deaw\Query;
 
+use Kappa\Deaw\Dibi\DibiWrapper;
 use Kappa\Deaw\InvalidArgumentException;
 
 /**
@@ -18,16 +19,16 @@ use Kappa\Deaw\InvalidArgumentException;
  */
 class Query
 {
-    /** @var \DibiConnection */
-    private $connection;
+    /** @var DibiWrapper */
+    private $wrapper;
 
     /**
      * Query constructor.
-     * @param \DibiConnection $connection
+     * @param DibiWrapper $dibiWrapper
      */
-    public function __construct(\DibiConnection $connection)
+    public function __construct(DibiWrapper $dibiWrapper)
     {
-        $this->connection = $connection;
+        $this->wrapper = $dibiWrapper;
     }
 
     /**
@@ -42,9 +43,9 @@ class Query
                     throw new InvalidArgumentException("Invalid argument for 'select()' method in query object. Select requires only strings or array of strings");
                 }
             }
-            $dibiFluent = $this->connection->select(implode(', ', $selects));
+            $dibiFluent = $this->wrapper->getConnection()->select(implode(', ', $selects));
         } else if (is_string($selects)) {
-            $dibiFluent = $this->connection->select($selects);
+            $dibiFluent = $this->wrapper->getConnection()->select($selects);
         } else {
             throw new InvalidArgumentException("Invalid argument for 'select()' method in query object. Select requires only strings or array of strings");
         }
@@ -59,7 +60,7 @@ class Query
      */
     public function update($tableName, array $data)
     {
-        return $this->connection->update($tableName, $data);
+        return $this->wrapper->getConnection()->update($tableName, $data);
     }
 
     /**
@@ -69,7 +70,7 @@ class Query
      */
     public function insert($tableName, array $data)
     {
-        return $this->connection->insert($tableName, $data);
+        return $this->wrapper->getConnection()->insert($tableName, $data);
     }
 
     /**
@@ -78,6 +79,6 @@ class Query
      */
     public function delete($tableName)
     {
-        return $this->connection->delete($tableName);
+        return $this->wrapper->getConnection()->delete($tableName);
     }
 }

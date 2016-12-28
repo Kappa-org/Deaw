@@ -12,7 +12,7 @@
 
 namespace KappaTests\Deaw\Utils;
 
-use Kappa\Deaw\Utils\DibiWrapper;
+use Kappa\Deaw\Query\QueryProcessor;
 use KappaTests\Deaw\Tests\FetchQueryObject;
 use KappaTests\Deaw\Tests\InvalidQueryObject;
 use Tester\Assert;
@@ -24,7 +24,7 @@ require_once __DIR__ . '/../../bootstrap.php';
  * Class DibiWrapperTest
  * @package KappaTests\Deaw\Utils
  */
-class DibiWrapperTest extends TestCase 
+class QueryProcessorTest extends TestCase
 {
     /** @var DibiWrapper */
     private $dibiWrapper;
@@ -36,21 +36,21 @@ class DibiWrapperTest extends TestCase
         $queryBuilderMock = \Mockery::mock('\Kappa\Deaw\Query\QueryBuilder');
         $queryBuilderMock->shouldReceive('createQuery')->once()->andReturn($dibiFluent);
 
-        $this->dibiWrapper = new DibiWrapper($queryBuilderMock);
+        $this->dibiWrapper = new QueryProcessor($queryBuilderMock);
     }
 
     public function testValidQuery()
     {
-        Assert::type('\DibiFluent', $this->dibiWrapper->processQuery(new FetchQueryObject()));
+        Assert::type('\DibiFluent', $this->dibiWrapper->process(new FetchQueryObject()));
     }
 
     public function testInvalidQuery()
     {
         Assert::exception(function () {
-            $this->dibiWrapper->processQuery(new InvalidQueryObject());
+            $this->dibiWrapper->process(new InvalidQueryObject());
         }, '\Kappa\Deaw\MissingBuilderReturnException');
     }
 }
 
 
-\run(new DibiWrapperTest);
+\run(new QueryProcessorTest);

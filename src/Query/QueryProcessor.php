@@ -8,17 +8,15 @@
  * file that was distributed with this source code.
  */
 
-namespace Kappa\Deaw\Utils;
+namespace Kappa\Deaw\Query;
 
 use Kappa\Deaw\MissingBuilderReturnException;
-use Kappa\Deaw\Query\Queryable;
-use Kappa\Deaw\Query\QueryBuilder;
 
 /**
- * Class DibiWrapper
+ * Class QueryProcessor
  * @package Kappa\Deaw\Utils
  */
-class DibiWrapper
+class QueryProcessor
 {
     /** @var QueryBuilder */
     private $queryBuilder;
@@ -36,7 +34,7 @@ class DibiWrapper
      * @param Queryable $query
      * @return \DibiFluent
      */
-    public function processQuery(Queryable $query)
+    public function process(Queryable $query)
     {
         $query = $query->doQuery($this->queryBuilder);
         if (!$query instanceof \DibiFluent) {

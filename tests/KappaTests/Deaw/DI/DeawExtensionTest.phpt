@@ -13,10 +13,10 @@
 namespace Kappa\Deaw\Tests;
 
 use Kappa\Deaw\DataAccess;
+use Kappa\Deaw\Dibi\DibiWrapper;
 use Kappa\Deaw\Query\QueryBuilder;
-use Kappa\Deaw\Table;
+use Kappa\Deaw\Query\QueryProcessor;
 use Kappa\Deaw\Transactions\TransactionFactory;
-use Kappa\Deaw\Utils\DibiWrapper;
 use Nette\DI\Container;
 use Tester\TestCase;
 use Tester\Assert;
@@ -48,10 +48,10 @@ class DeawExtensionTest extends TestCase
         Assert::type($type, $service);
     }
 
-    public function testDibiWrapper()
+    public function testQueryProcessor()
     {
-        $type = 'Kappa\Deaw\Utils\DibiWrapper';
-        /** @var DibiWrapper $service */
+        $type = 'Kappa\Deaw\Query\QueryProcessor';
+        /** @var QueryProcessor $service */
         $service = $this->container->getByType($type);
         Assert::type($type, $service);
     }
@@ -68,6 +68,14 @@ class DeawExtensionTest extends TestCase
     {
         $type = 'Kappa\Deaw\Transactions\TransactionFactory';
         /** @var TransactionFactory $service */
+        $service = $this->container->getByType($type);
+        Assert::type($type, $service);
+    }
+
+    public function testDibiWrapper()
+    {
+        $type = 'Kappa\Deaw\Dibi\DibiWrapper';
+        /** @var DibiWrapper $service */
         $service = $this->container->getByType($type);
         Assert::type($type, $service);
     }
