@@ -18,13 +18,13 @@
   "require": {
     "php": ">= 5.4.0",
     "dibi/dibi": "^3.0",
-    "nette/di": "^2.3"
+    "nette/di": "^2.2",
+    "nette/utils": "^2.2"
   },
   "require-dev": {
     "nette/tester": "~1.4",
     "mockery/mockery": "~0.9",
-    "tracy/tracy": "~2.3",
-    "nette/nette": "~2.3"
+    "nette/nette": "^2.2"
   },
   "autoload": {
     "psr-4": {
