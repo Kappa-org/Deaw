@@ -10,22 +10,20 @@
 
 namespace Kappa\Deaw\Query;
 
-use Dibi\Connection;
-
 /**
  * Class QueryBuilder
  * @package Kappa\Deaw\Query
  */
 class QueryBuilder
 {
-	/** @var Connection */
+	/** @var \DibiConnection */
 	private $connection;
 
-	/**
-	 * QueryBuilder constructor.
-	 * @param Connection $connection
-	 */
-	public function __construct(Connection $connection)
+    /**
+     * QueryBuilder constructor.
+     * @param \DibiConnection $connection
+     */
+	public function __construct(\DibiConnection $connection)
 	{
 		$this->connection = $connection;
 	}

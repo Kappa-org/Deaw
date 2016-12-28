@@ -10,22 +10,20 @@
 
 namespace Kappa\Deaw\Transactions;
 
-use Dibi\Connection;
-
 /**
  * Class Transaction
  * @package Kappa\Deaw
  */
 class Transaction
 {
-    /** @var Connection */
+    /** @var \DibiConnection */
     private $connection;
 
     /**
      * Transaction constructor.
-     * @param Connection $connection
+     * @param \DibiConnection $connection
      */
-    public function __construct(Connection $connection)
+    public function __construct(\DibiConnection $connection)
     {
         $this->connection = $connection;
         $this->connection->begin();

@@ -10,7 +10,6 @@
 
 namespace Kappa\Deaw\Query\QueryObjects;
 
-use Dibi\Fluent;
 use Kappa\Deaw\Query\QueryBuilder;
 use Kappa\Deaw\Query\QueryObject;
 
@@ -44,7 +43,7 @@ class FindBy extends QueryObject
 
     /**
      * @param QueryBuilder $builder
-     * @return Fluent
+     * @return \DibiFluent
      */
     public function doQuery(QueryBuilder $builder)
     {

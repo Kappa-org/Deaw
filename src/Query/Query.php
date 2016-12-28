@@ -10,7 +10,6 @@
 
 namespace Kappa\Deaw\Query;
 
-use Dibi\Connection;
 use Kappa\Deaw\InvalidArgumentException;
 
 /**
@@ -19,21 +18,21 @@ use Kappa\Deaw\InvalidArgumentException;
  */
 class Query
 {
-    /** @var Connection */
+    /** @var \DibiConnection */
     private $connection;
-    
+
     /**
      * Query constructor.
-     * @param Connection $connection
+     * @param \DibiConnection $connection
      */
-    public function __construct(Connection $connection)
+    public function __construct(\DibiConnection $connection)
     {
         $this->connection = $connection;
     }
-    
+
     /**
-     * @param string $selects
-     * @return \Dibi\Fluent
+     * @param string|array $selects
+     * @return \DibiFluent
      */
     public function select($selects)
     {
@@ -56,7 +55,7 @@ class Query
     /**
      * @param string $tableName
      * @param array $data
-     * @return \Dibi\Fluent
+     * @return \DibiFluent
      */
     public function update($tableName, array $data)
     {
@@ -66,7 +65,7 @@ class Query
     /**
      * @param string $tableName
      * @param array $data
-     * @return \Dibi\Fluent
+     * @return \DibiFluent
      */
     public function insert($tableName, array $data)
     {
@@ -75,7 +74,7 @@ class Query
 
     /**
      * @param string $tableName
-     * @return \Dibi\Fluent
+     * @return \DibiFluent
      */
     public function delete($tableName)
     {

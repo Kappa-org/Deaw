@@ -22,14 +22,14 @@ class Savepoint
     /** @var string */
     private $name;
 
-    /** @var Connection */
+    /** @var \DibiConnection */
     private $connection;
 
     /**
      * Savepoint constructor.
-     * @param Connection $connection
+     * @param \DibiConnection $connection
      */
-    public function __construct(Connection $connection)
+    public function __construct(\DibiConnection $connection)
     {
         $this->name = Random::generate() . time();
         $this->connection = $connection;

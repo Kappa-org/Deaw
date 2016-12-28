@@ -12,7 +12,6 @@
 
 namespace KappaTests\Deaw;
 
-use Dibi\Connection;
 use Dibi\Row;
 use Kappa\Deaw\DataAccess;
 use Kappa\Deaw\Query\QueryBuilder;
@@ -38,10 +37,10 @@ class DataAccessTest extends TestCase
 {
     const TABLE = 'user';
 
-    /** @var Table */
+    /** @var DataAccess */
     private $table;
 
-    /** @var Connection */
+    /** @var \DibiConnection */
     private $connection;
 
     /** @var array */
@@ -57,7 +56,7 @@ class DataAccessTest extends TestCase
 
     protected function setUp()
     {
-        $this->connection = new Connection($this->config);
+        $this->connection = new \DibiConnection($this->config);
         $this->connection->query("DROP TABLE IF EXISTS `user`;");
         $this->connection->query("
 			CREATE TABLE `user` (
@@ -74,14 +73,14 @@ class DataAccessTest extends TestCase
     public function testFetch()
     {
         Assert::equal([
-            new Row(['id' => 1, 'name' => 'foo', 'string' => 'text']),
-            new Row(['id' => 2, 'name' => 'bar', 'string' => 'text'])
+            new \DibiRow(['id' => 1, 'name' => 'foo', 'string' => 'text']),
+            new \DibiRow(['id' => 2, 'name' => 'bar', 'string' => 'text'])
         ], $this->table->fetch(new FetchQueryObject()));
     }
 
     public function testFetchOne()
     {
-        Assert::equal(new Row(['id' => 1, 'name' => 'foo', 'string' => 'text']), $this->table->fetchOne(new FetchOneQueryObject()));
+        Assert::equal(new \DibiRow(['id' => 1, 'name' => 'foo', 'string' => 'text']), $this->table->fetchOne(new FetchOneQueryObject()));
     }
 
     public function testFetchSingle()
