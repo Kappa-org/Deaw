@@ -27,8 +27,8 @@ require_once __DIR__ . '/../../bootstrap.php';
  */
 class QueryProcessorTest extends TestCase
 {
-    /** @var DibiWrapper */
-    private $dibiWrapper;
+    /** @var QueryProcessor  */
+    private $queryProcessor;
 
     protected function setUp()
     {
@@ -37,18 +37,18 @@ class QueryProcessorTest extends TestCase
         $queryBuilderMock = \Mockery::mock('\Kappa\Deaw\Query\QueryBuilder');
         $queryBuilderMock->shouldReceive('createQuery')->once()->andReturn($dibiFluent);
 
-        $this->dibiWrapper = new QueryProcessor($queryBuilderMock);
+        $this->queryProcessor = new QueryProcessor($queryBuilderMock);
     }
 
     public function testValidQuery()
     {
-        Assert::type('\Dibi\Fluent', $this->dibiWrapper->process(new FetchQueryObject()));
+        Assert::type('\Dibi\Fluent', $this->queryProcessor->process(new FetchQueryObject()));
     }
 
     public function testInvalidQuery()
     {
         Assert::exception(function () {
-            $this->dibiWrapper->process(new InvalidQueryObject());
+            $this->queryProcessor->process(new InvalidQueryObject());
         }, '\Kappa\Deaw\MissingBuilderReturnException');
     }
 }
