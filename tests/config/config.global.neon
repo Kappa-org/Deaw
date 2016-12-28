@@ -1,0 +1,3 @@
+extensions:
+    dibi: Dibi\Bridges\Nette\DibiExtension22
+    - Kappa\Deaw\DI\DeawExtension
