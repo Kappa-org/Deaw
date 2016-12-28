@@ -16,10 +16,10 @@ use Kappa\Deaw\Utils\DibiWrapper;
 use Nette\Utils\Callback;
 
 /**
- * Class Table
+ * Class DataAccess
  * @package Kappa\Deaw
  */
-class Table
+class DataAccess
 {
     /** @var DibiWrapper */
     private $dibiWrapper;

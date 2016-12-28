@@ -63,7 +63,7 @@ The basic principe of this package is combine [_domain queries_(cz)](https://www
  and _`dibi` way_. This package provides a query objects which can be used for fetching or 
  executing queries and which is distributed into custom classes. 
 
-Usage this package is very easy. `Kappa\Deaw` provides one base class `Kappa\Deaw\Table` for make works 
+Usage this package is very easy. `Kappa\Deaw` provides one base class `Kappa\Deaw\DataAccess` for make works 
 with `dibi` more comfortable. With this class you can make all fetches, executes and 
 you can work with transactions.
 
@@ -72,10 +72,10 @@ Firstly, you can inject this class into your model
 ```php
 class Users {
     
-    private $table;
+    private $dataAccess;
     
-    public function __construct(\Kappa\Deaw\Table $table) {
-        $this->table = $table;
+    public function __construct(\Kappa\Deaw\DataAccess $dataAccess) {
+        $this->dataAccess = $dataAccess;
     }
 }
 ```
@@ -99,14 +99,14 @@ and now we can combine into model
 ```php
 class Users {
     
-    private $table;
+    private $dataAccess;
     
-    public function __construct(\Kappa\Deaw\Table $table) {
-        $this->table = $table;
+    public function __construct(\Kappa\Deaw\DataAccess $dataAccess) {
+        $this->dataAccess = $dataAccess;
     }
     
     public function getAdmins() {
-        return $this->table->fetch(new FetchAdminUsers());
+        return $this->dataAccess->fetch(new FetchAdminUsers());
     }
 }
 ```
@@ -148,14 +148,14 @@ and model
 ```php
 class Users {
     
-    private $table;
+    private $dataAccess;
     
-    public function __construct(\Kappa\Deaw\Table $table) {
-        $this->table = $table;
+    public function __construct(\Kappa\Deaw\DataAccess $dataAccess) {
+        $this->dataAccess = $dataAccess;
     }
     
     public function addAdmin($name) {
-        return $this->table->execute(new AddNewAdminUser($name));
+        return $this->dataAccess->execute(new AddNewAdminUser($name));
     }
 }
 ```
@@ -169,17 +169,17 @@ We use `AddNewAdminUser` query object from previous example for example:
 ```php
 class Users {
     
-    private $table;
+    private $dataAccess;
     
-    public function __construct(\Kappa\Deaw\Table $table) {
-        $this->table = $table;
+    public function __construct(\Kappa\Deaw\DataAccess $dataAccess) {
+        $this->dataAccess = $dataAccess;
     }
     
     public function addAdmins() {
-        $this->table->transactional(function (Transaction $transaction) {
+        $this->dataAccess->transactional(function (Transaction $transaction) {
             try {
-                $this->table->execute(new AddNewAdminUser('foo'));
-                $this->table->execute(new AddNewAdminUser('bar'));
+                $this->dataAccess->execute(new AddNewAdminUser('foo'));
+                $this->dataAccess->execute(new AddNewAdminUser('bar'));
                 $transaction->commit();
             } catch (\Exception $e) {
                 $transaction->rollback();
@@ -194,20 +194,20 @@ And of course you use savepoints (when is supported)
 ```php
 class Users {
     
-    private $table;
+    private $dataAccess;
     
-    public function __construct(\Kappa\Deaw\Table $table) {
-        $this->table = $table;
+    public function __construct(\Kappa\Deaw\DataAccess $dataAccess) {
+        $this->dataAccess = $dataAccess;
     }
     
     public function addAdmins() {
-        $this->table->transactional(function (Transaction $transaction) {
+        $this->dataAccess->transactional(function (Transaction $transaction) {
             try {
-                $this->table->execute(new AddNewAdminUser('foo'));                
-                $this->table->execute(new AddNewAdminUser('bar'));
+                $this->dataAccess->execute(new AddNewAdminUser('foo'));                
+                $this->dataAccess->execute(new AddNewAdminUser('bar'));
                 $savepoint = $transaction->savepoint();
                 try {
-                    $this->table->execute(new AddNewAdminUser('foo_bar'));
+                    $this->dataAccess->execute(new AddNewAdminUser('foo_bar'));
                 } catch (\Exception $e) {
                     $savepoint->rollback();
                 }

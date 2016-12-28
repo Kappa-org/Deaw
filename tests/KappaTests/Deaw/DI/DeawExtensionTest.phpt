@@ -12,6 +12,7 @@
 
 namespace Kappa\Deaw\Tests;
 
+use Kappa\Deaw\DataAccess;
 use Kappa\Deaw\Query\QueryBuilder;
 use Kappa\Deaw\Table;
 use Kappa\Deaw\Transactions\TransactionFactory;
@@ -41,8 +42,8 @@ class DeawExtensionTest extends TestCase
 
     public function testTable()
     {
-        $type = 'Kappa\Deaw\Table';
-        /** @var Table $service */
+        $type = 'Kappa\Deaw\DataAccess';
+        /** @var DataAccess $service */
         $service = $this->container->getByType($type);
         Assert::type($type, $service);
     }

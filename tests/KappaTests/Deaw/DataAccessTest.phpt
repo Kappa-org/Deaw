@@ -13,10 +13,9 @@
 namespace KappaTests\Deaw;
 
 use Dibi\Connection;
-use Dibi\Event;
 use Dibi\Row;
+use Kappa\Deaw\DataAccess;
 use Kappa\Deaw\Query\QueryBuilder;
-use Kappa\Deaw\Table;
 use Kappa\Deaw\Transactions\Transaction;
 use Kappa\Deaw\Transactions\TransactionFactory;
 use Kappa\Deaw\Utils\DibiWrapper;
@@ -32,12 +31,10 @@ use Tester\Assert;
 require_once __DIR__ . '/../bootstrap.php';
 
 /**
- * Class TableTest
- *
+ * Class DataAccessTest
  * @package KappaTests\Deaw
- * @author Ondřej Záruba <http://zaruba-ondrej.cz>
  */
-class TableTest extends TestCase
+class DataAccessTest extends TestCase
 {
     const TABLE = 'user';
 
@@ -71,7 +68,7 @@ class TableTest extends TestCase
         );
         $this->connection->query("INSERT INTO `user` (`name`, `string`) VALUES ('foo', 'text')");
         $this->connection->query("INSERT INTO `user` (`name`, `string`) VALUES ('bar', 'text')");
-        $this->table = new Table(new DibiWrapper(new QueryBuilder($this->connection, 'user')), new TransactionFactory($this->connection));
+        $this->table = new DataAccess(new DibiWrapper(new QueryBuilder($this->connection, 'user')), new TransactionFactory($this->connection));
     }
 
     public function testFetch()
@@ -157,4 +154,4 @@ class TableTest extends TestCase
 
 Environment::lock("database", dirname(TEMP_DIR));
 
-\run(new TableTest(getDatabaseConnection()));
+\run(new DataAccessTest(getDatabaseConnection()));

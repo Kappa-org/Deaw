@@ -31,7 +31,7 @@ class DeawExtension extends CompilerExtension
         $builder->addDefinition($this->prefix('transactionFactory'))
             ->setClass('Kappa\Deaw\Transactions\TransactionFactory');
 
-        $builder->addDefinition($this->prefix('table'))
-            ->setClass('Kappa\Deaw\Table');
+        $builder->addDefinition($this->prefix('DataAccess'))
+            ->setClass('Kappa\Deaw\DataAccess');
     }
 }
