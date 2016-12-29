@@ -11,6 +11,7 @@
 namespace Kappa\Deaw\Transactions;
 
 use Kappa\Deaw\Dibi\DibiWrapper;
+use Nette\Utils\Random;
 
 /**
  * Class Transaction
@@ -18,41 +19,70 @@ use Kappa\Deaw\Dibi\DibiWrapper;
  */
 class Transaction
 {
-    /** @var DibiWrapper */
-    private $wrapper;
+	/** @var bool */
+	static $existsActiveTransaction = false;
 
-    /**
-     * Transaction constructor.
-     * @param DibiWrapper $dibiWrapper
-     */
-    public function __construct(DibiWrapper $dibiWrapper)
-    {
-        $this->wrapper = $dibiWrapper;
-        $this->wrapper->getConnection()->begin();
-    }
+	/** @var DibiWrapper */
+	private $wrapper;
 
-    /**
-     * Commit transaction
-     */
-    public function commit()
-    {
-        $this->wrapper->getConnection()->commit();
-    }
+	/** @var null|string */
+	private $savepoint;
 
-    /**
-     * Rollback transaction
-     */
-    public function rollback()
-    {
-        $this->wrapper->getConnection()->rollback();
-    }
+	/**
+	 * Transaction constructor.
+	 * @param DibiWrapper $dibiWrapper
+	 * @param null|string $savepoint
+	 */
+	private function __construct(DibiWrapper $dibiWrapper, $savepoint = null)
+	{
+		$this->wrapper = $dibiWrapper;
+		$this->savepoint = $savepoint;
+		$this->wrapper->getConnection()->begin($this->savepoint);
+	}
 
-    /**
-     * Create a new savepoint
-     * @return Savepoint
-     */
-    public function savepoint()
-    {
-        return new Savepoint($this->wrapper);
-    }
+	/**
+	 * @param DibiWrapper $dibiWrapper
+	 * @return Transaction
+	 */
+	public static function create(DibiWrapper $dibiWrapper)
+	{
+		$savepoint = null;
+		if (Transaction::$existsActiveTransaction) {
+			$savepoint = Random::generate() . time();
+		} else {
+			Transaction::$existsActiveTransaction = true;
+		}
+
+		return new Transaction($dibiWrapper, $savepoint);
+	}
+
+	/**
+	 * Commit transaction
+	 */
+	public function commit()
+	{
+		if (Transaction::$existsActiveTransaction) {
+			Transaction::$existsActiveTransaction = false;
+		}
+		$this->wrapper->getConnection()->commit($this->savepoint);
+	}
+
+	/**
+	 * Rollback transaction
+	 */
+	public function rollback()
+	{
+		if (Transaction::$existsActiveTransaction) {
+			Transaction::$existsActiveTransaction = false;
+		}
+		$this->wrapper->getConnection()->rollback($this->savepoint);
+	}
+
+	/**
+	 * @return null|string
+	 */
+	public function getSavepointName()
+	{
+		return $this->savepoint;
+	}
 }

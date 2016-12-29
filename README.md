@@ -189,7 +189,7 @@ class Users {
 }
 ```
 
-And of course you use savepoints (when is supported) 
+And of course you use savepoints (when is supported) as nested transactions 
 
 ```php
 class Users {
@@ -205,12 +205,14 @@ class Users {
             try {
                 $this->dataAccess->execute(new AddNewAdminUser('foo'));                
                 $this->dataAccess->execute(new AddNewAdminUser('bar'));
-                $savepoint = $transaction->savepoint();
-                try {
-                    $this->dataAccess->execute(new AddNewAdminUser('foo_bar'));
-                } catch (\Exception $e) {
-                    $savepoint->rollback();
-                }
+                $this->dataAccess->transactional(function (Transaction $transaction) {
+                    try {
+                        $this->dataAccess->execute(new AddNewAdminUser('foo_bar'));
+                        $transaction->commit(); // savepoint release is not required
+                    } catch (\Exception $e) {
+                        $transaction->rollback();
+                    }  
+                });
                 $transaction->commit();
             } catch (\Exception $e) {
                 $transaction->rollback();

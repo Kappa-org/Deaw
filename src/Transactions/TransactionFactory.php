@@ -18,24 +18,24 @@ use Kappa\Deaw\Dibi\DibiWrapper;
  */
 class TransactionFactory
 {
-    /** @var DibiWrapper */
-    private $wrapper;
+	/** @var DibiWrapper */
+	private $wrapper;
 
-    /**
-     * TransactionFactory constructor.
-     * @param DibiWrapper $dibiWrapper
-     */
-    public function __construct(DibiWrapper $dibiWrapper)
-    {
-        $this->wrapper = $dibiWrapper;
-    }
+	/**
+	 * TransactionFactory constructor.
+	 * @param DibiWrapper $dibiWrapper
+	 */
+	public function __construct(DibiWrapper $dibiWrapper)
+	{
+		$this->wrapper = $dibiWrapper;
+	}
 
-    /**
-     * Create a new Transaction
-     * @return Transaction
-     */
-    public function create()
-    {
-        return new Transaction($this->wrapper);
-    }
+	/**
+	 * Create a new Transaction
+	 * @return Transaction
+	 */
+	public function create()
+	{
+		return Transaction::create($this->wrapper);
+	}
 }
