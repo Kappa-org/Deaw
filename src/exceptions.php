@@ -14,10 +14,14 @@ namespace Kappa\Deaw;
  * Class InvalidArgumentException
  * @package Kappa\Deaw
  */
-class InvalidArgumentException extends \LogicException {}
+class InvalidArgumentException extends \LogicException
+{
+}
 
 /**
  * Class MissingBuilderReturnException
  * @package Kappa\Deaw
  */
-class MissingBuilderReturnException extends \LogicException {}
+class MissingBuilderReturnException extends \LogicException
+{
+}

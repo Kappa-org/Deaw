@@ -19,29 +19,29 @@ use Kappa\Deaw\MissingBuilderReturnException;
  */
 class QueryProcessor
 {
-    /** @var QueryBuilder */
-    private $queryBuilder;
+	/** @var QueryBuilder */
+	private $queryBuilder;
 
-    /**
-     * DibiWrapper constructor.
-     * @param QueryBuilder $queryBuilder
-     */
-    public function __construct(QueryBuilder $queryBuilder)
-    {
-        $this->queryBuilder = $queryBuilder;
-    }
+	/**
+	 * DibiWrapper constructor.
+	 * @param QueryBuilder $queryBuilder
+	 */
+	public function __construct(QueryBuilder $queryBuilder)
+	{
+		$this->queryBuilder = $queryBuilder;
+	}
 
-    /**
-     * @param Queryable $query
-     * @return Fluent
-     */
-    public function process(Queryable $query)
-    {
-        $query = $query->doQuery($this->queryBuilder);
-        if (!$query instanceof Fluent) {
-            throw new MissingBuilderReturnException("Missing return builder from " . get_class($query));
-        }
+	/**
+	 * @param Queryable $query
+	 * @return Fluent
+	 */
+	public function process(Queryable $query)
+	{
+		$query = $query->doQuery($this->queryBuilder);
+		if (!$query instanceof Fluent) {
+			throw new MissingBuilderReturnException("Missing return builder from " . get_class($query));
+		}
 
-        return $query;
-    }
+		return $query;
+	}
 }

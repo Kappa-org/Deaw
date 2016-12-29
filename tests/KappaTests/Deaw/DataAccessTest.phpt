@@ -157,7 +157,7 @@ class DataAccessTest extends TestCase
 		$this->connection->onEvent[] = function (Event $e) use (&$results) {
 			$results[] = [$e->type, $e->sql];
 		};
-		$this->table->transactional(function (Transaction $transaction) use(&$savepoint) {
+		$this->table->transactional(function (Transaction $transaction) use (&$savepoint) {
 			$this->table->execute(new ExecutableQueryObject());
 			$this->table->transactional(function (Transaction $transaction) use (&$savepoint) {
 				$savepoint = $transaction->getSavepointName();

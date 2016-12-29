@@ -26,26 +26,26 @@ require_once __DIR__ . '/../../bootstrap.php';
  */
 class QueryBuilderTest extends TestCase
 {
-    /** @var QueryBuilder */
-    private $queryBuilder;
+	/** @var QueryBuilder */
+	private $queryBuilder;
 
-    private $config;
+	private $config;
 
-    public function __construct($config)
-    {
-        $this->config = $config;
-    }
+	public function __construct($config)
+	{
+		$this->config = $config;
+	}
 
-    protected function setUp()
-    {
-        $connection = new Connection($this->config);
-        $this->queryBuilder = new QueryBuilder(new DibiWrapper($connection));
-    }
+	protected function setUp()
+	{
+		$connection = new Connection($this->config);
+		$this->queryBuilder = new QueryBuilder(new DibiWrapper($connection));
+	}
 
-    public function testCreateQuery()
-    {
-        Assert::type('\Kappa\Deaw\Query\Query', $this->queryBuilder->createQuery());
-    }
+	public function testCreateQuery()
+	{
+		Assert::type('\Kappa\Deaw\Query\Query', $this->queryBuilder->createQuery());
+	}
 }
 
 

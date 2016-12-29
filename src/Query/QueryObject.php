@@ -16,12 +16,12 @@ namespace Kappa\Deaw\Query;
  */
 abstract class QueryObject implements Queryable
 {
-    /**
-     * @param mixed $data
-     * @return mixed
-     */
-    public function postFetch($data)
-    {
-        return $data;
-    }
+	/**
+	 * @param mixed $data
+	 * @return mixed
+	 */
+	public function postFetch($data)
+	{
+		return $data;
+	}
 }

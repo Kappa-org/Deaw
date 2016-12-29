@@ -20,14 +20,14 @@ use Kappa\Deaw\Query\QueryObject;
  */
 class FetchQueryObject extends QueryObject
 {
-    /**
-     * @param QueryBuilder $builder
-     * @return Fluent
-     */
-    public function doQuery(QueryBuilder $builder)
-    {
-        return $builder->createQuery()->select('*')
-            ->from('user')
-            ->orderBy(['id' => 'ASC']);
-    }
+	/**
+	 * @param QueryBuilder $builder
+	 * @return Fluent
+	 */
+	public function doQuery(QueryBuilder $builder)
+	{
+		return $builder->createQuery()->select('*')
+			->from('user')
+			->orderBy(['id' => 'ASC']);
+	}
 }

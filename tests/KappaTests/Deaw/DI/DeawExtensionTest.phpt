@@ -29,56 +29,56 @@ require_once __DIR__ . '/../../bootstrap.php';
  */
 class DeawExtensionTest extends TestCase
 {
-    /** @var Container */
-    private $container;
+	/** @var Container */
+	private $container;
 
-    /**
-     * @param Container $container
-     */
-    public function __construct(Container $container)
-    {
-        $this->container = $container;
-    }
+	/**
+	 * @param Container $container
+	 */
+	public function __construct(Container $container)
+	{
+		$this->container = $container;
+	}
 
-    public function testTable()
-    {
-        $type = 'Kappa\Deaw\DataAccess';
-        /** @var DataAccess $service */
-        $service = $this->container->getByType($type);
-        Assert::type($type, $service);
-    }
+	public function testTable()
+	{
+		$type = 'Kappa\Deaw\DataAccess';
+		/** @var DataAccess $service */
+		$service = $this->container->getByType($type);
+		Assert::type($type, $service);
+	}
 
-    public function testQueryProcessor()
-    {
-        $type = 'Kappa\Deaw\Query\QueryProcessor';
-        /** @var QueryProcessor $service */
-        $service = $this->container->getByType($type);
-        Assert::type($type, $service);
-    }
+	public function testQueryProcessor()
+	{
+		$type = 'Kappa\Deaw\Query\QueryProcessor';
+		/** @var QueryProcessor $service */
+		$service = $this->container->getByType($type);
+		Assert::type($type, $service);
+	}
 
-    public function testQueryBuilder()
-    {
-        $type = 'Kappa\Deaw\Query\QueryBuilder';
-        /** @var QueryBuilder $service */
-        $service = $this->container->getByType($type);
-        Assert::type($type, $service);
-    }
+	public function testQueryBuilder()
+	{
+		$type = 'Kappa\Deaw\Query\QueryBuilder';
+		/** @var QueryBuilder $service */
+		$service = $this->container->getByType($type);
+		Assert::type($type, $service);
+	}
 
-    public function testTransactionFactory()
-    {
-        $type = 'Kappa\Deaw\Transactions\TransactionFactory';
-        /** @var TransactionFactory $service */
-        $service = $this->container->getByType($type);
-        Assert::type($type, $service);
-    }
+	public function testTransactionFactory()
+	{
+		$type = 'Kappa\Deaw\Transactions\TransactionFactory';
+		/** @var TransactionFactory $service */
+		$service = $this->container->getByType($type);
+		Assert::type($type, $service);
+	}
 
-    public function testDibiWrapper()
-    {
-        $type = 'Kappa\Deaw\Dibi\DibiWrapper';
-        /** @var DibiWrapper $service */
-        $service = $this->container->getByType($type);
-        Assert::type($type, $service);
-    }
+	public function testDibiWrapper()
+	{
+		$type = 'Kappa\Deaw\Dibi\DibiWrapper';
+		/** @var DibiWrapper $service */
+		$service = $this->container->getByType($type);
+		Assert::type($type, $service);
+	}
 }
 
 \run(new DeawExtensionTest(getContainer()));

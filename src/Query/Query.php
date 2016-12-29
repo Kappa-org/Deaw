@@ -19,66 +19,66 @@ use Kappa\Deaw\InvalidArgumentException;
  */
 class Query
 {
-    /** @var DibiWrapper */
-    private $wrapper;
+	/** @var DibiWrapper */
+	private $wrapper;
 
-    /**
-     * Query constructor.
-     * @param DibiWrapper $dibiWrapper
-     */
-    public function __construct(DibiWrapper $dibiWrapper)
-    {
-        $this->wrapper = $dibiWrapper;
-    }
+	/**
+	 * Query constructor.
+	 * @param DibiWrapper $dibiWrapper
+	 */
+	public function __construct(DibiWrapper $dibiWrapper)
+	{
+		$this->wrapper = $dibiWrapper;
+	}
 
-    /**
-     * @param string|array $selects
-     * @return \Dibi\Fluent
-     */
-    public function select($selects)
-    {
-        if (is_array($selects)) {
-            foreach ($selects as $select) {
-                if (!is_string($select)) {
-                    throw new InvalidArgumentException("Invalid argument for 'select()' method in query object. Select requires only strings or array of strings");
-                }
-            }
-            $dibiFluent = $this->wrapper->getConnection()->select(implode(', ', $selects));
-        } else if (is_string($selects)) {
-            $dibiFluent = $this->wrapper->getConnection()->select($selects);
-        } else {
-            throw new InvalidArgumentException("Invalid argument for 'select()' method in query object. Select requires only strings or array of strings");
-        }
+	/**
+	 * @param string|array $selects
+	 * @return \Dibi\Fluent
+	 */
+	public function select($selects)
+	{
+		if (is_array($selects)) {
+			foreach ($selects as $select) {
+				if (!is_string($select)) {
+					throw new InvalidArgumentException("Invalid argument for 'select()' method in query object. Select requires only strings or array of strings");
+				}
+			}
+			$dibiFluent = $this->wrapper->getConnection()->select(implode(', ', $selects));
+		} else if (is_string($selects)) {
+			$dibiFluent = $this->wrapper->getConnection()->select($selects);
+		} else {
+			throw new InvalidArgumentException("Invalid argument for 'select()' method in query object. Select requires only strings or array of strings");
+		}
 
-        return $dibiFluent;
-    }
+		return $dibiFluent;
+	}
 
-    /**
-     * @param string $tableName
-     * @param array $data
-     * @return \Dibi\Fluent
-     */
-    public function update($tableName, array $data)
-    {
-        return $this->wrapper->getConnection()->update($tableName, $data);
-    }
+	/**
+	 * @param string $tableName
+	 * @param array $data
+	 * @return \Dibi\Fluent
+	 */
+	public function update($tableName, array $data)
+	{
+		return $this->wrapper->getConnection()->update($tableName, $data);
+	}
 
-    /**
-     * @param string $tableName
-     * @param array $data
-     * @return \Dibi\Fluent
-     */
-    public function insert($tableName, array $data)
-    {
-        return $this->wrapper->getConnection()->insert($tableName, $data);
-    }
+	/**
+	 * @param string $tableName
+	 * @param array $data
+	 * @return \Dibi\Fluent
+	 */
+	public function insert($tableName, array $data)
+	{
+		return $this->wrapper->getConnection()->insert($tableName, $data);
+	}
 
-    /**
-     * @param string $tableName
-     * @return \Dibi\Fluent
-     */
-    public function delete($tableName)
-    {
-        return $this->wrapper->getConnection()->delete($tableName);
-    }
+	/**
+	 * @param string $tableName
+	 * @return \Dibi\Fluent
+	 */
+	public function delete($tableName)
+	{
+		return $this->wrapper->getConnection()->delete($tableName);
+	}
 }

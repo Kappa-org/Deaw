@@ -20,23 +20,23 @@ use Kappa\Deaw\Query\QueryObject;
  */
 class QueryObjectCustomPostFetch extends QueryObject
 {
-    const POST_FETCH_RETURN = 'bar';
-    
-    /**
-     * @param QueryBuilder $builder
-     * @return \Kappa\Deaw\Query\Query
-     */
-    public function doQuery(QueryBuilder $builder)
-    {
-        return $builder->createQuery();
-    }
+	const POST_FETCH_RETURN = 'bar';
 
-    /**
-     * @param mixed $data
-     * @return string
-     */
-    public function postFetch($data)
-    {
-        return self::POST_FETCH_RETURN;
-    }
+	/**
+	 * @param QueryBuilder $builder
+	 * @return \Kappa\Deaw\Query\Query
+	 */
+	public function doQuery(QueryBuilder $builder)
+	{
+		return $builder->createQuery();
+	}
+
+	/**
+	 * @param mixed $data
+	 * @return string
+	 */
+	public function postFetch($data)
+	{
+		return self::POST_FETCH_RETURN;
+	}
 }

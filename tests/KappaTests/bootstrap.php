@@ -9,8 +9,8 @@
  */
 
 if ((!$loader = include __DIR__ . '/../../vendor/autoload.php') && (!$loader = include __DIR__ . '/../../../../autoload.php')) {
-    echo 'Install Nette Tester using `composer update --dev`';
-    exit(1);
+	echo 'Install Nette Tester using `composer update --dev`';
+	exit(1);
 }
 /** @var Composer\Autoload\ClassLoader $loader */
 $loader->addPsr4("KappaTests\\", __DIR__);
@@ -23,21 +23,21 @@ Tester\Helpers::purge(TEMP_DIR);
 
 function getDatabaseConnection()
 {
-    $config = parse_ini_file(__DIR__ . '/../config/database.ini', TRUE)['mysql'];
+	$config = parse_ini_file(__DIR__ . '/../config/database.ini', TRUE)['mysql'];
 
-    return $config;
+	return $config;
 }
 
 function getContainer()
 {
-    $configurator = new \Nette\Configurator();
-    $configurator->setTempDirectory(TEMP_DIR);
-    $configurator->addConfig(__DIR__ . '/../config/config.global.neon');
-    $configurator->addConfig(__DIR__ . '/../config/config.neon');
-    return $configurator->createContainer();
+	$configurator = new \Nette\Configurator();
+	$configurator->setTempDirectory(TEMP_DIR);
+	$configurator->addConfig(__DIR__ . '/../config/config.global.neon');
+	$configurator->addConfig(__DIR__ . '/../config/config.neon');
+	return $configurator->createContainer();
 }
 
 function run(Tester\TestCase $testCase)
 {
-    $testCase->run(isset($_SERVER['argv'][1]) ? $_SERVER['argv'][1] : NULL);
+	$testCase->run(isset($_SERVER['argv'][1]) ? $_SERVER['argv'][1] : NULL);
 }

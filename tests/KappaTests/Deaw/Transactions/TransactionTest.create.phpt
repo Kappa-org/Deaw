@@ -22,7 +22,7 @@ require_once __DIR__ . '/../../bootstrap.php';
  * Class TransactionTest
  * @package KappaTests\Deaw\Transactions
  */
-class TransactionTest extends TestCase 
+class TransactionTest extends TestCase
 {
 	private $dibiWrapper;
 

@@ -18,23 +18,23 @@ use Kappa\Deaw\Dibi\DibiWrapper;
  */
 class QueryBuilder
 {
-    /** @var DibiWrapper */
-    private $wrapper;
+	/** @var DibiWrapper */
+	private $wrapper;
 
-    /**
-     * QueryBuilder constructor.
-     * @param DibiWrapper $dibiWrapper
-     */
-    public function __construct(DibiWrapper $dibiWrapper)
-    {
-        $this->wrapper = $dibiWrapper;
-    }
+	/**
+	 * QueryBuilder constructor.
+	 * @param DibiWrapper $dibiWrapper
+	 */
+	public function __construct(DibiWrapper $dibiWrapper)
+	{
+		$this->wrapper = $dibiWrapper;
+	}
 
-    /**
-     * @return Query
-     */
-    public function createQuery()
-    {
-        return new Query($this->wrapper);
-    }
+	/**
+	 * @return Query
+	 */
+	public function createQuery()
+	{
+		return new Query($this->wrapper);
+	}
 }

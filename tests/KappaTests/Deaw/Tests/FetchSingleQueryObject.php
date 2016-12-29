@@ -20,16 +20,16 @@ use Kappa\Deaw\Query\QueryObject;
  */
 class FetchSingleQueryObject extends QueryObject
 {
-    const ID = 1;
+	const ID = 1;
 
-    /**
-     * @param QueryBuilder $builder
-     * @return Fluent
-     */
-    public function doQuery(QueryBuilder $builder)
-    {
-        return $builder->createQuery()->select('id')
-            ->from('user')
-            ->where('id = ?', self::ID);
-    }
+	/**
+	 * @param QueryBuilder $builder
+	 * @return Fluent
+	 */
+	public function doQuery(QueryBuilder $builder)
+	{
+		return $builder->createQuery()->select('id')
+			->from('user')
+			->where('id = ?', self::ID);
+	}
 }

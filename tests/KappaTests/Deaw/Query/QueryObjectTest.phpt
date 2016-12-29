@@ -23,16 +23,16 @@ require_once __DIR__ . '/../../bootstrap.php';
  * Class QueryObjectTest
  * @package KappaTests\Deaw\Queries
  */
-class QueryObjectTest extends TestCase 
+class QueryObjectTest extends TestCase
 {
-    public function testPostFetch()
-    {
-        $customQueryObject = new QueryObjectCustomPostFetch();
-        Assert::same(QueryObjectCustomPostFetch::POST_FETCH_RETURN, $customQueryObject->postFetch('foo'));
+	public function testPostFetch()
+	{
+		$customQueryObject = new QueryObjectCustomPostFetch();
+		Assert::same(QueryObjectCustomPostFetch::POST_FETCH_RETURN, $customQueryObject->postFetch('foo'));
 
-        $defaultQueryObject = new QueryObjectDefaultPostFetch();
-        Assert::same('foo', $defaultQueryObject->postFetch('foo'));
-    }
+		$defaultQueryObject = new QueryObjectDefaultPostFetch();
+		Assert::same('foo', $defaultQueryObject->postFetch('foo'));
+	}
 }
 
 

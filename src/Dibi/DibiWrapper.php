@@ -18,23 +18,23 @@ use Dibi\Connection;
  */
 class DibiWrapper
 {
-    /** @var Connection */
-    private $connection;
+	/** @var Connection */
+	private $connection;
 
-    /**
-     * DibiWrapper constructor.
-     * @param Connection $dibiConnection
-     */
-    public function __construct(Connection $dibiConnection)
-    {
-        $this->connection = $dibiConnection;
-    }
+	/**
+	 * DibiWrapper constructor.
+	 * @param Connection $dibiConnection
+	 */
+	public function __construct(Connection $dibiConnection)
+	{
+		$this->connection = $dibiConnection;
+	}
 
-    /**
-     * @return Connection
-     */
-    public function getConnection()
-    {
-        return $this->connection;
-    }
+	/**
+	 * @return Connection
+	 */
+	public function getConnection()
+	{
+		return $this->connection;
+	}
 }

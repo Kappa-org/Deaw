@@ -21,83 +21,83 @@ use Nette\Utils\Callback;
  */
 class DataAccess
 {
-    /** @var QueryProcessor */
-    private $queryProcessor;
+	/** @var QueryProcessor */
+	private $queryProcessor;
 
-    /** @var TransactionFactory */
-    private $transactionFactory;
+	/** @var TransactionFactory */
+	private $transactionFactory;
 
-    /**
-     * DataAccess constructor.
-     * @param QueryProcessor $queryProcessor
-     * @param TransactionFactory $transactionFactory
-     */
-    public function __construct(QueryProcessor $queryProcessor, TransactionFactory $transactionFactory)
-    {
-        $this->queryProcessor = $queryProcessor;
-        $this->transactionFactory = $transactionFactory;
-    }
+	/**
+	 * DataAccess constructor.
+	 * @param QueryProcessor $queryProcessor
+	 * @param TransactionFactory $transactionFactory
+	 */
+	public function __construct(QueryProcessor $queryProcessor, TransactionFactory $transactionFactory)
+	{
+		$this->queryProcessor = $queryProcessor;
+		$this->transactionFactory = $transactionFactory;
+	}
 
-    /**
-     * @param Queryable $query
-     * @return \Dibi\Row|FALSE
-     */
-    public function fetchOne(Queryable $query)
-    {
-        $data = $this->queryProcessor->process($query)->fetch();
+	/**
+	 * @param Queryable $query
+	 * @return \Dibi\Row|FALSE
+	 */
+	public function fetchOne(Queryable $query)
+	{
+		$data = $this->queryProcessor->process($query)->fetch();
 
-        return $query->postFetch($data);
-    }
+		return $query->postFetch($data);
+	}
 
-    /**
-     * @param Queryable $query
-     * @param int|null $limit
-     * @param int|null $offset
-     * @return array
-     */
-    public function fetch(Queryable $query, $limit = null, $offset = null)
-    {
-        $data = $this->queryProcessor->process($query)->fetchAll($offset, $limit);
+	/**
+	 * @param Queryable $query
+	 * @param int|null $limit
+	 * @param int|null $offset
+	 * @return array
+	 */
+	public function fetch(Queryable $query, $limit = null, $offset = null)
+	{
+		$data = $this->queryProcessor->process($query)->fetchAll($offset, $limit);
 
-        return $query->postFetch($data);
-    }
+		return $query->postFetch($data);
+	}
 
-    /**
-     * @param Queryable $query
-     * @return mixed
-     */
-    public function fetchSingle(Queryable $query)
-    {
-        $data = $this->queryProcessor->process($query)->fetchSingle();
+	/**
+	 * @param Queryable $query
+	 * @return mixed
+	 */
+	public function fetchSingle(Queryable $query)
+	{
+		$data = $this->queryProcessor->process($query)->fetchSingle();
 
-        return $query->postFetch($data);
-    }
+		return $query->postFetch($data);
+	}
 
-    /**
-     * @param Queryable $query
-     * @param null $return
-     * @return \Dibi\Result|int
-     */
-    public function execute(Queryable $query, $return = null)
-    {
-        return $this->queryProcessor->process($query)->execute($return);
-    }
+	/**
+	 * @param Queryable $query
+	 * @param null $return
+	 * @return \Dibi\Result|int
+	 */
+	public function execute(Queryable $query, $return = null)
+	{
+		return $this->queryProcessor->process($query)->execute($return);
+	}
 
-    /**
-     * @param Queryable $query
-     * @return bool
-     */
-    public function test(Queryable $query)
-    {
-        return $this->queryProcessor->process($query)->test();
-    }
+	/**
+	 * @param Queryable $query
+	 * @return bool
+	 */
+	public function test(Queryable $query)
+	{
+		return $this->queryProcessor->process($query)->test();
+	}
 
-    /**
-     * @param callable $callback
-     */
-    public function transactional(callable $callback)
-    {
-        $transaction = $this->transactionFactory->create();
-        Callback::invokeArgs($callback, [$transaction]);
-    }
+	/**
+	 * @param callable $callback
+	 */
+	public function transactional(callable $callback)
+	{
+		$transaction = $this->transactionFactory->create();
+		Callback::invokeArgs($callback, [$transaction]);
+	}
 }

@@ -27,30 +27,30 @@ require_once __DIR__ . '/../../bootstrap.php';
  */
 class QueryProcessorTest extends TestCase
 {
-    /** @var QueryProcessor  */
-    private $queryProcessor;
+	/** @var QueryProcessor */
+	private $queryProcessor;
 
-    protected function setUp()
-    {
-        $connectionMock = \Mockery::mock('\Dibi\Connection');
-        $dibiFluent = new Fluent($connectionMock);
-        $queryBuilderMock = \Mockery::mock('\Kappa\Deaw\Query\QueryBuilder');
-        $queryBuilderMock->shouldReceive('createQuery')->once()->andReturn($dibiFluent);
+	protected function setUp()
+	{
+		$connectionMock = \Mockery::mock('\Dibi\Connection');
+		$dibiFluent = new Fluent($connectionMock);
+		$queryBuilderMock = \Mockery::mock('\Kappa\Deaw\Query\QueryBuilder');
+		$queryBuilderMock->shouldReceive('createQuery')->once()->andReturn($dibiFluent);
 
-        $this->queryProcessor = new QueryProcessor($queryBuilderMock);
-    }
+		$this->queryProcessor = new QueryProcessor($queryBuilderMock);
+	}
 
-    public function testValidQuery()
-    {
-        Assert::type('\DibiFluent', $this->queryProcessor->process(new FetchQueryObject()));
-    }
+	public function testValidQuery()
+	{
+		Assert::type('\DibiFluent', $this->queryProcessor->process(new FetchQueryObject()));
+	}
 
-    public function testInvalidQuery()
-    {
-        Assert::exception(function () {
-            $this->queryProcessor->process(new InvalidQueryObject());
-        }, '\Kappa\Deaw\MissingBuilderReturnException');
-    }
+	public function testInvalidQuery()
+	{
+		Assert::exception(function () {
+			$this->queryProcessor->process(new InvalidQueryObject());
+		}, '\Kappa\Deaw\MissingBuilderReturnException');
+	}
 }
 
 

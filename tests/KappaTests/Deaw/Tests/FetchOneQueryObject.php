@@ -20,14 +20,14 @@ use Kappa\Deaw\Query\QueryObject;
  */
 class FetchOneQueryObject extends QueryObject
 {
-    /**
-     * @param QueryBuilder $builder
-     * @return Fluent
-     */
-    public function doQuery(QueryBuilder $builder)
-    {
-        return $builder->createQuery()->select('*')
-            ->from('user')
-            ->where('id = ?', 1);
-    }
+	/**
+	 * @param QueryBuilder $builder
+	 * @return Fluent
+	 */
+	public function doQuery(QueryBuilder $builder)
+	{
+		return $builder->createQuery()->select('*')
+			->from('user')
+			->where('id = ?', 1);
+	}
 }

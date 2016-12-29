@@ -19,12 +19,12 @@ use Kappa\Deaw\Query\QueryObject;
  */
 class QueryObjectDefaultPostFetch extends QueryObject
 {
-    /**
-     * @param QueryBuilder $builder
-     * @return \Kappa\Deaw\Query\Query
-     */
-    public function doQuery(QueryBuilder $builder)
-    {
-        return $builder->createQuery();
-    }
+	/**
+	 * @param QueryBuilder $builder
+	 * @return \Kappa\Deaw\Query\Query
+	 */
+	public function doQuery(QueryBuilder $builder)
+	{
+		return $builder->createQuery();
+	}
 }
