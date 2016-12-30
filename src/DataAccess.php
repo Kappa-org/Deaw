@@ -40,7 +40,7 @@ class DataAccess
 
 	/**
 	 * @param Queryable $query
-	 * @return \Dibi\Row|FALSE
+	 * @return \Dibi\Row|\DibiRow|FALSE
 	 */
 	public function fetchOne(Queryable $query)
 	{
@@ -76,7 +76,7 @@ class DataAccess
 	/**
 	 * @param Queryable $query
 	 * @param null $return
-	 * @return \Dibi\Result|int
+	 * @return \Dibi\Result|\DibiResult|int
 	 */
 	public function execute(Queryable $query, $return = null)
 	{

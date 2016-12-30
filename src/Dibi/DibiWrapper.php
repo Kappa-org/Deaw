@@ -16,12 +16,12 @@ namespace Kappa\Deaw\Dibi;
  */
 class DibiWrapper
 {
-	/** @var \DibiConnection */
+	/** @var \Dibi\Connection|\DibiConnection */
 	private $connection;
 
 	/**
 	 * DibiWrapper constructor.
-	 * @param \DibiConnection $dibiConnection
+	 * @param \Dibi\Connection|\DibiConnection $dibiConnection
 	 */
 	public function __construct(\DibiConnection $dibiConnection)
 	{
@@ -29,7 +29,7 @@ class DibiWrapper
 	}
 
 	/**
-	 * @return \DibiConnection
+	 * @return \Dibi\Connection|\DibiConnection
 	 */
 	public function getConnection()
 	{

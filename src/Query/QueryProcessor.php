@@ -33,7 +33,7 @@ class QueryProcessor
 
 	/**
 	 * @param Queryable $query
-	 * @return Fluent
+	 * @return Fluent|\DibiFluent
 	 */
 	public function process(Queryable $query)
 	{

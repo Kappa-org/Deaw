@@ -33,7 +33,7 @@ class Query
 
 	/**
 	 * @param string|array $selects
-	 * @return \Dibi\Fluent
+	 * @return \Dibi\Fluent|\DibiFluent
 	 */
 	public function select($selects)
 	{
@@ -56,7 +56,7 @@ class Query
 	/**
 	 * @param string $tableName
 	 * @param array $data
-	 * @return \Dibi\Fluent
+	 * @return \Dibi\Fluent|\DibiFluent
 	 */
 	public function update($tableName, array $data)
 	{
@@ -66,7 +66,7 @@ class Query
 	/**
 	 * @param string $tableName
 	 * @param array $data
-	 * @return \Dibi\Fluent
+	 * @return \Dibi\Fluent|\DibiFluent
 	 */
 	public function insert($tableName, array $data)
 	{
@@ -75,7 +75,7 @@ class Query
 
 	/**
 	 * @param string $tableName
-	 * @return \Dibi\Fluent
+	 * @return \Dibi\Fluent|\DibiFluent
 	 */
 	public function delete($tableName)
 	{

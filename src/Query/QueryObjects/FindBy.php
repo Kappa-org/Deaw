@@ -43,7 +43,7 @@ class FindBy extends QueryObject
 
 	/**
 	 * @param QueryBuilder $builder
-	 * @return \DibiFluent
+	 * @return \Dibi\Fluent|\DibiFluent
 	 */
 	public function doQuery(QueryBuilder $builder)
 	{
