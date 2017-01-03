@@ -38,7 +38,7 @@ class QueryProcessor
 	public function process(Queryable $query)
 	{
 		$query = $query->doQuery($this->queryBuilder);
-		if (!$query instanceof Fluent) {
+		if (!$query instanceof \DibiFluent) {
 			throw new MissingBuilderReturnException("Missing return builder from " . get_class($query));
 		}
 
