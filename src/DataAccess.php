@@ -93,11 +93,10 @@ class DataAccess
 	}
 
 	/**
-	 * @param callable $callback
+	 * @return Transactions\Transaction
 	 */
-	public function transactional(callable $callback)
+	public function createTransaction()
 	{
-		$transaction = $this->transactionFactory->create();
-		Callback::invokeArgs($callback, [$transaction]);
+		return $this->transactionFactory->create();
 	}
 }

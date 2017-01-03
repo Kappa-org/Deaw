@@ -122,10 +122,11 @@ class DataAccessTest extends TestCase
 		$this->connection->onEvent[] = function (Event $e) use (&$results) {
 			$results[] = [$e->type, $e->sql];
 		};
-		$this->table->transactional(function (Transaction $transaction) {
-			$this->table->execute(new ExecutableQueryObject());
-			$transaction->commit();
-		});
+		$transaction = $this->table->createTransaction();
+		$this->table->execute(new ExecutableQueryObject());
+		$transaction->commit();
+
+		Assert::null($transaction->getSavepointName());
 		Assert::equal($results, [
 			[Event::BEGIN, ""],
 			[Event::INSERT, "INSERT INTO `user` (`name`) VALUES ('bar')"],
@@ -139,10 +140,11 @@ class DataAccessTest extends TestCase
 		$this->connection->onEvent[] = function (Event $e) use (&$results) {
 			$results[] = [$e->type, $e->sql];
 		};
-		$this->table->transactional(function (Transaction $transaction) {
-			$this->table->execute(new ExecutableQueryObject());
-			$transaction->rollback();
-		});
+		$transaction = $this->table->createTransaction();
+		$this->table->execute(new ExecutableQueryObject());
+		$transaction->rollback();
+
+		Assert::null($transaction->getSavepointName());
 		Assert::equal($results, [
 			[Event::BEGIN, ""],
 			[Event::INSERT, "INSERT INTO `user` (`name`) VALUES ('bar')"],
@@ -152,27 +154,25 @@ class DataAccessTest extends TestCase
 
 	public function testNestedTransactions()
 	{
-		$savepoint = null;
 		$results = [];
 		$this->connection->onEvent[] = function (Event $e) use (&$results) {
 			$results[] = [$e->type, $e->sql];
 		};
-		$this->table->transactional(function (Transaction $transaction) use (&$savepoint) {
-			$this->table->execute(new ExecutableQueryObject());
-			$this->table->transactional(function (Transaction $transaction) use (&$savepoint) {
-				$savepoint = $transaction->getSavepointName();
-				$this->table->execute(new ExecutableQueryObject());
-				$transaction->commit();
-			});
-			$transaction->commit();
-		});
-		Assert::notSame(null, $savepoint);
+		$transaction1 = $this->table->createTransaction();
+		$this->table->execute(new ExecutableQueryObject());
+		$transaction2 = $this->table->createTransaction();
+		$this->table->execute(new ExecutableQueryObject());
+		$transaction2->commit();
+		$transaction1->commit();
+
+		Assert::null($transaction1->getSavepointName());
+		Assert::notSame(null, $transaction2->getSavepointName());
 		Assert::equal($results, [
 			[Event::BEGIN, ""],
 			[Event::INSERT, "INSERT INTO `user` (`name`) VALUES ('bar')"],
-			[Event::BEGIN, "$savepoint"],
+			[Event::BEGIN, "{$transaction2->getSavepointName()}"],
 			[Event::INSERT, "INSERT INTO `user` (`name`) VALUES ('bar')"],
-			[Event::COMMIT, "$savepoint"],
+			[Event::COMMIT, "{$transaction2->getSavepointName()}"],
 			[Event::COMMIT, ""]
 		]);
 	}

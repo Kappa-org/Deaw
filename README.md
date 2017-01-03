@@ -176,15 +176,14 @@ class Users {
     }
     
     public function addAdmins() {
-        $this->dataAccess->transactional(function (Transaction $transaction) {
-            try {
-                $this->dataAccess->execute(new AddNewAdminUser('foo'));
-                $this->dataAccess->execute(new AddNewAdminUser('bar'));
-                $transaction->commit();
-            } catch (\Exception $e) {
-                $transaction->rollback();
-            }
-        });
+        $transaction = $this->dataAccess->createTransaction();
+        try {
+            $this->dataAccess->execute(new AddNewAdminUser('foo'));
+            $this->dataAccess->execute(new AddNewAdminUser('bar'));
+            $transaction->commit();
+        } catch (\Exception $e) {
+            $transaction->rollback();
+        }
     }
 }
 ```
@@ -201,23 +200,21 @@ class Users {
     }
     
     public function addAdmins() {
-        $this->dataAccess->transactional(function (Transaction $transaction) {
+        $transaction = $this->dataAccess->createTransaction();
+        try {
+            $this->dataAccess->execute(new AddNewAdminUser('foo'));
+            $this->dataAccess->execute(new AddNewAdminUser('bar'));
+            $nestedTransactions = $this->dataAccess->createTransaction();
             try {
-                $this->dataAccess->execute(new AddNewAdminUser('foo'));                
-                $this->dataAccess->execute(new AddNewAdminUser('bar'));
-                $this->dataAccess->transactional(function (Transaction $transaction) {
-                    try {
-                        $this->dataAccess->execute(new AddNewAdminUser('foo_bar'));
-                        $transaction->commit(); // savepoint release is not required
-                    } catch (\Exception $e) {
-                        $transaction->rollback();
-                    }  
-                });
-                $transaction->commit();
+                $this->dataAccess->execute(new AddNewAdminUser('foo_bar'));
+                $nestedTransactions->commit(); // savepoint release is not required
             } catch (\Exception $e) {
-                $transaction->rollback();
-            }
-        });
+                $nestedTransactions->rollback();
+            }  
+            $transaction->commit();
+        } catch (\Exception $e) {
+            $transaction->rollback();       
+        }      
     }
 }
 ```
