@@ -32,7 +32,7 @@ class Query
 	}
 
 	/**
-	 * @param string|array $select
+	 * @param string $select
 	 * @return \Dibi\Fluent|\DibiFluent
 	 */
 	public function select($select)
