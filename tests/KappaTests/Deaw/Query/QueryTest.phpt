@@ -78,27 +78,6 @@ class QueryTest extends TestCase
 		Assert::type('\Dibi\Fluent', $result);
 		Assert::same("SELECT name, date FROM `foo`", (string)$result);
 	}
-
-	public function testStringsSelector()
-	{
-		$result = $this->query->select(['name', 'email'])->from(self::TABLE);
-		Assert::type('\Dibi\Fluent', $result);
-		Assert::same("SELECT name, email FROM `foo`", (string)$result);
-	}
-
-	public function testInvalidArraySelector()
-	{
-		Assert::exception(function () {
-			$this->query->select([1]);
-		}, 'Kappa\Deaw\InvalidArgumentException');
-	}
-
-	public function testInvalidSingleSelector()
-	{
-		Assert::exception(function () {
-			$this->query->select(1);
-		}, 'Kappa\Deaw\InvalidArgumentException');
-	}
 }
 
 \run(new QueryTest(getDatabaseConnection()));

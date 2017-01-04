@@ -32,25 +32,12 @@ class Query
 	}
 
 	/**
-	 * @param string|array $selects
+	 * @param string|array $select
 	 * @return \Dibi\Fluent|\DibiFluent
 	 */
-	public function select($selects)
+	public function select($select)
 	{
-		if (is_array($selects)) {
-			foreach ($selects as $select) {
-				if (!is_string($select)) {
-					throw new InvalidArgumentException("Invalid argument for 'select()' method in query object. Select requires only strings or array of strings");
-				}
-			}
-			$dibiFluent = $this->wrapper->getConnection()->select(implode(', ', $selects));
-		} else if (is_string($selects)) {
-			$dibiFluent = $this->wrapper->getConnection()->select($selects);
-		} else {
-			throw new InvalidArgumentException("Invalid argument for 'select()' method in query object. Select requires only strings or array of strings");
-		}
-
-		return $dibiFluent;
+		return $this->wrapper->getConnection()->select($select);
 	}
 
 	/**

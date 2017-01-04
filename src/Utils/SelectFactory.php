@@ -9,6 +9,7 @@
  */
 
 namespace Kappa\Deaw\Utils;
+use Kappa\Deaw\InvalidArgumentException;
 
 /**
  * Class SelectFactory
@@ -18,16 +19,26 @@ class SelectFactory
 {
 	/**
 	 * Prepare SQL select string
-	 * @param string $select
+	 * @param string|array $select
 	 * @param string|null $table
 	 * @param string|null $prefix
 	 * @return string
 	 */
 	public static function format($select, $table = null, $prefix = null)
 	{
+		if (!is_array($select) && !is_string($select)) {
+			throw new InvalidArgumentException('Invalid select. Select must be only string or array');
+		}
+
 		$result = [];
-		$exploded = explode(',', $select);
-		foreach ($exploded as $column) {
+
+		if (is_string($select)) {
+			$select = explode(',', $select);
+		}
+		foreach ($select as $key => $column) {
+			if (!is_string($column)) {
+				throw new InvalidArgumentException('Invalid column \'' . $key . '\'. Column name must be only string');
+			}
 			$column = trim($column);
 			$preparedResult = '';
 			if ($table !== null) {

@@ -53,7 +53,22 @@ class SelectFactoryTest extends TestCase
 			['users.id as prefix_id, users.name as prefix_name, users.email as prefix_email', SelectFactory::format('id, name,email', 'users', 'prefix')],
 
 			// Prefix with custom alias
-			['id as prefix_id, name as prefix_name, email as extra_email', SelectFactory::format('id, name,email as extra_email', null, 'prefix')]
+			['id as prefix_id, name as prefix_name, email as extra_email', SelectFactory::format('id, name,email as extra_email', null, 'prefix')],
+
+			// Array select without table or prefix
+			['id, name, email', SelectFactory::format(['id', 'name', 'email'])],
+
+			// Array with table without prefix
+			['users.id, users.name, users.email', SelectFactory::format(['id', 'name', 'email'], 'users')],
+
+			// Array with prefix without table
+			['id as prefix_id, name as prefix_name, email as prefix_email', SelectFactory::format(['id', 'name', 'email'], null, 'prefix')],
+
+			// Array with prefix with table
+			['users.id as prefix_id, users.name as prefix_name, users.email as prefix_email', SelectFactory::format(['id', 'name', 'email'], 'users', 'prefix')],
+
+			// Array prefix with custom alias
+			['id as prefix_id, name as prefix_name, email as extra_email', SelectFactory::format(['id', 'name', 'email as extra_email'], null, 'prefix')],
 		];
 	}
 }
