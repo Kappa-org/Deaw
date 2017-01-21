@@ -92,6 +92,22 @@ class DataAccessTest extends TestCase
 		Assert::same(FetchSingleQueryObject::ID, $this->table->fetchSingle(new FetchSingleQueryObject()));
 	}
 
+	public function testFetchAssoc()
+	{
+		Assert::equal([
+			1 => new Row(['id' => 1, 'name' => 'foo', 'string' => 'text']),
+			2 => new Row(['id' => 2, 'name' => 'bar', 'string' => 'text']),
+		], $this->table->fetchAssoc(new FetchQueryObject(), 'id'));
+	}
+
+	public function testFetchPairs()
+	{
+		Assert::equal([
+			1 => 'foo',
+			2 => 'bar'
+		], $this->table->fetchPairs(new FetchQueryObject(), 'id', 'name'));
+	}
+
 	public function testExecute()
 	{
 		Assert::same(3, $this->table->execute(new ExecutableQueryObject(), \dibi::IDENTIFIER));

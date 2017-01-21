@@ -75,6 +75,31 @@ class DataAccess
 
 	/**
 	 * @param Queryable $query
+	 * @param string $assoc
+	 * @return array
+	 */
+	public function fetchAssoc(Queryable $query, $assoc)
+	{
+		$data = $this->queryProcessor->process($query)->fetchAssoc($assoc);
+
+		return $query->postFetch($data);
+	}
+
+	/**
+	 * @param Queryable $query
+	 * @param string $key
+	 * @param string $value
+	 * @return array
+	 */
+	public function fetchPairs(Queryable $query, $key = null, $value = null)
+	{
+		$data = $this->queryProcessor->process($query)->fetchPairs($key, $value);
+
+		return $query->postFetch($data);
+	}
+
+	/**
+	 * @param Queryable $query
 	 * @param null $return
 	 * @return \Dibi\Result|\DibiResult|int
 	 */
