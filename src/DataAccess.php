@@ -53,7 +53,7 @@ class DataAccess
 	 * @param Queryable $query
 	 * @param int|null $limit
 	 * @param int|null $offset
-	 * @return array
+	 * @return \DibiRow[]|\Dibi\Row
 	 */
 	public function fetch(Queryable $query, $limit = null, $offset = null)
 	{
@@ -76,7 +76,7 @@ class DataAccess
 	/**
 	 * @param Queryable $query
 	 * @param string $assoc
-	 * @return array
+	 * @return \DibiRow[]|\Dibi\Row
 	 */
 	public function fetchAssoc(Queryable $query, $assoc)
 	{
